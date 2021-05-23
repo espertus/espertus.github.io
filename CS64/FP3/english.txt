@@ -1,0 +1,11 @@
+CURRENT_LANGUAGE, English
+TITLE, Core Requirements Calculator
+INSTRUCTIONS, <html>Find out what core requirements are satisfied by a transcript<br>and what courses to take to satisfy the remaining requirements.<br>Begin by loading a transcript.</html>
+LOAD_TRANSCRIPT_BUTTON, Load Transcript
+EXIT_BUTTON, Exit
+RECOMMEND_COURSES, Recommend Courses
+LOAD_TRANSCRIPT_CANCELLED, Load transcript operation cancelled.
+FILE_NOT_FOUND, Unable to open file:
+LOAD_TRANSCRIPT_SUCCEEDED, Loaded file:
+LOAD_TRANSCRIPT_ERROR, Error with load transcript dialog.
+

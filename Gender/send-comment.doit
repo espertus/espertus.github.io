@@ -1,0 +1,46 @@
+#! /usr/local/bin/perl
+
+do '/com/doc/web-support/cgi-hacks.pl';
+
+do { print <<EOF; exit(0) } unless (&find_form_args ("ename|name|permissions|comments"));
+
+Content-type: text/html
+
+<title> Demo form </title>
+<h1> Demo form </h1>
+
+This is a demo form.  It's imbedded in the script (which would make
+more sense if it were dynamically generated).  You can: <p>
+
+<form method=POST>
+Type some text:  <input name=small-text size=40> <br>
+Type a lot of text: <textarea name=big-text rows=8 cols=40></textarea> <br>
+Check the checkbox (or not): <input type=checkbox name=the-checkbox> <br>
+and so forth... <p>
+Finally, push <input type=submit value=this> button to submit the form.
+</form>
+EOF
+
+# We got args.  Say what they were...
+
+print <<EOF;
+Content-type: text/html
+
+Your request was processed.  Thank you.<p>
+
+Return to page on <a href="../gender.html">Women and Computer Science</a><p>
+Return to <a href="comments.html">comment page</a>
+EOF
+
+open(LOG, '>/tmp/comment');
+print LOG &HTMLize("Name = $name\n");
+print LOG &HTMLize("Email = $ename\n");
+print LOG &HTMLize("Permissions = $permissions\n");
+print LOG &HTMLize("Comments = $comments\n");
+close(LOG);
+system "cat /tmp/comment | mail ellens";
+system "rm /tmp/comment";
+
+print "\n";
+
+

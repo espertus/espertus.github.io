@@ -1,0 +1,64 @@
+<title>1994 MIT SWSC Debate - Affirmative, Round 1 Slides</title>
+
+<H2><a href="http://info.lcs.mit.edu/Workshop94/">1994 MIT Student Workshop on Scalable Computing</a></H2>
+<em>Affirmative: Round 2</em><br>
+<em><a href="http://www.pdos.lcs.mit.edu/~engler">Dawson Engler</a></em><br>
+
+<h3> MPPs are Unreliable</h3>
+<ul>
+<li> For a 64+4 node <a href="http://www.cs.colorado.edu/home/capp/ksr.gif">KSR</a> running for 1.38 years, MTTI was 1.76 days.
+<li> For a 56-compute-node <a href="http://www.ccsf.caltech.edu/trex.gif">Paragon</a>, over a period of 90 days, MTTI was 1.96 days.
+<li> For a <a href="http://www.ncsa.uiuc.edu/General/ThisIsNCSA/CM5.gif">CM-5</a> running for a year, there were ~700 time-sharing demo crashes (2 per day).  There were 10 reboots of Scout in less than thirty days.
+<li> In the <a href="http://www.cag.lcs.mit.edu/">MIT Computer Architecture Group</a>'s set of 40-50 workstations, about 1 goes down a month.  A central server fails once every 100-200 days.
+<li> Supercomputer companies are, perhaps, as unrealiable as their machines (e.g., <a href="http://www.ksr.com">KSR</a>, <a href="http://www.think.com">TMC</a>, ...).  [Note, this was written before those companies' recent announcements.]
+</ul>
+<p>
+
+<h3>Workstation networks are fast (and getting faster)</h3>
+<ul>
+<li> This has been shown by Thekketh's research.
+
+<li> Consider the following read latencies for various systems:
+<pre>
+					40 bytes 	80 bytes
+	Decstation 5000/200 ATM 	37		55
+	Intel Delta			71		75
+	CM-5				91		96
+	CM-5 with Active Messages	28		33
+</pre>
+
+<li> Consider the throughput for a massive-write:
+<pre>
+	Throughput (massive write)
+	Decstation		4.3 Mb/Sec
+	Delta			10  Mb/Sec
+	CM-5			8.3 Mb/Sec
+</pre>
+	
+<li> Consider the ATOMIC work: 1.28Gb/s per link.  With all equipment included,
+a link is about $1200.
+</ul>
+<p>
+	
+<h3> <a href="http://www.cs.arizona.edu/xkernel/www/projects/cluster-computing.html">Case Study</a>: <a href="http://www.cs.arizona.edu/">The University of Arizona</a> put C* on a network of workstations</h3>
+
+<ul>
+<li> 8 50Mhz HP Snakes
+<li> Performance was, on average, within a factor of two of 32-node CM-5 with 4 vector units per node.
+<li> Won when <em>more</em> communication than computation (because of 	vector units).
+</ul>
+<p>
+
+<h3>What does a super have that workstations don't?</h3>
+
+<ul>
+<li>Huge price tag
+<li>More sys admins
+<li>Pretty lights
+</ul>
+
+
+
+<hr>
+
+<a href="aff.html">Return to affirmative arguments</a>

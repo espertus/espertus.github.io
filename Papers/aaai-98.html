@@ -1,0 +1,78 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Position paper for AI and Information Integration </TITLE>
+</HEAD>
+<BODY LINK="#0000ff">
+
+<P>Position paper for <a href="http://www.aaai.org/Workshops/1998/wsparticipation-98.html#1">AI and Information Integration</a> workshop at <a href="http://www.aaai.org/Conferences/National/1998/aaai98.html">AAAI-98</a></P>
+
+<h1>Squeal: SQL Access to Information on the Web</h1>
+<p>Ellen Spertus<br>
+<a href="mailto:spertus@mills.edu">spertus@mills.edu</a></p>
+
+<P>The World-Wide Web contains an abundance of semi-structured information, including hyperlinks between pages, structure within hypertext pages, and structure within the addresses of pages (URLs).  Because of the difficulty in harnessing this structural information, many Web tools fail to make use of it, instead treating the Web as though it were a flat text collection.  We introduce Squeal, a SQL-like language for querying the Web as though it were in a relational database.  We describe simple but powerful applications built on top of Squeal, which we call &quot;ParaSites&quot; because they make effective use of this underutilized information on the Web, often in ways unintended by the information’s authors.</P>
+
+<h2>Squeal</h2>
+<P>Relational databases provide a powerful abstraction for manipulating data.  The division of data into relations helps users comprehend the data and allows them to specify queries in Structured Query Language (SQL).  While the Web is too large and quickly-changing to be stored in a relational database, it is useful to provide users with the illusion that it is.  We provide this through the Squeal language and interpreter, which allows users to make SQL queries involving Web information.  The Squeal interpreter determines what information needs to be fetched and parsed from the Web in order to answer the question.  The retrieved information is cached in a local database in case it is needed again.</P>
+<P>The Squeal schema includes relations for representing the following types of Web information:</P>
+
+<UL>
+<LI>the contents of a page</LI>
+<LI>hypertext links between pages</LI>
+<LI>different URL strings corresponding to the same page</LI>
+<LI>the parsed version of a URL</LI>
+<LI>tags and attributes appearing on a page</LI>
+<LI>the header and list hierarchy on a page</LI>
+<LI>if a search engine reports that a page contains a specified string</LI>
+<LI>if a search engine reports that a page contains a specified link</LI></UL>
+
+<P>For example, hyperlinks are expressed through the <B>link</B> table, which expresses a relation between a source URL, anchor text, and a destination URL.  In order to ask what pages are pointed to by the MIT AI Lab home page, the user would enter:</P>
+<DIR>
+
+<P>SELECT destination FROM <B>link</B> &#9;&#9;<BR>
+WHERE source = &quot;www.ai.mit.edu&quot;&#9;</P></DIR>
+</DIR>
+
+<P>The Squeal interpreter would retrieve the page, parse it, then return a list of the destinations of links on the page.  Instead of (or in addition to) specifying the source page, the user could provide another field.  For example, to ask for pages containing hyperlinks with &quot;artificial intelligence&quot; as anchor text, the user would enter:</P>
+<DIR>
+
+<P>SELECT source FROM <B>link&#9;&#9;</B><BR>
+WHERE anchor = &quot;artificial intelligence&quot;&#9;</P></DIR>
+
+<P>To answer this, the Squeal interpreter would ask a search engine, such as AltaVista, what pages contain &quot;artificial intelligence&quot; as anchor text. Because no such engine can ensure returning all such pages, the list is likely to be incomplete.  The Squeal interpreter then retrieves and examines the pages, returning to the user a list of pages that it has verified as having the desired anchor text.  While recall will be less than 1, the precision is guaranteed to be 1.  A similar process is used to request pages that link to both &quot;www.ai.mit.edu&quot; and &quot;www.lcs.mit.edu&quot;:</P>
+<DIR>
+
+<P>SELECT L1.source FROM <B>link</B> L1, L2&#9;<BR>
+WHERE L1.destination = &quot;www.ai.mit.edu&quot;&#9;<BR>
+AND L2.destination = &quot;www.lcs.mit.edu&quot;<BR>
+AND L1.source = L2.source</P></DIR>
+</DIR>
+
+<P>Queries involving multiple Squeal- and user-defined tables are also possible and are discussed elsewhere.</P>
+
+<h2>ParaSites</h2>
+<P>We have built a number of ParaSites on top of Squeal that exploit the Web’s structural information, including a personal home page finder, which uses the following algorithm to try finding the home page of the person with name <I>N</I>.</P>
+<OL>
+
+<LI>Generate a list of candidate pages from the destinations of hyperlinks whose anchor text is <I>N</I>.</LI>
+<LI>Give bonus points to candidate pages where one or more of the following conditions hold:</LI>
+
+<UL>
+<LI>The full name appears within title or header tags (e.g., &quot;&lt;title&gt;Lynn Stein’s home page&lt;/title&gt;&quot;)</LI>
+<LI>The URL is of the form &quot;…./<I>foo</I>/<I>foo</I>.html&quot; (e.g., &quot;/users/las/las.html&quot;)</LI>
+<LI>The final directory name in the URL starts with a tilde (e.g., &quot;~las/home.html&quot;)</LI></UL>
+</OL>
+
+<P>This algorithm, with additional heuristics described elsewhere, is quite effective.</P>
+
+<P>The contrast between text-based and structure-based approaches can be seen most directly in different recommender systems for Web pages.  With either approach, a user specifies seed pages.  A text-based system, such as Excite, then searches for pages that contain the same words, and return these pages to the user.  The ParaSite approach is to find parent pages that point to the seed URLs, then to return the pages pointed to most frequently by the parents, i.e., the seed pages’ siblings.  The underlying philosophy is that human beings are best at deciding what pages are alike, so we should associate pages with each other if they co-occur as destinations of hyperlinks on multiple pages.  This is entirely analogous to mining citation indexes.  A small user study showed the ParaSite approach to be superior in some ways to the purely text-based approach.  We predict the best system would combine both approaches.</P>
+
+<h2>Conclusions</h2>
+
+<p>We have provided a taste of the Squeal programming system for accessing structural information on the Web and have outlined some effective applications that can be easily written in Squeal, demonstrating the utility of the Web’s structural information and how Web tools, such as AltaVista, can be harnessed.  </P>
+
+<h2>Bibliography</h2>
+<P>Spertus, Ellen. ParaSite: Mining the Structural Information on the World-Wide Web.  PhD Thesis, Department of EECS, MIT, Cambridge, MA, February 1998.</P>
+</HTML>

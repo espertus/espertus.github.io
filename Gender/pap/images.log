@@ -1,0 +1,56 @@
+This is TeX, C Version 3.0 (format=lplain 90.11.25)  28 JAN 1995 18:58
+**&lplain images.tex
+(images.tex
+LaTeX Version 2.09 <7 Dec 1989>
+
+(/usr/local/lib/tex/macros/report.sty
+Document Style `report' <13 Nov 89>.
+(/usr/local/lib/tex/macros/rep10.sty)
+\descriptionmargin=\dimen99
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+(/usr/local/lib/tex/macros/titlepage.sty))
+\lthtmlwrite=\write3
+\sizebox=\box25
+(images.aux (/tmp_mnt/home/gn/ellens/Wom/intro.aux) (/tmp_mnt/home/gn/ellens/Wo
+m/soc.aux) (/tmp_mnt/home/gn/ellens/Wom/env.aux) (/tmp_mnt/home/gn/ellens/Wom/l
+ang.aux) (/tmp_mnt/home/gn/ellens/Wom/reverse.aux) (/tmp_mnt/home/gn/ellens/Wom
+/concl.aux) (/tmp_mnt/home/gn/ellens/Wom/about.aux) (/tmp_mnt/home/gn/ellens/Wo
+m/sex.aux) (/tmp_mnt/home/gn/ellens/Wom/good.aux) (/tmp_mnt/home/gn/ellens/Wom/
+bib.aux))
+latex2htmlSize :tex2html_wrap_inline1144: 8.44843pt::3.44841pt.
+[1
+
+
+]
+latex2htmlSize :tex2html_wrap_inline1146: 8.44843pt::3.44841pt.
+[2
+
+]
+latex2htmlSize :tex2html_wrap_inline1148: 8.49002pt::0.0pt.
+[3
+
+]
+latex2htmlSize :tex2html_wrap_inline1150: 8.44843pt::3.44841pt.
+[4
+
+] [5] (images.aux)
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+ ) 
+Here is how much of TeX's memory you used:
+ 365 strings out of 6963
+ 3491 string characters out of 63344
+ 34422 words of memory out of 262141
+ 2246 multiletter control sequences out of 9500
+ 18996 words of font info for 72 fonts, out of 72000 for 255
+ 30 hyphenation exceptions out of 607
+ 15i,4n,15p,231b,205s stack positions out of 300i,200n,200p,3000b,4000s
+
+Output written on images.dvi (5 pages, 2024 bytes).

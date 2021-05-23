@@ -1,0 +1,1079 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
+<META NAME="Generator" CONTENT="Microsoft Word 97">
+<TITLE>Smokey</TITLE>
+</HEAD>
+<BODY>
+For better formatting, please use the <a
+href="smokey.ps">PostScript version</a>. 
+
+<B><FONT FACE="Times" SIZE=5><P ALIGN="CENTER">Smokey: Automatic Recognition of Hostile Messages</P>
+</B></FONT><FONT FACE="New York"><P ALIGN="CENTER">&nbsp;</P>
+</FONT><B><FONT FACE="Times"><P ALIGN="CENTER">Ellen Spertus</P>
+</B></FONT><FONT FACE="Times" SIZE=1><P ALIGN="CENTER">Microsoft Research, MIT AI Lab, and University of Washington</P>
+<P ALIGN="CENTER">Dept. of Computer Science and Engineering</P>
+<P ALIGN="CENTER">Box 352350</P>
+<P ALIGN="CENTER">Seattle, WA 98195</P>
+</FONT><FONT FACE="New York"><P>&nbsp;</P>
+</FONT><B><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">ABSTRACT</P><DIR>
+
+</B></FONT><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Abusive messages (flames) can be both a source of frustration and a waste of time for Internet users.  This paper describes some approaches to flame recognition, including a prototype system, Smokey.  Smokey builds a 47-element feature vector based on the syntax and semantics of each sentence, combining the vectors for the sentences within each message.  A training set of 720 messages was used by Quinlan’s C4.5 decision-tree generator to determine feature-based rules that were able to correctly categorize 64% of the flames and 98% of the non-flames in a separate test set of 460 messages.  Additional techniques for greater accuracy and user customization are also discussed.</P></DIR>
+
+</FONT><B><FONT FACE="Times"><P ALIGN="CENTER">Introduction</B></FONT><FONT FACE="New York" SIZE=1> </FONT><B><FONT FACE="Times"> </P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Flames are one of the current hazards of on-line communication.  While some people enjoy exchanging flames, most users consider these abusive and insulting messages to be a nuisance or even upsetting.  I describe Smokey, a prototype system to automatically recognize email flames.  Smokey combines natural-language processing and sociolinguistic observations to identify messages that not only contain insulting words but use them in an insulting manner. Additional methods, not implemented in Smokey, are also outlined.</P>
+<P ALIGN="JUSTIFY">&#9;There are many different types of flames, occurring in real-time communication, in discussion groups (such as Usenet newsgroups and mailing lists), and in private messages, such as email.  Publicly-posted flames tend to be more clever and indirect than private email flames, making them harder to reliably detect.  As a first step in this field, Smokey addresses private messages; specifically, comments that are sent via feedback forms on World-Wide Web pages.  In order to have enough flames to study, I obtained messages from the webmasters of controversial pages, specifically: NewtWatch (Dorsey and Schnackertz 1997), which criticizes Newt Gingrich; The Right Side of the Web (Donnels 1997), a conservative resource; and Fairness and Accuracy in Reporting (FAIR) (Ernst 1997), a media watch group best known for its criticisms of the veracity of Rush Limbaugh’s claims.</P>
+<P ALIGN="JUSTIFY">&#9;The obvious method of identifying flames—looking for obscene expressions—does not work well.  Only 12% of the flames contained vulgarities, and over a third of the vulgar messages were not flames.  Also, some messages with profanity directed it at someone that both the sender and recipient dislike.  For example, the statement &quot;Newt Gingrich is an a------&quot;  is a flame if sent to The Right Side of the Web but not if sent to NewtWatch, as, in fact, it was.  (All quoted examples, and the typos in them, are genuine.  The only change I made is replacing letters of obscene words with dashes.)  Smokey looks not only for insulting words and the context in which they are used but also for syntactic constructs that tend to be insulting or condescending, such as imperative statements.  Smokey avoids misclassifying friendly messages by looking for praise, requests, and polite speech.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>System Architecture</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Smokey consists of 5 phases:</P>
+<P ALIGN="JUSTIFY">1.&#9;Messages are converted into a common format with one sentence per line and delimiters between messages.  This is done in Emacs Lisp.</P>
+<P ALIGN="JUSTIFY">2.&#9;The text is run through a parser developed by the Microsoft Research Natural Language Processing Group.</P>
+<P ALIGN="JUSTIFY">3.&#9;The output of the parser is converted by sed and awk scripts into Lisp s-expressions.</P>
+<P ALIGN="JUSTIFY">4.&#9;The s-expressions are processed through rules written in Emacs Lisp, producing a feature vector for each message.  This phase can also generate output showing where each rule applied.</P>
+<P ALIGN="JUSTIFY">5.&#9;The resulting feature vectors are evaluated with simple rules, produced by the decision tree generator C4.5 (Quinlan 1993).</P>
+<P ALIGN="JUSTIFY">I removed duplicate, excessively-long, and meaningless messages (someone randomly pressing keys) from the collections; this could be automated.  Steps 1 and 3 of Smokey are trivial and will not be further discussed in this paper.  The parser, used in step 2, is discussed elsewhere (Richardson 1994) and, as appropriate, in this paper.  The s-expressions used by the fourth step to represent each sentence include (1) an ordinary string, (2) a list of words in the sentence, and (3) a tree encoding the grammatical structure of each sentence.</P>
+<P ALIGN="JUSTIFY">&#9;Each rule in step 4 is a Lisp procedure that takes an s-expression representing a sentence as an argument and returns 1 if the rule applies, 0 otherwise. (The only exception was the rule that returns a count of exclamation points.)  Mutually exclusive rules are grouped into classes for greater accuracy and efficiency.  Each class has a guard procedure which checks whether a rule in the class could apply.  If so, the rules are attempted in order until one succeeds.  All regular-expression matching was case-insensitive.  Table 1 shows each of the rules, the number of times it is met in the sample data, and the probability that if a sentence satisfies the rule that it is part of a message classified as a flame, maybe, or okay. The reader will want to refer to Table 1 while reading the next section, which describes the rule classes.  A feature vector was created for each message by summing the vectors of each sentence.</P>
+<P ALIGN="JUSTIFY">&#9;Most of the rules behave the same regardless of where the data comes from.  There are a few variables that get set with site-specific information.  For example, the string &quot;Slick Willy&quot; is probably insulting in a message to NewtWatch but not in one to The Right Side of the Web.  Site-specific variables will be discussed with the rules that use them. </P>
+</FONT><B><FONT FACE="Times"><P>Rule classes</P>
+</FONT><FONT FACE="Times" SIZE=3><P>Noun Phrases used as Appositions</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">I found that phrases with &quot;you&quot; modified by a noun phrase tend to be insulting.  (The technical term is a noun apposition.)  Examples are &quot;you bozos&quot;, &quot;you flamers&quot;, and &quot;you people&quot;.  Exceptions are &quot;you guys&quot; and sometimes &quot;you folks&quot;.   Table 1 shows that &quot;you guys&quot; appeared 38 times in the examined messages and that in the sentences it appeared, 66% were in messages classified as okay, 13% as maybe, and 21% as flames. &quot;You folks&quot; was less likely to be part of a flame (13%), and the general case was more likely (53%).</P>
+<P ALIGN="JUSTIFY">&#9;Because the parser marks noun appositions in the grammatical tree of each sentence, the Lisp rule to recognize them is trivial.  Unfortunately, the parser sometimes misidentifies noun appositions, in part because of typographical errors in the input, such as: &quot;[T]here are many other fine members of congress deserving of <U>you gentile sympathies</U> also.&quot;  Here, the sender presumably meant to write &quot;your&quot; instead of &quot;you&quot;.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Imperative Statements</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Another heuristic based on the syntax of a sentence is that imperative statements (commands) tend to be insulting.  Some examples are:</P><DIR>
+
+<I><P ALIGN="JUSTIFY">&quot;Have your fun&quot;&#9;&#9;&quot;forget about it&quot;</P>
+<P ALIGN="JUSTIFY">&quot;Get used to it!&quot; &#9;&quot;Get over it!&quot; </P>
+<P ALIGN="JUSTIFY">&quot;Get Lost!!!&quot; &#9;&#9;"get a life&quot;</P>
+<P ALIGN="JUSTIFY">&quot;f--- you&quot; </I>(but see Gregersen (1977) and Quang (1992))</P></DIR>
+
+<P ALIGN="JUSTIFY">The guard for the class checks whether the parser marked the statement as being imperative.  There are several varieties of imperative statements that are not insulting, including idiomatic expressions, such as &quot;keep up the good work&quot; and &quot;have a nice day&quot;; suggestions and invitations; and sentences that only appear to be imperative because the writer omitted &quot;I&quot;, such as &quot;Love your work&quot;. </P>
+<P ALIGN="JUSTIFY">&#9;Long imperative statements or those with multiple clauses are less likely to be insulting.  Consider: &quot;If you have a candidate, pledge your loyalty to only one, and don’t make a mistake and lose yourself in congress.&quot;  All of these conditions are checked for by rules in the imperative class, as illustrated in Table 1.</P>
+<P ALIGN="JUSTIFY">A source of miscategorizations is ambiguous statements such as the following:</P>
+<I><P ALIGN="JUSTIFY">&quot;Cool page....&quot;</P>
+<P ALIGN="JUSTIFY">&quot;Just saw our link.&quot;</P>
+</I><P ALIGN="JUSTIFY">&#9;The parser identified these as imperative statements, a reasonable—but amusing—interpretation. &quot;Cool page&quot; was marked as imperative because it can be interpreted as a verb followed by a noun, presumably meaning that the listener should take a page and cool it off.  &quot;Just saw our link&quot; was misinterpreted as a command to saw (i.e., with a handsaw) a link.  Semantic analysis wouldn’t necessarily help, because sawing a link (i.e., of a chain) makes sense.  Of course, neither sentence was meant as imperative, so the rule misfires, contributing to its lower-than-expected flame-prediction rate.  </P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Second-Person Rules</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Many sentences with a word beginning with &quot;you&quot; (including &quot;your&quot; and &quot;yourself&quot;) are insulting; specifically, sentences with &quot;your ilk&quot;, &quot;your so-called&quot;, and <I>scare quotes</I>, such as:  &quot;This ‘<U>service’ of yours</U> reminds me of when I was in college and kids wrote similar comments on the bathroom walls about Reagan.&quot; </P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Profanity Rules</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">This class is entered when a sentence contains an obscene word.  The list did not include &quot;damn&quot; and &quot;hell&quot;, since they are used so frequently.  A distinction is made depending on whether the sentence also contains the name of a site-specific &quot;villain&quot;.  For example, for NewtWatch, villains are &quot;Newt&quot;, &quot;Gingrich&quot;, &quot;Rush&quot;, &quot;Limbaugh&quot;, and &quot;Helms&quot;, so the sentence &quot;<U>Newt Gingrich</U> is an <U>a------&quot;</U> would fall in this category.  The names of web browsers, such as lynx, are considered honorary villains, so this rule catches: &quot;Lynx currently <U>s--t</U>s out...the first time you try to page down&quot;.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Condescension Rules</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Condescending statements recognized through regular expressions were divided into three classes: very, somewhat, and slightly condescending, and are described in Table 1.<I>  </I>The only structural rule used for condescending statements is to mark a class of &quot;tag phrases&quot;, two-word phrases consisting of a contraction followed by another word and a question mark, such as &quot;It really is a helpless feeling when your side is solidly in the minority, <U>isn’t it</U>?&quot;  The regular expression for such a tag phrase is: &quot;[,$] ?[a-zA-Z]+’t [a-zA-Z]+\?&quot;.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Insults</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The rule class <I>Insults</I> is guarded by a check for <I>bad-words</I>, which consists of <I>bad-verbs</I> (&quot;stink&quot;, &quot;suck&quot;, etc.), <I>bad-adjs</I> (&quot;bad&quot;, &quot;lousy&quot;, etc.), and <I>bad-nouns</I> (&quot;loser&quot;, &quot;idiot&quot;, etc.).  Rules check whether the bad word appears near a name for the page, as in &quot;Your <U>page</U> is a <U>JOKE</U>!&quot;, or near the word &quot;you&quot;, as in &quot;You <U>Sick</U> <U>idiotic</U> <U>liberals!</U>&quot;</P>
+<P ALIGN="JUSTIFY">&#9;A rule checks for a bad word near &quot;this&quot; used as a pronoun (in place of a noun), such as &quot;What kind of <U>crap</U> is <U>this</U>?!?&quot;  Sentences where &quot;this&quot; is used as an adjective (to modify a noun) are not counted, such as &quot;Not only is <U>this</U> country in a <U>bad</U> state...&quot;  A separate rule checks for insults containing a site-specific villain.</P>
+<P ALIGN="JUSTIFY">&#9;A separate class of insults is site-specific phrases.  These include names (&quot;Watergate&quot; is only mentioned in flames to The Right Side of the Web), derogatory nicknames (&quot;Slick Willy&quot;), and terms that are primarily used when insulting a specific group (e.g., calling liberals &quot;commies&quot; or conservatives &quot;fascists&quot;) (Hayakawa and Hayakawa 1990).</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Epithets</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The final class of insulting statements is epithets, short insulting phrases (Allan and Burridge 1991, Jochnowitz 1987). For example, &quot;get&quot; followed within ten characters by &quot;life&quot;, &quot;lost&quot;, &quot;real&quot;, &quot;clue&quot;, &quot;with it&quot;, or &quot;used to it&quot;.  Other epithets are two-word phrases, such as &quot;drop dead&quot;.  While some of these are caught by the check for imperative statements or vulgarities, others required the epithet rule, such as: &quot;MAYBE YOU SHOULD <U>GET A LIFE</U> AND QUIT TRYING TO USE RUSH AS YOUR WAY TO STARDOM&quot;.  This rule proved to be one of the most useful: 18% of the flames included epithets, and none of the non-flames included them.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Polite Rules</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The politeness rule class is entered if a sentence does not contain an obscene word.  A message is considered polite (Brown and Levinson 1987) if it contains &quot;thank&quot; (but not &quot;no thanks&quot;), &quot;please&quot;, or constructs with &quot;would&quot;, such as &quot;Would you be willing to e-mail me your logo&quot;. </P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Praise Rules</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The praise class is entered if a sentence does not contain an obscene word.  The simplest rules are that a sentence is considered praise if it contains such word stems as &quot;bless&quot;, &quot;godspeed&quot;, &quot;kudos&quot;, or &quot;congra&quot; (for &quot;congratulations&quot; and related misspellings).</P>
+<P ALIGN="JUSTIFY">&#9;Other rules require vocabulary information.  I predefine regular expressions <I>web-nouns</I> (&quot;page&quot;, &quot;site&quot;, etc.), <I>good-adjectives</I> (&quot;great&quot;, &quot;super&quot;, etc.), and <I>good-verbs</I> (&quot;enjoy&quot;, &quot;agree&quot;, etc.).  Each site also has a regular expression <I>page-name </I>representing the name of the page and common synonyms (such as &quot;NewtWatch&quot; and &quot;Newt Watch&quot;). Rules check whether one of the positive terms occurs near the word &quot;you&quot; or a synonym for a page name (such as &quot;This is my <U>favorite</U> political <U>page</U>&quot;). If the word &quot;like&quot; appears, the rule checks that it is being used as a verb.  The sentence &quot;<U>Like</U> your <U>pages</U>&quot; qualifies but not &quot;...cool progressive resources (<U>like</U> <U>Newt Watch</U>)&quot;, where &quot;like&quot; is used as a conjunction.</P>
+<P ALIGN="JUSTIFY">&#9;A message may indirectly offer praise in a sentence with the word &quot;I&quot; before a positive verb (such as &quot;i just found your web pages and <U>I</U> <U>love</U> it.&quot;) or with a positive adjective at the end of a clause near the beginning of a sentence (&quot;Very <U>interesting!</U>&quot;).  Another way to offer indirect praise is to write that one will &quot;add&quot; or &quot;recommend&quot; a &quot;link&quot; or page.  Even mentioning the word &quot;link&quot; in a message means it is almost certainly friendly.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Miscellaneous</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The remaining classes of rules have a single rule each (i.e., the guard was the rule) and check for smiley faces, phone numbers, uniform resource locators (web addresses), offers, laughter, and exclamation points.  All are binary, except for exclamation points, for which a count is returned.</P>
+</FONT><B><FONT FACE="Times"><P ALIGN="CENTER">Method</P>
+</FONT><FONT FACE="Times" SIZE=3><P>Human Message Ratings</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Each of the 1222 messages was rated by four speakers of American English employed by Microsoft who were not otherwise involved in this research. Each message was rated by two men and two women, because gender differences in online (Herring 1995) and offline (Jay 1992) flaming have been observed.  No individual rated messages from more than one site, because it was important to remember the intended recipient’s political orientation. Volunteers were told to mark a message as being a flame if it contained insulting or abusive language (unless it was directed to someone the sender and recipient both disliked), not merely if the sender expressed disagreement with the recipient.  Volunteers could classify a message with &quot;flame&quot;, &quot;okay&quot;, or &quot;maybe&quot;.  In 80% of the cases, all four volunteers agreed.  In an additional 13% of the cases, exactly three volunteers agreed.  I combined the ratings by classifying a message as a flame if at least three individuals considered it one (7.5% of the messages), okay if at least 3 people judged it okay and nobody considered it a flame (80%), and maybe otherwise (13%).</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Message classification</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">The decision tree generator C4.5 (Quinlan 1993) was used with the MLC++ utilities (Kohavi et al 1994) to generate a classifier.  Because decision tree generators perform badly when one classification is much more common than the others, it was necessary to weed out messages that were obviously okay to lessen the imbalance.  This was done by observing that some features almost always indicated that a message was okay.  For example, only 1 of the 70 messages in the training set with &quot;keep up the good work&quot; was a flame.  By making the approximation that messages triggering any of 10 such rules (italicized in Table 1) were okay, the ratio of okay to flame in the remaining messages could be reduced from 10:1 to 4.5:1, as shown in Table 2, allowing effective decision tree generation.  The other way we overcame the generator’s bias toward the common case was by interpreting its classifications of maybe as flame.</P>
+<P ALIGN="JUSTIFY">&nbsp;</P></FONT>
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=306>
+<TR><TD WIDTH="23%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">okay</I></FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">maybe</I></FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">flame</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">okay:flame</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="23%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">original</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">574</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">88</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">58</FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">9.9:1</FONT></TD>
+</TR>
+<TR><TD WIDTH="23%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">removed</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">359</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">28</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">10</FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">35.9:1</FONT></TD>
+</TR>
+<TR><TD WIDTH="23%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">remaining</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">215</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">60</FONT></TD>
+<TD WIDTH="17%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">48</FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">4.5:1</FONT></TD>
+</TR>
+</TABLE>
+
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Table 2: Messages of each type and okay:flame ratio in original training set, removed messages, and remaining messages.</P>
+</I></FONT><B><FONT FACE="Helvetica" SIZE=1><P>Results</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">C4.5 generated the rules shown in Figure 1. The results of the weeding and the rules on the test set are shown in Tables 3 and 4.  Interpreting results of maybe as flames, 98% of the okay messages were correctly classified, as were 64% of the flames.  The machine classifications for messages that human volunteers disagreed on were considered to be don’t cares, reducing the size of the test set from 502 to 460 messages.</P>
+<P ALIGN="JUSTIFY">&nbsp;</P><DIR>
+<DIR>
+
+<P>If (Imperative-short (13)  &gt; 0 ^<BR>
+    Condescension-somewhat (21) &lt;= 0 ^<BR>
+    site-specific-insult (29) &gt; 0) <BR>
+   (Imperative-short (13) &lt;= 1 ^<BR>
+    Insult-recipient (25) &gt; 0)  <BR>
+   (Insult-other (28) &gt; 0 ^<BR>
+    epithet (30) &gt; 0)  <BR>
+   (Imperative-short (13) &lt;= 0 ^<BR>
+    Profanity-no villain (19) &gt; 0) <BR>
+   (Appositive-guys (1) &gt; 0 ^<BR>
+    site-specific-insult (29) &gt; 0) <BR>
+</FONT><FONT FACE="Zapf Dingbats,Times New Roman" SIZE=2>¤</FONT><FONT FACE="Times" SIZE=2>class flame</P>
+<P>If (Appositive-NP (3) &lt;= 0 ^ <BR>
+    Insult-villain (27) &lt;= 0 ^<BR>
+    site-specific-insult (29) &lt;= 0 ^ <BR>
+    epithet (30) &lt;= 0 ^<BR>
+    exclamation-points (47) &lt;= 2) <BR>
+   (Appositive-NP (3) &lt;= 0 ^<BR>
+    Imperative-short (13) &lt;= 0 ^ <BR>
+    site-specific-insult (29) &lt;= 0 ^<BR>
+    epithet (30) &lt;= 0)<BR>
+</FONT><FONT FACE="Zapf Dingbats,Times New Roman" SIZE=2>¤</FONT><FONT FACE="Times" SIZE=2>class ok</P></DIR>
+</DIR>
+
+<I><P ALIGN="JUSTIFY">Figure 1: Ordered rules generated by C4.5.  Numbers in parentheses are rule numbers</P>
+</I><P ALIGN="JUSTIFY">&nbsp;</P>
+<P ALIGN="JUSTIFY">&#9;We also tried using linear regression, which proved less successful. The nominally independent variables were the 47 features plus 3 binary features indicating whether the message came from NewtWatch, FAIR, or The Right Side of the Web.  The dependent variable was 1 when the message was rated okay and 0 when rated a flame.  Messages for which there was disagreement were not used.  When a least squares analysis was performed on a subset of the 720 messages described earlier as the training data, the resulting coefficients proved very accurate for the reserved portion but substantially less accurate for the test set, correctly identifying 97% of the okay messages but only 39% of the flames.  We think the reason for the different performance is that the features had been tweaked to be consistent over the first set of 720 messages.  If an insulting adjective appeared in a message in this set and was not recognized as insulting, it was manually added to the system.  The test set of 502 messages, on the other hand, was entirely out-of-sample, analyzed only after the system had been frozen.  Besides its performance, another disadvantage of linear regression is that it requires computing (or at least bounding) all of the features, while the decision tree algorithm requires the computation of only some of the features.</P>
+<P ALIGN="JUSTIFY">&nbsp;</P></FONT>
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=271>
+<TR><TD WIDTH="21%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="64%" VALIGN="TOP" COLSPAN=3>
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">          Human classification</I></FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="7%" VALIGN="TOP">&nbsp;</TD>
+</TR>
+<TR><TD WIDTH="21%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">okay</I></FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">maybe</I></FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP" COLSPAN=3>
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">flame</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="21%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P>okay</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">422(98%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">34 (43%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP" COLSPAN=3>
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">10 (36%)</FONT></TD>
+</TR>
+<TR><TD WIDTH="21%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P>maybe</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">6 (1%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">11 (14%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP" COLSPAN=3>
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">8 (29%)</FONT></TD>
+</TR>
+<TR><TD WIDTH="21%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P>flame</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">4 (1%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">34 (13%)</FONT></TD>
+<TD WIDTH="26%" VALIGN="TOP" COLSPAN=3>
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER"> 10 (36%)</FONT></TD>
+</TR>
+</TABLE>
+
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Table 3: Confusion matrix for test set</P></I></FONT>
+<P ALIGN="LEFT"><TABLE BORDER CELLSPACING=1 WIDTH=238>
+<TR><TD WIDTH="35%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="27%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="RIGHT">Human</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" COLSPAN=2>
+<I><FONT FACE="Times" SIZE=2><P> classification</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="35%" VALIGN="TOP">&nbsp;</TD>
+<TD WIDTH="27%" VALIGN="TOP" COLSPAN=2>
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">okay</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P ALIGN="CENTER">flame</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="35%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P>okay</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP" COLSPAN=2>
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">422(98%)</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">10 (36%)</FONT></TD>
+</TR>
+<TR><TD WIDTH="35%" VALIGN="TOP">
+<I><FONT FACE="Times" SIZE=2><P>flame/maybe</I></FONT></TD>
+<TD WIDTH="27%" VALIGN="TOP" COLSPAN=2>
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER">10 (2%)</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP">
+<FONT FACE="Times" SIZE=2><P ALIGN="CENTER"> 18 (64%)</FONT></TD>
+</TR>
+</TABLE>
+</P>
+
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Table 4: Collapsed confusion matrix for test set</P>
+</I></FONT><B><FONT FACE="Times"><P ALIGN="CENTER">Discussion</P>
+</FONT><FONT FACE="Times" SIZE=3><P>Smokey’s Limitations</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">One flame could not be recognized because the typography was unusual: &quot;G E T O V E R I T&quot;.  The following flame also managed not to trigger any rules:</P><DIR>
+<DIR>
+
+<P ALIGN="JUSTIFY">&quot;...is a jelly nosed, poodle stomping, candy-brained cow clump.  For the champion of American mythology, he sure knows how to knock down a common law tradition which protects the middle class&quot; [ellipsis (&quot;...&quot;) in original]</P></DIR>
+</DIR>
+
+<P ALIGN="JUSTIFY">While an additional heuristic suggested by Phil Leone would recognize the cascaded adjectives in the first sentence as an insulting structure, the lack of an explicit subject makes the first sentence hard to interpret.</P>
+<P ALIGN="JUSTIFY">&#9;Other flames pass by using friendly phrases sarcastically, such as:  &quot;<U>Keep up</U> your efforts because I see them as truly benign and pointless.&quot;  Others are not sarcastic but are the exceptions to rules; consider the following message, as annotated by Smokey:</P><DIR>
+<DIR>
+
+<B><P>Praise (delight)</B> : <U>I'm glad</U> to see that your incessant name calling and whining hasn't stopped....</P>
+<P><BR>
+<B>Praise (delight)</B> : As long as it continues, <U>I'm glad</U> to say I'll remian on the winning side of politics. </P></DIR>
+</DIR>
+
+<P ALIGN="JUSTIFY">Because the chance that a message that triggers the <I>Praise-delight</I> rule is a flame is only 4.5%, Smokey makes a reasonable, but wrong, evaluation.</P>
+</FONT><B><FONT FACE="Times" SIZE=3><P>Limitations to Flame Recognition</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">While some limitations on automatic flame identification are due to current natural-language recognition technology, others are inherent.  Fluent human readers are sometimes unable to tell whether a given message is friendly or sarcastic. </P>
+<P ALIGN="JUSTIFY">&#9;More practical problems are recognizing sarcasm and innuendo and making sense of complex sentences and mistakes in grammar, punctuation, and spelling, which are all too common in email.  Here are some examples:</P><DIR>
+<DIR>
+
+<I><P ALIGN="JUSTIFY">Sarcasm:</I> &quot;Thank you for recognizing the power of Newt.... Keep up the good work!&quot;  [This was sent to NewtWatch.]</P>
+<I><P ALIGN="JUSTIFY">Grammar, etc., mistakes: </I>&quot;What on earth a BIGGOT like you is doing walking onthe face of earth?&quot;</P>
+<I><P ALIGN="JUSTIFY">Innuendo: </I>&quot;Only cowards, cheats, thieves and liars hide behind pseudonyms.&quot;  [The program cannot infer that the sender is referring to the recipient, who uses a pseudonym.]</P></DIR>
+</DIR>
+
+<P ALIGN="JUSTIFY">Fortunately, statements that are meant to be insulting tend to be near other insults, allowing a message to be correctly labeled even when individual sentences cannot be.</P>
+<P ALIGN="JUSTIFY">&#9;Possibilities for future work include learning from dictionaries and thesauri (Dolan et al 1993), user feedback, or proximity to known insults; morphological analysis; spelling and grammar correction; and analyzing logical parse trees of sentences.</P>
+<P ALIGN="JUSTIFY">&nbsp;</P>
+<B><P ALIGN="JUSTIFY">Related Work</FONT><FONT FACE="Helvetica" SIZE=1>.  </B></FONT><FONT FACE="Times" SIZE=2>Surprisingly little has been written on the grammar of insults in English.  Ruwet (1982) has written about the grammar of French insults.  Jochnowitz (1987), Quang (1992), and Allan and Burridge (1991) have written about idiomatic epithets in English. There are numerous lists of and articles about dirty words; see the bibliography in (Jay 1992) or the publications of Maledicta Press. Jay (1990, 1992) has had students rate the offensiveness of various taboo words; physiological responses to insults (Dillard and Kinney 1994) have also been measured.  Hayakawa and Hayakawa (1990) and Trippett (1986) have written about the emotional content of terms, particularly political ones.</P>
+<P ALIGN="JUSTIFY">&#9;Automatic categorization of texts has been a major area of information retrieval research (Lewis 1992, Lewis and Hayes 1994).  Sack has written a system to automatically determine the ideological bias of a text (Sack 1995).  Email classification through regular expressions is already in use, such as through the mail program extensions Procmail, Mailagent, and Filter.  A different method of filtering unstructured text is through  collaboration, such as Tapestry (Goldberg et al 1992), allowing users to rate individual pieces of bulk mail (from mailing lists or news groups) or individual senders; other users can decide whether to read messages based on others’ appraisals.  The widely used LISTSERV list maintenance program (L-Soft 1995) includes a proprietary algorithm to detect &quot;spam.,&quot; inappropriately crossposted messages, usually advertisements.  If the software determines that a user has sent spam, the message and subsequent ones from the same user will be sent to the list owner for approval, combining automatic and social filtering.</P>
+<B><P ALIGN="JUSTIFY">&nbsp;</P>
+<P ALIGN="JUSTIFY">Implications</FONT><FONT FACE="Helvetica" SIZE=1>.  </B></FONT><FONT FACE="Times" SIZE=2>One advantage of mailbox filters such as Smokey is that they do not infringe on freedom of speech.  People are both free to write what they wish to willing readers and to not read anything they don’t want to. Assuming individuals can train their own filters, nobody will be able to control what anybody else can read.</P>
+<P ALIGN="JUSTIFY">&#9;While Smokey isn’t perfect, it could be used now, however, to prioritize mail.  Maintainers of controversial web sites who are overwhelmed by mail could use it to move suspected non-flames up in priority.  They could avoid suspected flames when busy or when already in a bad mood, without delaying much inoffensive email.  Similar techniques could be used for other email-related tasks, such as eliminating unsolicited advertisements or routing mail sent to a general company address to the right individual.</P>
+<P ALIGN="JUSTIFY">&#9;A new &quot;arms race&quot; is starting.  As these and similar rules get published, flamers will learn how to get around them.  Still, there is a net benefit, since the obscene expressions that affect people most emotionally can be eliminated, and most flamers will not be knowledgeable about the defense systems, especially if they are tailored to individuals.</P>
+<P ALIGN="JUSTIFY">&nbsp;</P>
+<B><P ALIGN="JUSTIFY">Acknowledgments</FONT><FONT FACE="Helvetica" SIZE=1>.  </B></FONT><FONT FACE="Times" SIZE=2>I am grateful to Diana Peterson, Simon Corston, Deb Coughlin, Bill Dolan, Karen Jensen, and Lucy Vanderwende for their assistance with natural language processing and linguistics; to David Heckerman, Carl Kadie, John Miller, and Eric Anderson for advice on decision theory and statistics; and to David Lewis for invaluable encouragement and help with information retrieval techniques and the writing of this paper.  This work would not have been possible without the support of Daniel Weise, Dan Ling, and Rick Rashid and the help of Kevin Shields.  I received outstanding library support from Pamela Bridgeport and Keith Barland  and technical support from Robert Eberl and Ken Martin.  I am grateful to the individuals and organizations that contributed email: Jeff Donnels, Matt Dorsey and Ted Schnackertz, Michael Ernst, and Mike Silverman.  I had valuable discussions with Reinhold Aman, Cathy Ball, Gene Ball, Oren Etzioni, Chris Gual, David Kurlander, Phil Leone, Nate Osgood, and David Perlmutter.  Timothy Jay provided me with the most recent version of his excellent bibliography.</P>
+</FONT><B><FONT FACE="Times"><P ALIGN="CENTER">References</P>
+</B></FONT><FONT FACE="Times" SIZE=2><P>Allan, Keith and Burridge, Kate. <I>Euphemism &amp; Dysphemism</I>.  Oxford University Press, 1991.</P>
+<P>&nbsp;</P>
+<P>Brown, Penelope and Levinson,  Stephen. <I>Politeness: some universals in language usage</I>.  Cambridge University Press, 1987.</P>
+<P>&nbsp;</P>
+<P>Dolan, William B.; Vanderwende, L.; and Richardson, S. Automatically Deriving Structured Knowledge Base from On-line Dictionaries, in Proceedings of the Pacific Association for  Computational Linguistics, 1993.</P>
+<P>&nbsp;</P>
+<P>Dillard, James Price and Kinney, Terry A.  &quot;Experiential and Physiological Responses to Interpersonal Influence.&quot;  <I>Human Communication Research</I>, vol. 20, no. 4 (June 1994), 502-528.</P>
+<P>&nbsp;</P>
+<P>Donnels, Jeff.  The Right Side of the Web, 1995-1997. http://www.clark.net/pub/jeffd/index.html.</P>
+<P>&nbsp;</P>
+<P>Dorsey, Matt and Schnackertz, Ted, Jr.  NewtWatch, 1995-1997. http://www.cais.com/newtwatch/.</P>
+<P>&nbsp;</P>
+<P>Ernst, Michael.  Fairness and Accuracy in Reporting, 1995-1997.  http://www.fair.org/fair/.</P>
+<P>&nbsp;</P>
+<P>Goldberg, D.; Nichols, D.; Oki, B.; and Terry, D.  Using collaborative filtering to weave an Information Tapestry.  <I>Communications of the ACM</I> 35, 12 (December 1992), pp. 61-70.</P>
+<P>&nbsp;</P>
+<P>Gregersen, Edgar A. A Note on English Sexual Cursing<I>.  Maledicta: The International Journal of Verbal Aggression</I>, vol. 1 (1977), pp. 261-268.</P>
+<P>&nbsp;</P>
+<P>Hayakawa, S. I. and Hayakawa, Alan R.  <I>Language in Thought and Action</I>. Fifth edition.  Harcourt Brace Jovanovich, 1990.</P>
+<P>&nbsp;</P>
+<P>Herring, Susan.   Posting in a Different Voice: Gender and Ethics in Computer-Mediated Communication, in Ess, Charles, ed., <I>Philosophical Perspectives in Computer-Mediated Communication</I>.  Albany: SUNY Press, 1995.</P>
+<P>&nbsp;</P>
+<P>Infante, Dominic A. and Wigley, Charles J., III.  Verbal Aggressiveness: An Interpersonal Model and Measure.  <I>Communications Monographs,</I> Volume 53, March 1986.</P>
+<P>&nbsp;</P>
+<P>Jay, Timothy B.  What are &quot;Fighting Words&quot;?  Presented at Eastern Psychological Association, March, 1990, Philadelphia, PA.</P>
+<P>&nbsp;</P>
+<P>Jay, T. B. <I>Cursing in America</I>.  Philadelphia:  John Benjamins, 1992.</P>
+<P>&nbsp;</P>
+<P>Jochnowitz, George.  Acceptable but not Grammatical. <I>Maledicta: The International Journal of Verbal Aggression</I>, vol. 9 (1986-1987), pp. 71-74.</P>
+<P>&nbsp;</P>
+<P>Kohavi, Ron; John, George; Long, Richard; Manley, David; and Pfleger, Karl.  MLC++: A Machine Learning Library in C++, in <I>Tools with Artificial Intelligence</I>, IEEE Computer Society Press, 1994, pp. 740-743.  See &quot;http://www.sgi.com/Technology/mlc/&quot;</P>
+<P>&nbsp;</P>
+<P>L-Soft International, Inc.  List Owner’s Manual for LISTSERV 1.8b.  http://www.lsoft.com/manuals/ownerindex.html.  December 12, 1995.</P>
+<P>&nbsp;</P>
+<P>Lewis, David Dolan.  Representation and Learning in Information Retrieval.  Doctoral Dissertation, CS Department, Univ. Of Massachusetts, Amherst, 1992.  (Technical Report 91-93.)</P>
+<P>&nbsp;</P>
+<P>Lewis, David D. And Hayes, Philip J.  Guest Editorial.  <I>ACM Transactions on Information Systems</I> <B>12</B>(3) (July 1994):231.</P>
+<P>&nbsp;</P>
+<P>Maledicta Press.  P.O. Box 14123, Santa Rosa, CA 95402.  707-523-4761.</P>
+<P>&nbsp;</P>
+<P>Quang Phuc Dong. English Subjects without Overt Grammatical Subject, in Zwicky, A.M., Salus, P.H., Binnick, R.I., &amp; Vanek, A.L., eds<I>.</I>,<I>   Studies  out in left field:  Defamatory essays presented to James D. McCawley</I>.  John Benjamins, Philadelphia, 1992.</P>
+<P>&nbsp;</P>
+<P>Quinlan, J. Ross.  <I>C4.5: Programs for Machine Learning</I>.  Morgan Kaufmann Publishers, San Mateo, CA, 1993.</P>
+<P>&nbsp;</P>
+<P>Richardson, Steve.  Bootstrapping Statistical Processing into a Rule-based Natural Language Parser, in <I>The Balancing Act: Combining Symbolic and Statistical Approaches to Language: Proceedings of the Workshop</I>. Las Cruces, New Mexico, 1994,  pp. 96-103.</P>
+<P>&nbsp;</P>
+<P>Ruwet, Nicolas.  <I>Grammaire des Insultes et Autres Etudes.</I> Editions du Seuil, Paris, 1982.</P>
+<P>&nbsp;</P>
+<P>Sack, Warren.  Representing and Recognizing Point of View.  <I>Proceedings of the AAAI-95 Fall Symposium on AI Applications in Knowledge Navigation and Retrieval</I>, 1995.</P>
+<P>&nbsp;</P>
+<P>Trippett, Frank. Watching Out for Loaded Words, in Seyler, Dorothy U. and Boltz, Carol J., eds.  <I>Language Power, </I>pp. 112-115<I>.</I> Random House, New York, 1986.  Originally printed in <I>Time</I>, May 24, 1982.</P></FONT>
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=843>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">#</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Rule</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Example</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">n</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">ok</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">maybe</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY"> flame</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">1</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY"> &quot;You&quot; followed by &quot;guys&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;I’ll be giving <U>you guys</U> a call soon.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">38</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>66%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>13%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>21%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">2</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY"> &quot;You&quot; followed by &quot;folks&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Well, <U>you folks</U> have fun poking fun at Newt.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">8</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>63%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>25%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>13%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">3</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY"> &quot;You&quot; followed by any other noun phrase</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>You quivering, socialist, bedwetters</U> must be scared to death to go to all this trouble bashing Newt.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">30</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>33%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>13%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>53%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">4</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imperative sentence (Imp.) with &quot;have...day&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Have</U> a nice <U>day</U>.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>2</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">5</I></FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. with &quot;keep...work&quot; or &quot;keep...up&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Keep</U> up the good <U>work</U>.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>112</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>97%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>2%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>1%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">6</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;look&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Look</U> forward to hearing from you.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>8</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>88%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>13%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">7</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;take&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Take</U> care.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>5</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>60%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>40%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">8</I></FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;let&quot;</I></FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Let’s</U> not dilly-dally.&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>31</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>87%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>13%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>0%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">9</I></FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;thank&quot;</I></FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Thank</U> you.&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>66</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>95%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>5%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>0%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">10</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;please&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Please</U> don’t judge us all by our 6th district.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>47</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>85%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>13%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>2%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">11</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. containing &quot;love&quot; or &quot;like&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Love</U> the artwork!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>9</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">12</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. with comma or semicolon or more than 12 words</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;If interested, hit my page.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>63</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>62%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>21%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>17%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">13</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Imp. statement not meeting any of the above rules</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Get used to it!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>159</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>69%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>17%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>14%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">14</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with a word beginning with &quot;you&quot; and with &quot;ilk&quot;.</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Your ilk</U> is primarily responsible for most of the ills of this country.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>3</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>67%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>33%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">15</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with &quot;your so called&quot; or &quot;your so-called&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Read through <U>your so called</U> evidence&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>4</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>25%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>25%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>50%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">16</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with &quot;as&quot; or &quot;like&quot; followed by &quot;yourself&quot; or &quot;yourselves&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Newt is a god untaintable by such pusilanimous vultures <U>as yourselves</U>.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>3</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>33%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>67%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">17</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Quoted phrase preceded by &quot;you&quot; or followed by &quot;of yours&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Why don’t<U> you ‘fact check’</U> the news media&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>2</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>50%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>50%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">18</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with obscene word and site-specific villain or browser name</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Newt Gingrich</U> is an <U>a------&quot;</U></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>4</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">19</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with obscene word not meeting above rule</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;What the<U> f---</U> is your problem?&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>17</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>29%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>12%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>59%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">20</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Containing &quot;you...miffed&quot;, &quot;we/you..musn’t/mustn’t&quot;, &quot;chicken[?!]&quot; or &quot;what’s the matter&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;If <U>you</U> are <U>miffed</U> about this election, just wait till the next.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>3</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">21</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Containing &quot;your right&quot;, &quot;you have a right&quot;, or &quot;bash&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;While I respect <U>your right</U> to express opinions I feel that most of what is posted here is...&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>28</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>32%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>25%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>43%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">22</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Containing &quot;you have got to be&quot;/&quot;you’ve got to be&quot;/&quot;you must be&quot;</FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>You have got to be</U> joking!!!!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>1</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>100%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">23</FONT></TD>
+<TD WIDTH="36%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with tag phrase </FONT></TD>
+<TD WIDTH="37%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;It really is a helpless feeling when your side is solidly in the minority, <U>isn’t it?</U>&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>2</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>50%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>50%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+</TABLE>
+
+<I><FONT FACE="Times" SIZE=2><P ALIGN="JUSTIFY">Table 1, part 1: Column n indicates the number of times the construct occurred in the 1222 messages.  The okay, maybe, and flame columns indicate the probability that a sentence meeting the rule was in a message of that class; for all messages, the probabilities are 83%, 11%, and 7%,  respectively. Bold face is used to indicate probabilities higher than these baselines.  Italicized rules were useful predictors of okay messages.  Table 1 continues on the next page.</P>
+</I><P ALIGN="JUSTIFY">&nbsp;</P>
+<P ALIGN="JUSTIFY">&nbsp;</P></FONT>
+<TABLE BORDER CELLSPACING=1 CELLPADDING=7 WIDTH=828>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&nbsp;</P>
+<P ALIGN="JUSTIFY">&nbsp;</P>
+<P ALIGN="JUSTIFY">#</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Rule</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Example</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">n</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">ok</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">maybe</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">flame</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>24</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a negative word near a term for the site</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;You will regret that you had anything to do with this <U>crappy</U> home <U>page</U>.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>9</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>22%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>33%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>44%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>25</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a negative word near &quot;you&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>You</U> <U>Sick</U> <U>idiotic</U> liberals!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>19</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>16%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>11%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>74%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>26</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a negative word near &quot;this&quot; used as a pronoun.</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;What kind of <U>crap</U> is <U>this</U>?&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>3</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>33%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>33%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>33%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>27</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a negative word and a site-specific villain</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;All the criticism of <U>Newt</U> ... here is quite <U>idiotic</U>&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>40</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>70%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>13%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>18%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>28</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a negative word but does not meet any of the above rules</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;Pardon my lack of tact, but this is the most <U>pathetic</U> thing I believe I have ever seen.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>128</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>52%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>27%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>20%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>29</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a site-specific insulting phrase, such as &quot;Slick Willy&quot; or &quot;socialis&quot;  to liberals.</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;GET THE <U>SOCIALISTS</U> OUT OF MY POCKET !&quot;</P>
+<P ALIGN="JUSTIFY">&nbsp;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>49</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>29%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>29%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>43%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>30</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Insulting epithet, such as &quot;get a life&quot;, anywhere in sentence</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;maybe you should <U>get A life</U>&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>33</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>21%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>39%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>39%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>31</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Sentence with no obscene words (SNOW) that contains &quot;thanks&quot;</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Thanks</U> for this service.&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>266</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><I><FONT FACE="Times" SIZE=1><P>92%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>5%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>2%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>32</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;please&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Please</U> expose this hypocracy...&quot; </FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>128</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>86%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>10%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>4%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>33</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;would you&quot;/&quot;I would&quot;/&quot;I’d&quot;</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Would you</U> be willing to email me your logo...&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>157</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>90%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>8%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>1%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>34</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;bless&quot; or &quot;godspeed&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Godspeed</U>, Good Luck and Stay True!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>5</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>35</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;congra*&quot; or &quot;kudos&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;This is a very useful page, <U>congrads</U> !&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>12</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>100%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>36</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with a positive adjective near a site synonym</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;You have got a <U>great</U> web <U>site</U> here !&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>157</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>94%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>5%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>1%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>37</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with a positive verb near a site synonym</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;...we really <U>enjoy</U> the <U>NEWTWATC</U>H&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>36</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>92%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>8%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>0%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>38</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;you&quot; near a positive adjective.</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>You</U> have a very <U>good</U> thing going, keep it up.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>34</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>88%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>3%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>9%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>39</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;I&quot; near a good verb, a good adjective at the beginning of a sentence or at the end of a short sentence</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>&quot;<U>I</U> was <U>delight</U>ed to find ‘The Right Side!’&quot;<BR>
+&quot;<U>Great</U> to see a conservative page on the net...&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>220</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>88%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>9%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>3%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>40</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW with &quot;add&quot; near &quot;link&quot; or &quot;pointer&quot; or with &quot;shall&quot;/ &quot;will&quot; / &quot;recommend&quot; near a site synonym</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;I am <U>adding</U> <U>links</U> to your homepage from mine.&quot;<BR>
+&quot;I <U>shall</U> use your <U>page</U> as a guide...&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>13</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>92%</B></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>8%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>41</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">SNOW containing &quot;link&quot; and not meeting any of the above rules</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;I invite you to establish <U>links</U> to my ‘newt bites - And Children Go Hungry’ sticker page...&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>82</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><I><FONT FACE="Times" SIZE=1><P>99%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>1%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>0%</I></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>42</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a smiley face, such as &quot;:-)&quot; or &quot;:)&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;I see where you are coming from: Liberal losers who can't get over the loss in '94 <U>:)</U>&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>18</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>83%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>6%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=32>
+<B><FONT FACE="Times" SIZE=1><P>11%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>43</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a telephone number</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;I am told that <U>1-800-768-2221</U> connects directly to the Congressional switchboard free of charge.&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>24</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<B><I><FONT FACE="Times" SIZE=1><P>92%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<I><FONT FACE="Times" SIZE=1><P>4%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=32>
+<FONT FACE="Times" SIZE=1><P>4%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>44</I></FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains a uniform resource locator (URL), i.e., a web address</I></FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;You can check it out at <U>http://www.sfgate.com</U>&quot;</I></FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>127</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><I><FONT FACE="Times" SIZE=1><P>98%</B></I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<I><FONT FACE="Times" SIZE=1><P>1%</I></FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>1%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>45</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains &quot;I&quot; near &quot;help&quot; or &quot;give&quot;</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;...if <U>I</U> can <U>help</U>, let me know.&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>12</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>83%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>17%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>0%</FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>46</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains laughter</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;<U>Ha ha ha ha ha ha ha ha</U>!  Your page is a joke!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>6</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>50%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>17%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" BGCOLOR="#ffffff" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>33%</B></FONT></TD>
+</TR>
+<TR><TD WIDTH="5%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>47</FONT></TD>
+<TD WIDTH="38%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">Contains exclamation points</FONT></TD>
+<TD WIDTH="35%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P ALIGN="JUSTIFY">&quot;neWt gInGriCh iS evil!!&quot;</FONT></TD>
+<TD WIDTH="4%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>460</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>81%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<FONT FACE="Times" SIZE=1><P>10%</FONT></TD>
+<TD WIDTH="6%" VALIGN="TOP" HEIGHT=16>
+<B><FONT FACE="Times" SIZE=1><P>9%</B></FONT></TD>
+</TR>
+</TABLE>
+
+<I><FONT FACE="Times" SIZE=2><P>Table 1, part 2: Column n indicates the number of times the construct occurred in the 1222 messages.  The okay, maybe, and flame columns indicate the probability that a sentence meeting the rule was in a message of that class; for all messages, the probabilities are 83%, 11%, and 7%,  respectively. Bold face is used to indicate probabilities higher than these baselines.  Italicized rules were useful predictors of okay messages.</P>
+</I></FONT><FONT FACE="New York" SIZE=2><P ALIGN="JUSTIFY">&nbsp;</P></FONT></BODY>
+</HTML>

@@ -1,0 +1,140 @@
+<title>Assessing the Benefits of Active Messages</title>
+<h1>Assessing the Benefits of Active Messages</h1>
+
+<h2><a href="http://www.research.microsoft.com/~ellens/">Ellen Spertus</a></h2>
+<h2><a href="http://www.ai.mit.edu/projects/cva/cva_home_page.html">Concurrent VLSI Architecture Group</a></h2>
+<h3>July 22, 1994</h3>
+
+[This work was done with <a href="http://www.ai.mit.edu/people/billd/billd.html">Bill Dally</a>.]
+
+<hr>
+
+<h2>Multithreading</h2>
+<ul>
+<li> Allows processors to hide long, unpredictable latencies.
+<li> Requires integrating incoming data with dependent computations.
+<li> Can impair cache performance.
+</ul>
+
+[Multithreading impairs cache performance if threads are executed in a
+random order, bashing your data locality.]
+
+<hr>
+
+<h2>Message-Driven Approach</h2>
+<ul>
+<li> Hardware queue buffers incoming messages.
+<li> When processor idle, service message, performing dependent computations.
+</ul>
+
+<hr>
+
+<h2>Active Messages</h2>
+<ul>
+<li> Messages get serviced immediately.
+<li> Handlers store data locally and decrement counters, possibly putting
+computation in software-managed queue.
+<li> Related computations are scheduled together, for better cache performance.
+</ul>
+
+[<a href="ftp://ftp.cs.berkeley.edu/ucb/TAM/isca92.ps">Active Messages</a>
+was created by <a
+href="http://www.cs.cornell.edu/Info/Faculty/Thorsten_Von_Eicken.html">Thorsten
+von Eiken</a> et al. at <a href="http://www.cs.berkeley.edu">Berkeley</a>.]<p>
+
+[The operating system arranges computations so that ones using the same
+data run in a row.]
+
+<hr>
+
+<h2>Comparison</h2>
+
+Message-Driven vs. <i>Active Messages</i><p>
+
+<ul>
+<li> Relies on buffers.<br>
+<i>Does not use buffers.</i>
+<li> Seeks control locality.<br>
+<i>Seeks data locality.</i>
+<li> Cooperative.<br>
+<i>Preemptive.</i>
+<li> Long message handlers.<br>
+<i>Short message handlers.</i>
+<li> Possibility of message queue overflow.<br>
+<i>No possibility of queue overflow.</i>
+</ul>
+
+
+[Control/data locality: The message-driven approach branches (or falls through)
+to the computation, lowering the instruction count, while Active Messages
+works to improve cache performance.]<p>
+
+[Message handler length: In the message-driven approach, computation is
+performed in the handlers, while in Active Messages, computation is
+scheduled by the OS.  A consequence of the longer messages in the
+message-driven approach is that they can be better optimized (like larger
+basic blocks), reducing the number of instructions and data accesses.]
+
+<hr>
+
+<h2>Method</h2>
+<ol>
+<li> Implement both systems on the J-Machine.
+<li> Measure dynamic instruction counts.
+<li> Simulate cache performance, for various cache configurations.
+<li> Determine total execution time for each system.
+</ol>
+
+[The message-driven approach has fewer instruction and data accesses.]
+
+<hr>
+
+<h2>Results (miss = 12 cycles)</h2>
+
+<img src="graph1.gif">
+<p>
+
+The graph shows the geometric mean of 6 benchmark programs.  Hits take 1
+cycles, misses 12 cycles, and there are separate instruction and data
+caches of the specified sizes.<p>
+
+The message-driven approach is better for all configurations, taking 78-90%
+of the time.<p>
+
+The reason the message-driven approach works so well with a direct-mapped
+cache is that it does much better in the instruction cache, because it can
+often fall through from receiving data to using it.<p>
+<hr>
+
+<h2>Results (miss = 24 cycles)</h2>
+
+<img src="graph2.gif">
+<p>
+
+The message-driven approach is still better, although it's closer.<p>
+
+The reason the message-driven approach generally does best at the extremes
+is that there the number of accesses dominates.<p>
+
+<hr>
+
+<h2>Results (miss = 48 cycles)</h2>
+
+<img src="graph3.gif">
+<p>
+
+When misses take 48 cycles, the results are mixed, with Active Messages
+sometimes achieving better results, although the message-driven approach is
+still best for direct-mapped caches.<p>
+
+<hr>
+
+<h2>Discussion</h2>
+
+<ul>
+<li> Message-driven is better for small caches and large caches, where the
+number of accesses dominates.
+<li> Active messages is better for medium-sized set-associative caches
+with high miss penalties.
+<li> Active Messages is not always worth the overhead.
+</ul>

@@ -1,0 +1,66 @@
+<title>Link Geometry and Crawling on Demand</title>
+
+<a href="http://www.ai.mit.edu/people/ellens/">Ellen Spertus</a> (MIT/UW) and <a href="http://www.cs.washington.edu:80/homes/gregl/">Gregory Lauckhart</a> (UW)<p>
+
+<h3>Link Geometry</h3> 
+A limitation of current search engines is that they only make use of
+the text on pages.  This ignores the information encoded in the links
+among pages.  Consider the set of pages within three links of a
+computer science index.  The pages within one link of the index are
+almost certainly related to computer science; the pages two or three
+links out have a lower probability, although still greater than that
+of random pages on the web.  We can think of the set of pages within
+<em>n</em> links of an index <em>I</em> as being the interior of a circle
+(hypersphere) of radius <em>n</em>.  We could create two such circles with
+centers (foci) representing different subject indices and intersect them in
+an attempt to find material that is relevant to both subjects.<br>
+
+<img src="intersect.gif"><p>
+
+Intersection is probably not the ideal operation, since it could
+exclude a page very close to one focus but a little too far from the
+other, while including a page the maximum distance from each focus.
+Instead, we probably want to take the set of points where the sum of
+their distances from the foci is less than a constant; in other words,
+an ellipse.<a
+href="http://jwilson.coe.uga.edu/emt669/Student.Folders/Jones.June/conics/conics.html">*</a>  
+We used our system to find empirically that paths from Yahoo's CS and public-interest indices met, appropriately, at Electronic Privacy Information Center.  
+While we have defined the distance between two pages as
+the shortest path between them, other possible definitions would take
+into account the number of paths between two pages.
+
+<h3>Applications</h3>
+
+Search engines could maintain databases with link information, or
+engines could perform crawling on demand.  For example, to look
+for physics humor, a search for ``physics'' can be done on the pages
+reachable from Yahoo's ``humor'' page or vice versa.  (Yahoo does
+allow searching for a piece of text in a subtree, but that only
+searches the titles and descriptions of the pages stored at Yahoo, not
+the full text.)  Alternately, nodes could be expanded
+from each of the two Yahoo pages until an intersecting node was
+found.<p>
+
+Crawling on demand also allows finding information that has not yet
+been indexed by other crawlers.  For example, when searching for
+information on Cecilia Rodriguez, we were given a URI for a page that
+no longer existed.  We removed text from the right end of the URI
+until we found a page that still existed.  By expanding links from
+that page, we were able to find not only the moved page but also
+information on Cecilia Rodriguez that had not yet been indexed.  Such
+searches can be facilitated by preferentially expanding pages or links
+containing relevant text.<p>
+
+Another application of link geometry is discovering the class of a
+page from its link structure.  For example, a homepage would tend to
+contain links downward in the file hierarchy with perhaps a few
+upwards and sideways, while an index would include a large number of
+links to many different sites.  A clue to the category of a page can
+be found by walking backwards up links that point to it until the
+first Yahoo page, for example, is reached and looking at the header.
+Another application of back links is automatically finding pages
+(indices) that point to pages you like; expanding from the index may
+help you discover more such pages.<p>
+
+
+

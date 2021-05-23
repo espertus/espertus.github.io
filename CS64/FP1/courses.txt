@@ -1,0 +1,156 @@
+ARTH 18
+Introduction to Western Art
+3
+CA, CIE, IP
+ARTH 19
+Art of the Modern World
+3
+IP
+ARTS 7
+Three-Dimensional Concepts
+3
+CA, CIE
+ARTS 11
+Contemp Art:Ideas & Practice
+3
+CA, CIE
+ARTS 29
+Sculpture 1
+3
+CA, CIE
+BIO 33
+Genetics: Human Aspects
+3
+CA, SI
+BIO 49
+Evolution - Future Presidents
+3
+SI
+BIO 55
+Plant Ecology
+4
+CA, SI, WOC
+BOOK 27
+Intro to Book Art
+4
+CIE
+CHEM 4
+Intro to College Chemistry
+3
+SI
+CHEM 17
+General Chemistry I with Lab
+4
+SI
+CHEM 109
+Analytical Chemistry with Lab
+5
+WOC
+CHNS 2
+Elementary Chinese II
+4
+IP, LOTE
+CS 62
+Contemporary Computing
+3
+QL
+CS 63
+Intro to Computer Science
+4
+QL
+DNC 2
+Introduction to Dance Studies
+3
+CA, CIE
+ECON 50
+Introduction to Economics
+4
+CA, QL
+ENG 10
+Intro to Literary Studies
+4
+CA
+ENG 20
+Fundamentals of Grammar
+4
+IP, WOC
+ENVS 22
+Intro to Environmental Science
+3
+SI
+ETHS 11
+Leadership for Soc. Change
+2
+CE
+FREN 1
+Elementary French I
+4
+IP, LOTE
+GOVT 17
+International Relations
+4
+IP
+HIST 11
+The West & Its Cult Trad I
+3
+CA, IP, WOC
+IART 110
+Visual & Sound Progamming
+3
+CIE
+IART 119
+Electronic Arts
+4
+CIE
+LET 115
+African& Caribbean Literatures
+4
+CA, IP, RGP
+MATH 3
+Pre-Calculus
+4
+QL
+MATH 4
+Discrete Mathematics I
+4
+QL
+MUS 5
+Diatonic Harmony & Cntrpnt I
+4
+CIE
+PHE 1
+Introduction to Public Health
+3
+CA, RGP
+PHIL 10
+Ancient Philosophy
+3
+CA, WOC
+PHYS 61
+General Physics I with Lab
+4
+SI
+PPOL 15
+Introduction to Public Policy
+3
+WOC
+SOC 146
+Soc of Hip-Hop
+4
+CE, RGP
+SPAN 1
+Elementary Spanish I
+4
+IP, LOTE
+THS 164
+History of Theater
+4
+CA, QL
+WGSS 71
+Intro to Women's Studies
+4
+RGP
+WGSS 72
+Introduction to Queer Studies
+4
+RGP

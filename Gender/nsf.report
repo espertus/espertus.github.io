@@ -1,0 +1,3016 @@
+
+.ps 12
+.vs 14
+.nr PS 12
+.nr VS 14
+.de bq
+.nr PS -1
+.nr VS -1
+.IP
+.I
+..
+.de eq
+.LP
+.nr PS +1
+.nr VS +1
+.R
+.LP
+..
+\  
+.sp 10
+.ce 10
+\s+1\fBWOMEN IN COMPUTER SCIENCE:
+
+A Report for the NSF CISE 
+Cross-Disciplinary Activities Advisory Committee\fR\s-1
+.sp 7
+Prof. Nancy Leveson
+
+Information & Computer Science Department
+University of California, Irvine
+Irvine, California 92717
+
+Email: leveson@ics.uci.edu
+Tel:  (714) 856-5517
+
+December 1989
+
+.bp
+\  
+.ta 35
+.sp 3
+.ce 1
+TABLE OF CONTENTS
+.sp 2
+.nf
+Executive Summary 
+Introduction 
+Background Data
+Activities to Address the Problem 
+     Multi-University and Extramural Programs 
+          Committee on the Status of Women
+          Regional Workshops
+          Networking Activities
+          Programs for Pre-College Women
+     Single University or Department Programs 
+          Women Speaker Series
+          Mentoring Activities
+          Research Opportunities for Students
+          Reentry Programs
+     Funding for Students and Faculty
+          Student Funding
+          Post Docs
+          Junior Faculty 
+          Advancing Women into the Upper Ranks
+     Miscellaneous Comments 
+Recommendations to NSF
+Appendix 1: List of Contributors 
+Appendix 2: Boston Globe Newspaper Articles 
+Appendix 3: Factors Affecting the Decision of Women to Enter Doctoral Programs
+in Computer Science by Carrie Brownhill 
+.fi
+.bp
+.ce 1
+\fBEXECUTIVE SUMMARY\fR
+
+This is a report written for the NSF Cross-Directorate Activities (CDA) 
+Advisory Committee on ways to increase participation in computer science
+research by women.  A preliminary draft of ideas was circulated on
+an electronic mailing list of approximately 100 female computer science
+graduate students and researchers and printed in the Newsletter of the 
+Computer Research Board which is sent to the faculty members of 161 Ph.D.
+granting institutions in computer science and computer engineering.  A total
+of 50 people responded with comments including men and women from academia,
+industrial research labs, and NSF.  This report contains a summary of those
+comments.
+
+The little data available shows that there are problems for women all along
+the pipeline. Girls are dropping out of science and math in their early
+years even though they do well in it.  Societal, familial, and educational
+factors appear to be the culprit here.  When women do enter college math and
+science programs, they drop out at the lower levels.  For the few that manage
+to get through a Ph.D. program,  they are much less likely to reach the
+higher-level academic positions than their numbers warrant.  
+Very few role models exist to provide encouragement for younger
+women:  There are only 33 female full professors (out of a total of 1189) 
+in computer science and computer engineering in the 158 Ph.D.-granting
+institutions included in the Taulbee Survey and only 74 female associate
+professors (out of 909).  One third of the universities included in the 
+Taulbee Survey have no female faculty at all.  What is most
+disturbing is that the trend is not positive.  Although there was a slight
+increase this year, the percentage of female Ph.D. recipients in computer 
+science has basically remained constant for the past 15 years.
+And there is some evidence that the numbers may start to decrease.  Although
+the total number of students interested in studying science is decreasing,
+the decrease for women is even steeper than for men.  Computer science
+is not an exception to this trend.  The Boston Globe (March 13, 1989) reports:
+.bq
+Nationally, fewer women are expected to pursue degrees in mathematics and
+computer science, according to the National Science Foundation, which
+estimates that only 9,600 will graduate compared to 22,400 women in 1986.
+.eq
+
+Based upon the comments received, there appear to be many things that NSF and
+others can do to attack the problem.  It also appears that no easy solution
+exists.  For most of the suggested activities to be effective, dedicated men
+and women are needed to execute them.  NSF can provide the funding and
+support to help them accomplish their goals.
+
+Multi-university and extramural programs can be effective in optimizing contact
+of women with role models.  A nationwide group to coordinate and publicize
+activities might be patterned after those in other scientific fields, such
+as the Committee on the Status of Women in the American Physical Society.
+Regional workshops can provide career guidance and role models for graduate
+students and beginning faculty members.  Networking activities are also
+important to combat isolation and might be implemented through electronic
+communication and interaction at professional functions.
+ 
+Because girls are dropping out of science and math at an early age, it is
+important that programs for pre-college women be established and supported.
+Although the CISE directorate may not be directly involved in such programs,
+it can provide support to those parts of NSF that are involved in early
+education.
+ 
+Activities undertaken by departments and individuals can have a profound
+effect on the careers of undergraduate and graduate students.  Such activities
+as providing women speakers can focus both male and female attention on
+successful women.  Mentoring of both students and faculty is important and
+can be done by men or by women.  Given the small number of women in university
+positions, it will be necessary to enlist the aid of men to help support
+women and minority students.  Women in industrial positions can provide
+mentoring for female students at local universities.  Funding is important
+both to bring in speakers and role models and also to provide release
+time from other activities.  Most women (and men) are already so overloaded
+with administrative, teaching, and research activities that taking on an
+additional burden is impossible.
+ 
+One of the most effective ways to get more women into research is to provide
+them with opportunities to participate on research projects.  This can
+start with high school summer projects and continue through undergraduate 
+study.  Funding summer research jobs and female undergraduate
+participation on research projects would be a highly effective use of
+resources.  Research paper competitions and other such activities to get
+women interested and participating in research are important.  Special
+mentoring programs where a female graduate student writes a research proposal
+with a faculty member have been found to be very successful at several
+universities.
+Reentry programs provide opportunities for women to return to science and
+math and to prepare for Ph.D. programs.
+ 
+The most effective funding is that which is tied to research.  Funding is
+important starting at the undergraduate level and continuing through graduate
+fellowships.  Because of the changing
+employment patterns in computer science, post docs may assume increasing
+importance.  Special chairs would help get more women into faculty positions,
+and more flexibility such as release time from research and teaching could
+provide the flexibility necesssary to juggle career and family obligations. 
+Finally, the small number of senior women in academic positions
+implies a need to help women advance to the upper ranks of their profession.
+
+A female graduate student stated very eloquently the reason why these types
+of activities should be undertaken:
+.bq
+Science's ability to build on itself and positively influence society is
+hindered by the exclusion of important sectors of the society.
+A woman has the right to educate herself, to know first-hand the beauty
+of science, and to attempt to make a contribution to the body of knowledge
+of her choice.
+.eq
+By not providing the opportunity for women to contribute to scientific
+activity, everyone loses.
+
+.bp
+\  
+
+.ce 1
+\fBINTRODUCTION\fR
+
+Because of the current concern within NSF about human resource issues and a 
+desire (in fact, a mandate) to implement programs or policies that will help 
+to increase participation in research by underrepresented groups, at a 
+June 1989 meeting I suggested forming a subcommittee of the NSF CISE
+Cross-Directorate Activities Advisory Committee (of which I am a member)
+to investigate and suggest 
+possible programs to increase the number of women in computer science research.
+This report contains the preliminary results of my investigation.  Minority 
+issues are currently being addressed by several new NSF programs and, 
+therefore, are not included directly in this report.  However, many of 
+the issues and solutions are similar.
+
+In order to get input, I wrote a brief description of the problem and a list of
+possible activities (NSF and otherwise) and asked for feedback on these
+particular suggestions and for additional ideas and comments.  This was 
+circulated through an electronic mailing list of approximately 100 women 
+computer science students and researchers and also reprinted in the Newsletter 
+of the 
+Computing Research Board.  A few people passed the electronic message along 
+to others or told them of my activities.  A total of 50 people responded
+with comments including men and women from academia, industrial research
+labs, and NSF.  It should be noted that NSF employees are speaking for
+themselves and not for the agency.  To preserve anonymity, I have included 
+(with a few exceptions) only a designation of the sex and professional 
+classification of the respondents in this report.  I want to sincerely 
+thank everyone who took the time to provide input.  
+
+This was in no way a scientifically-conducted survey; everything in the report
+should be taken as either my opinion or as anecdotal comments from a 
+non-random sample of people.  I have tried to include all of the
+opinions of the respondents, but it should be kept in mind that it is difficult
+to be totally unbiased when preparing such a report.  Finally, this has been
+a part-time activity and in no way should be taken as a deep or thorough 
+study of the problem.  However, the feedback that I received (from both
+men and women) was overwhelming in its agreement that there is a problem 
+and that something must be done about it.  Hopefully, the information that 
+this report provides will help in formulating NSF programs and in providing 
+ideas for individuals and groups to take action.
+
+The first section of the report contains background data to help understand the 
+scope of the problem.  This is followed by a list of activities (either for 
+individuals or institutions) that have been tried or suggested along with 
+personal comments received concerning them.  These activities are divided into
+multi-university and extramural programs, single-university and department
+activities, funding for students and faculty, and miscellaneous comments that
+did not fit into any of the previous topics.  Appendix A lists the contributors
+to the report.  Excerpts from two relevant Boston Globe newspaper articles
+can be found in Appendix B.  Finally, Appendix C contains a term paper written
+by a Ph.D. student at UCI for a graduate class on social aspects of technology
+that provides information about the factors affecting the decision of women 
+to enter doctoral programs in computer science.
+
+
+.ce 1
+\fBBACKGROUND DATA\fR
+
+The data I have been able to gather is sparse, but disturbing.  If you
+have not already seen it, I highly recommend reading the AAAS Presidential
+Lecture by Dr. Sheila Widnall (a professor at MIT) called ``Voices
+from the Pipeline'' (\fIScience\fR, 241: 1740-1745, September 30, 1988).
+Unless noted otherwise, the following data was obtained from NSF publications.
+
+Although governments should be moved by inequities and by the desire to
+allow all their citizens to realize their greatest potential, they are 
+much more likely to act when a national crisis looms.  The basic problem 
+as seen by the government is this.  The changing demographics in the 
+U.S. will not produce enough scientists and engineers in the future if 
+present circumstances continue.  Blacks and Hispanics will make up almost
+half the school-age population by the year 2000, but the two groups
+historically do not choose science or engineering as professions.  These two
+groups comprise only 2% of the Ph.D.s in science and engineering.  Women,
+who are half of the population, are only 11% of the science and engineering
+workforce.  Michael Heylin, editor of \fIChemical and Engineering News\fR 
+(vol. 8, p.3), comments:
+.bq
+Chemistry and much of the rest of science in this country have been working
+for far too long under an implicit assumption that scientific competence is
+disproportionately concentrated in roughly 40% of the population represented
+by white males.  It is a handicap that neither science nor the U.S. can any
+longer tolerate on economic, competitive, moral, or any other grounds.
+.eq
+
+There is a shortage of faculty in technical fields in universities.
+For example, 1,400 engineering faculty positions are vacant.  In addition,
+the percentage of new physical science and engineering Ph.D. recipients
+who have remained to teach and do research at universities has fallen 20%
+over the past 20 years.
+Currently, much of the shortfall is being made up by foreign graduate students,
+but an increasing number are returning home to their native countries.  
+Dr. Walter Massey, current president of the AAAS, warns (\fIScience\fR,
+246:915-921, September 1, 1989):
+.bq
+One must consider that only about half of the foreign nationals remain
+in the United States after obtaining their degrees.  It is argued by many
+who study the problem that this percentage is likely to decline as growth
+in the labor markets and the need for scientific and technical personnel
+increases in the home countries of these individuals.
+.eq
+
+There are consistent reports that the increase of foreign faculty and TAs
+has a negative effect on women students as many of these faculty come from
+countries where it is not regarded as appropriate for women to get advanced
+degrees in science.   Foreign students account for 26% of all science Ph.D.s
+awarded in 1988 and 54% of all Ph.D.s awarded in engineering.  1988 was the
+first year in the last five that the number of U.S. citizens earning a
+Ph.D. in science showed any increase.  That increase was due entirely to
+an increasing number of women earning doctorates in those fields that showed
+an increase.  
+
+The number of 30 year olds in the population peaked in 1988;  in that
+year, there were a total of 9,189 natural science and engineering Ph.D.s
+awarded to Americans.  That age group will decrease steadily and
+bottom out in 2004, when demand for natural science and engineering
+Ph.D.s is expected to be about 18,000.  The action plan of the recent 
+Federal High Performance Computing Program calls for an increase to attain
+a level of 1000 computer science Ph.D.s per year by 1995 and laments:  
+.bq
+the severe undersupply of computer scientists and computer engineers
+at advanced degree levels.  Computational scientists and engineers are
+in even shorter supply.  Addressing the Grand Challenge applications requires
+large-scale collaborative effort involving diverse groups of scientists,
+engineers, and mathematicians.  The manpower shortage in computing
+technology and in computational science and engineering is hindering progress
+in these areas.
+.eq
+White American males are not going to be able to fill the demand; the only 
+hope is in increasing the number of women and minorities.
+
+But the number of women interested in science, and especially engineering,
+is decreasing.  ``Societal stereotyping denies girls the encouragement
+given to boys to try science and math'' (Christian Science Monitor, May 9,
+1989).  Girls are being turned off to science even by elementary school.
+Researchers believe that the problem is not that girls have less aptitude in
+math and science as boys, but that they do not even try.  All the social
+cues discourage them from taking math courses and tell them that they are
+not qualified to be scientists.  Jacquelynne Eccles at the University of
+Colorado has done some studies showing how student, teacher, and parental 
+attitudes discourage girls from pursuing science and math despite the fact 
+that females, in general, get better grades in math and science than males.  
+She says:
+.bq
+the role that parents and teachers seem to play is underestimating girls 
+potential in math and science [...] and being less likely to encourage girls 
+who have talent in math and science to go on to develop those talents and 
+skills, and consider occupations in those fields.
+.eq
+She has videotaped a large number of classrooms
+and demonstrated the different treatment that girls receive even though the
+teachers believe they are acting fairly and no differently toward girls than
+boys.  
+
+I personally am disturbed by the studies suggesting that
+women are genetically inferior to men in math.  Directly after some of 
+the more prominent ones appeared in the popular press, the number of girls 
+in advanced math classes in high schools dropped drastically.
+
+One result of these societal and parental pressures is that women are 
+indicating a declining interest in majoring in science and engineering.  
+This is not surprising when considering that: 
+.IP 1)
+Women have a lack of support from teachers and parents; 
+.IP 2)
+As science graduate students they are less likely than men (including 
+foreign men in the same field) to have either institutional or federal support 
+during their graduate study and are more likely than men to be self-supporting;
+.IP 3)
+When they do have support, it is more likely (compared to male students) 
+to be in the form of a teaching assistantship which leaves less time for 
+research than in the form of a research assistantship which often involves 
+work that leads to a dissertation;
+.IP 4)
+After completing a doctoral degree, women find more difficulty in attaining a 
+first position than do the men with whom they graduate; 
+.IP 5)
+Once they find a job, women are less likely than their male peers to 
+find an academic job in a tenure track (this is not a function of their more 
+recent entry into the labor force, since at least twice as high a proportion 
+of women as of men employed in academic institutions are neither tenured nor 
+on a tenure track, and this difference has not changed in the past decade);  
+.IP 6)
+When employed, women continue to be paid less than comparable men.  
+The gap in salaries which is present even in the first job, widens with 
+age \(em women earn less than men in every field of science, regardless of 
+degree or experience level, and as experience increases, the gap actually 
+widens.  This is true for computer science as well as the other sciences.
+.LP
+
+The percentage of Ph.D.s in computer science awarded to women since 1978 
+has ranged each year from 10-12% although there was a slight increase
+last year.  
+
+.ce 1
+\fBPercentage Women CS Ph.D.s since 1975 (from the Taulbee Report)\fR
+
+.nf
+          \fBYear\fB  \fBPercent\fB     \fBYear\fR  \fBPercent\fR      \fBYear\fR  \fBPercent\fR
+              75       8              80      12            84-85      10 
+              76       6              81      11            85-86      12
+              77       7              82      11            86-87      11
+              78       9              83      12            87-88      10
+              79      10              84      10            88-89      14
+.fi
+
+These low numbers are not a result of few women starting out in computer 
+science.  In 1986, for example, 36.9% of bachelors degrees in computer science 
+went to women, 28.7% of master's degrees, and 12% of doctorates.  Women are
+dropping out in the pipeline at a much higher rate than men.  These computer 
+science figures compare to 30% of all the doctorates awarded in the sciences 
+going to women (although this includes the social sciences and psychology 
+where the percentage of women ranges from 32-50%).  For some other 
+comparisons, women earn 16.4% of the physical sciences Ph.D.s and 16.6% of 
+the math Ph.D.s.  Computer science is not the worst, however;  engineering 
+is worse with a range from 0.8% (in aeronautical engineering) to 13.9% (in 
+industrial engineering).  The percentage in electrical engineering is 4.9%.  
+
+The percentage of women faculty holding doctorates who teach computer science 
+in 4-year colleges/universities is 9.4%.  This figure does not truly reflect
+the problem since a large number of women are concentrated in schools without
+Ph.D. programs and thus are less likely to be engaged in research.  
+
+For the
+158 CS and CE departments included in the Taulbee Survey, 6.5% of the faculty
+are female.  This is a little more than half of the percentage of women getting
+Ph.D.s in computer science and reflects that either women are not getting or 
+taking faculty positions or they are dropping out of the faculty ranks.
+Breaking down the figures by faculty rank, 9% of the assistant professors,
+8% of the associate professors, and 2.7% of the full professors are women.
+One third of the departments included in the Taulbee survey do not have any 
+female faculty members at any rank, another third have one female faculty
+member, and the final third have 2 or more.
+
+.KF
+.ce 2
+\fB1988-89 Taulbee Survey Data for Faculty\fR
+[This survey includes 129 CS departments and 29 CE departments]
+.nf
+
+                  \fB CS faculties               CE faculties                 CS+CE
+            Total  Women  %       Total  Women  %      Total  Women  % 
+Asst.\fR        938        92    10           204       11      5         1142      103      9
+\fBAssoc.\fR      718        66     9           191        8       4           909       74      8
+\fBFull\fR          894        30     3           295        3       1         1189       33    2.7
+\fBTotal\fR      2550       189     7           690       22      3         3240      211    6.5
+
+
+
+.ce 1
+\fBDistribution of Female Professors (1988-89 Taulbee Survey)\fR
+
+                       \fBAsst.         Assoc.        Full          All Ranks\fR
+   \fB # females   # depts     # depts     # depts        # depts \fR
+          \fB4+\fR             1              2               0                 9
+          \fB3\fR               3               1               1                17
+          \fB2\fR              20             10               4                31
+          \fB1\fR              50             40              22                54
+          \fB0\fR              84            105             131               47
+.fi
+.KE
+ 
+For comparison purposes, the 7% women faculty puts CS departments 
+third from the bottom, below all the sciences except 
+engineering (2.3%) and physics (4.2%).  The proportion of women faculty 
+with doctorates in all sciences is 18.2%.  The figures for computer 
+engineering alone, where the percentage of women faculty is about half 
+that of computer science departments, are truly abysmal.  A female professor
+wrote:
+.bq
+As a women who has served for many years as a computer scientist within a
+college of engineering framework, I have either been the single women, or one
+of two women, within the entire college.  As a graduate student, I never had
+a woman professor.  As a young assistant professor, I occasionally encountered
+real hostility from engineering students who felt that I did not fit their
+image of the professor.  Twenty years later, I am one of at most two women
+that my students will encounter in their undergraduate (and sometimes 
+graduate) careers.  Yet there are many more women students in my classes.
+I know, and have known of a number of law suits involving sex discrimination
+in matters involving hiring, promotion, tenure, and advancement into 
+administrative ranks.  There is still a considerable reserve on the part of
+many of my male colleagues toward the hiring of women in general.  And in some
+cases, there is overt hostility.
+.eq
+
+The underrepresentation of women in computer science and computer engineering
+faculty positions is a serious problem.  It is not necessarily all a result of 
+bias or lack of opportunity; as one concerned male faculty member pointed out: 
+.bq
+The problem is having enough 
+women to go around.  If only 10% of the PhDs are women, say 50, and if 
+only 40% of them stay in academia, that means only 20 women to be spread
+around the 150 PhD-granting departments.
+.eq
+Furthermore, I have noticed that although many female graduate students
+with whom I have come into contact want to become professors,  they aspire 
+only to jobs at teaching colleges rather than research universities.  
+The lack of female and minority role models in research 
+positions at top-ranked schools tends to enforce stereotypes and to work 
+against efforts to increase participation.  
+
+
+.ce 1
+\fBACTIVITIES TO ADDRESS THE PROBLEM\fR
+
+What can be done about all this?  There are some things that can be
+done on an individual level, and there are others that must be implemented
+at an institutional, state, or federal level.  The activities described
+below are divided into those that are limited to a single school and those
+that have a broader scope.  Both current and proposed activities are included.
+Almost all of these activities would benefit from NSF support and guidance.
+
+
+.ce 1
+\fB\s+1Multi-University or Extramural Programs\s-1\fR
+
+There are some existing programs that are attempting to help women along the
+pipeline.  The following list demonstrates the range of such activities; it 
+is by no means complete.
+
+.IP \(bu
+\fBLeadership Texas Options Project\fR:
+This women's leadership organization is looking for strategies to encourage 
+an early and lifelong 
+interest in science and math by girls.  More specifically, they are 
+researching model programs to keep girls in science and math courses through 
+high school.  ``After that, the choices are theirs, but at least they will have 
+the OPTION to choose.''  They have produced a videotape for high school 
+students and are experimenting with slide shows and other media.
+
+.IP \(bu
+\fBMath/Science Network\fR:  The purpose of this organization, which is run
+out of Mills College, is to encourage high school girls to consider careers 
+in math and science and to keep their options open by taking the basic 
+courses before they reach college.  To reach this goal, they sponsor 
+various projects, most notably summer math and science programs and a 
+serious of ``Expanding Your Horizons'' conferences that expose girls 
+to career opportunities.  They also have a pilot project called ``Expanding
+More Horizons,'' which is targeted at minority girls and women.  In addition,
+they have been involved in the compilation of a databse of women's centers,
+support groups, and foundations, which is now being used by the AAAS.
+
+.IP \(bu
+\fBConferences on women in science\fR:
+Conferences have been held concerning Women in Linguistics (June 1988) and 
+Women in Mathematics and the Sciences (November 1989).  There was also a 
+conference on the status of women in computer science held in Great Britain 
+in 1988.  There is some interest in arranging such a conference for computer
+science in the U.S.  
+
+.IP \(bu
+\fBCOSEN (Carolinas-Ohio Science Education Network)\fR: This is ``a consortium 
+of higher-education institutions committed to encouraging and supporting
+black and women students in the study of science.''  The schools involved
+are Duke, Davidson, Denison, Furman, Kenyon, Oberlin, Ohio Wesleyan, and the
+College of Wooster.  It is supported by a grant from the Pew Charitable
+Trusts.  They are starting an undergraduate women's support group and also
+support undergraduate research.  The COSEN program encourages women and
+minorities to try science research as undergraduates.  This research program
+started this summer so there is no information on success rates or on the
+reaction from the faculty or students.
+.LP
+
+Other types of activities might also be useful including a national
+committee for coordination of activities, regional workshops, networking
+activities, and programs for pre-college women.  Each of these is
+discussed below.
+
+
+\fBCommittee on Status of Women in Computer Science\fR
+.LP
+There is no such thing yet, but 
+a model for this might be the Committee on the Status of Women within the
+American Physical Society.  This rotating group of male and female physicists 
+publishes 
+a Gazette to combat isolation; gathers a database of women for employers; 
+asks for volunteers (via the Gazette) and compiles a speaker's list in 
+order to get more women invited for colloquia and public talks (there is 
+still an old boy's club in most fields in terms of men being much more likely 
+to be invited to give talks); promotes women for prizes, fellowships, 
+editorships, and important committees; and lobbies for programs to promote 
+flexibility such as career interruption, part time work, and recognition 
+of family priorities.  This group might also act as a ``Finder's Bureau'' 
+to match qualified women with opportunities \(em both full-time and advisory.
+The American Council on Education does this already for female academic 
+administrators.  
+
+One graduate student suggested another activity that might be appropriate
+for such a committee:
+.bq
+[...] establishing some kind of national clearinghouse, to gather
+and disperse information on the different programs (both
+long and short term) that DO exist for girls/women.  This
+could include info on junior high level `science career days'
+to special programs for women in graduate school.  I myself
+found out about a summer camp for girls in Vermont and a
+new program for women graduate students in Boston completely
+by accident.  It would be good to have a central ``bulletin-
+board'' for such things \(em not only for people who might
+want to attend, but also for those who wish to learn how
+such events might be organized.
+.eq
+
+
+\fBRegional Workshops\fR
+.LP
+It may be possible to establish a pattern of local (regional) short events.
+One advantage of this is that it provides optimal exposure to the few role 
+models that exist without causing unreasonable travel expenses for students.  
+
+These workshops can be either guidance-oriented or research-oriented.  The
+objectives of a guidance-oriented workshop are to help women understand the 
+politics of scientific research, to give advice on getting tenure, and to
+provide networking opportunities.  One female graduate student commented on 
+the possible content for such workshops:
+.bq
+I feel pretty strongly that meetings like this should NOT focus on
+traditional women's problems such as child care, male chauvinism, etc.
+Rather a major portion of such get togethers should be focused on
+sharing information that men in science have been sharing (quietly) for
+years such as how to network in your field, how to make friends (contacts)
+and influence people (colleagues), what counts for tenure, etc.
+I have coped with the traditional problems in various ways and so have
+lots of other women (and men).  We can of course share such information,
+but don't need a large meeting to do so.  Individual tastes are too
+different.
+.eq
+
+An NSF staff member suggested that proposal writing skills are important to
+teach.  Classes for such skills might be held at regional meetings or in
+conjunction with professional meetings.
+.bq
+There is a skill to proposal writing, which increases chances of success. 
+(Most repeat grantees, by the way, send many more proposals than they
+get funded). Your notion of proposal seminars ought to be easy to
+follow-up. The easiest way is to have a seminar at every
+professional meeting: NSF staff should be quite willing to
+participate. I will, if asked, for instance!
+.eq
+
+Dr. Barbara Simons described a workshop of this type that she helped
+to organize:
+.bq
+In 1978, when I was a grad student
+at Berkeley, a small group of women graduate students (we called
+ourselves Women in Computer Science) decided to organize a conference
+aimed at getting more women to enter computer science and
+engineering.  Fortunately for us \(em since we really didn't
+have much of an idea of what we were getting ourselves into \(em
+Sheila Humphreys had just joined the Women's Center at Berkeley.
+Working with us, she organized the conference in only 3 months,
+and it was a tremendous success.  We had about 400 attendees,
+almost all of them women.  Some of my male fellow graduate
+students attended the opening session.  Afterwards one said
+to me that for the first time he understood how I felt being
+the only woman in my classes.  With the exception of a couple
+of male deans, all the panelists and speakers were women
+scientists or engineers.
+
+The conference was attended by Berkeley undergrads, women from
+surrounding colleges and junior colleges, women considering
+returning to school, and women currently in cs and engineering.
+It was a wonderful experience, and there was a lot of
+comraderie.  Also, I think (hope) that it encouraged a
+number of younger women to either enter the field, to
+remain in the field, or to aim for higher goals.
+.eq
+
+A female professor commented on her experiences at such a workshop:
+.bq
+In 1978 I participated in a
+symposium on Women in Science right after receiving my Ph.D., and it was
+extremely helpful.  If this kind of activity is done well, it is excellent.
+The symposium I attended was held in Indiana, and senior women were brought
+in from Michigan and other nearby states.  Some very successful female
+academics came to the symposium, and during the lunches they were spread
+among the tables, thus providing the younger women a chance to get acquainted.
+Since very successful women are so spread out in the sciences, this kind of
+networking opportunity is rare.
+
+I also felt the seminars themselves were very helpful.  We broke into
+small groups to discuss various issues, and the discussion became quite
+lively.  I got a perspective on the struggle for tenure, grants, etc., which
+(not having a real mentor) I never received during graduate school.  Like many
+women, I made it through a Ph.D. with a very ``cold'' advisor who did the
+absolute minimum.  So this symposium gave me some very valuable perspectives
+on academic careers and what it takes to be successful.
+Many attendees were graduate students (I was already an Assistant
+Professor) and it was obvious that they also learned a lot.
+
+I should add that the organizers of the symposium had to call me up and
+convince me to come.  I would not have attended just based on a mailing.
+So, to have a successful symposium requires real work and dedication.
+.eq
+
+Another model for such workshops is that they would showcase role models
+and encourage women to pursue research careers.  Such a workshop is planned
+for Southern California in spring, 1990.  Graduate and undergraduate students 
+from universities in the Southern California area will be invited.  The 
+speakers will be primarily academic and industry researchers presenting 
+information about their particular research, but there will be a panel in 
+the afternoon about general career opportunities.  As one NSF employee 
+commented:
+.bq
+My view, for what it's worth, has always been that the area on which to
+focus is providing and showcasing role models (successful women who are
+successful as scientists and engineers), with particular attention to
+ages 3 to grad school.
+.eq
+
+
+\fBNetworking Activities\fR  
+.LP
+Networking is an important aspect of successful entry to the scientific
+research community.  One male professor wrote:
+.bq
+From my perspective, what has generally worked the best for men or women
+is networking \(em early, intensively, and continually.  [Women need to]
+participate; not as a woman, but as a professional.
+Mechanisms that help women network are great \(em but the danger is that
+they will only network with other women, which is a dead-end (in general).
+.eq
+.LP
+A female professor noted:
+.bq
+I personally benefited from being able to attend conferences in my area,
+and meeting established researchers.  To be perfectly honest that was my
+entry into the old boys' network;  indirectly it helped me get a good job,
+and it still helps with grants and awards.  Those students who don't happen
+to be on a rich research project don't have this advantage.
+.eq
+.LP
+Finally, a female graduate student commented:
+.bq
+I think contact with other, more advanced women, would have
+been a very beneficial thing for me.  I am very inclined towards
+mentor programs, and the establishing of an e-mail pen-pal
+system, so that women who cannot participate in a mentor
+program can establish contact at least through e-mail.
+I think the regional meetings are also a very good idea, as
+is funding to get to conferences.  One of my biggest gripes
+is my relative isolation, and so anything that breaks that
+looks very good to me.
+.eq
+
+Providing funding for women to travel to conferences and workshops would
+be useful in these kinds of networking activities (discussed further below).  
+Recently, conference lunches for women have been tried.  All it takes is
+scheduling a room, posting announcements, and a nearby place for people to get
+take-out lunches.  Some women at workshops that include meals have reserved
+tables for women to converse.  One such luncheon resulted in the establishment
+of an electronic mailing list for women in computer science research.  Other
+types of formal and informal networks of female faculty in the sciences,
+either single university or multi-university, currently exist or could 
+be established.
+
+
+\fBPrograms for Pre-College Women\fR
+.LP
+I received a lot of comments about the problem of getting young women 
+interested in science and mathematics at an early age.  The number of
+comments reflect both the fact that it is viewed as important by many
+people and also the fact that I left it off my original list which 
+encouraged people to write, ``\fII like all your ideas; in addition, what 
+about ...\fR''  Industrial researchers seemed particularly concerned about 
+programs for young girls.
+
+Several women who commented on the early draft of this report participated in 
+university summer math programs for women that were instrumental in their 
+pursuing science and math degrees.   Others who had not participated in such 
+programs thought they sounded like a good idea.  From a woman working in 
+industrial research:
+.bq
+If the problem is partly that women are not attracted to
+math and science and are not even applying to major in math and
+science in college and grad school, then perhaps NSF should focus
+on programs in grade school and high school.  I, too, participated
+in special programs before college, including some at City College
+on Saturdays (where I first learned to program) and at Cornell
+University during the summer (where college-level courses were
+offered to high school students).  These programs exposed me to
+people who were doing real research in math and science, and they
+were exciting and fun.  Programs such as these, coupled with
+role models in school who encouraged me in math and science, led me
+to choose math as a college major.
+
+At the same time, I received lots of social and familial signals to
+stay away from math and science because they weren't feminine.
+Nevertheless, I ended up in math, so the stimulation in high
+school must have worked.
+.eq
+.LP
+A female professor commented:
+.bq
+I was at [a summer program for high school students] in math,
+and taught at it for a number of years.  I think they're great.  Mine has
+at least five women PhDs that I am aware of.  Since math is so important for
+CS, how about also encouraging some of the math programs to have a CS
+component?  I think the math programs might attract more women students.
+.eq
+.LP
+Finally, a male professor responded to my suggestion for such programs:
+.bq
+YES!!  I strongly feel that by the time women get to the
+university, it is almost too late to encourage them to enter the
+sciences.  Summer programs such as this would be an excellent idea,
+and I would be happy to encourage our lab to help support one.
+.eq
+
+There were suggestions for other types of programs that might be effective.
+From a graduate student:
+.bq
+I once participated in a program where local jr. high girls came
+to the university to see ``women in science in action.''  We presented
+workshops and gave them some hands-on experience too.  I have no idea
+if this has ``good results'' and I don't know if anyone has tried
+to track that.  My own empirical observation was that it was a good
+experience for everyone, and reaches a fair number of girls.
+So another suggestion is funding such events.
+.eq
+.LP
+From a male professor:
+.bq
+There is a local program supported jointly by the museum of natural
+history and the local school district called the after school science
+academy.  They have mentors who are generally retired engineers who
+help 1-3 students with projects of the students' choosing.  This works
+wonders in helping the kids gain mechanical skills and in learning
+about doing projects.
+
+Do you think that there would be any way that this sort of thing could
+be fostered?  Do you think that there would be any way that it could
+be adapted to encourage girls to be interested in science?
+.eq
+.LP
+From a female industrial researcher: 
+.bq
+I remember being told in high school not to pursue
+my interest in chemistry because women didn't make good
+chemists (this was from the head of the chemistry department
+at the local university who was visiting the school on a
+recruiting trip).
+
+I wonder whether some programs could be set up with high
+schools to show interested young women what a researcher
+does all day.  For example, pair a high-school age woman
+interested in some area of engineering with a woman working
+in research in that field.  They would spend some
+significant amount of time (e.g. a week) going to seminars
+or working on something together.  This would take a lot of
+work to set up but might have a significant impact at an
+early enough stage to make a difference.  A less intensive
+program of exposure (through lab tours or outreach to
+schools) would also be a possibility.
+.eq
+
+Several people expressed concern about the general state of education in
+math, science, and computing at the pre-college level.  A female professor
+responded:
+.bq
+I am quite disturbed by what appears to be
+a drop in the relative number of women entering CS as undergraduates.
+My hunch (several people I've spoken with including one person involved
+in pre-college education) is that there's a problem with the ways in
+which computing is taught in the high schools.
+.eq
+.LP
+A male university researcher wrote:
+.bq
+I've just read a copy of your letter, and have several thoughts.  As a
+co-author of a popular intro-programming text that is frequently used for
+high-school AP courses, one of my concerns has been the problem of simply
+getting women started into the discipline.  We see the inequities starting
+at the junior-high level and even earlier.  It's not unusual to see a CAI
+class where the boys keep jumping in and taking over from the girls.  This
+may simply be related to the fact that girls seem to develop social skills
+earlier than boys, and are not as likely to be rude.  Whatever the cause,
+however, the problem must be addressed much earlier than college.  I would
+suggest a program to add incentives to young women, and their teachers, to
+enter computer science.  Perhaps this could be an extension of the AP
+exams, or something like the Math Olympiad, but specifically for women
+(and possibly minorities), with national recognition of both the student
+and her teacher through articles in both computer society magazines and
+teaching magazines.  In addition, universities should set up scholarships
+specifically for women (and minorities) who achieve high scores in the
+exams, with some adjustment for financial need.  Some of the scholarships
+might have to be funded by state or federal sources, while private schools
+could probably afford them without outside assistance.  Perhaps equipment
+manufacturers could contribute to the student's schools, although that
+is likely to lead to fraud if the prizes are valuable.  The idea, however,
+would be to create a structure similar to the National Merit Scholarships,
+but for women in computer science.
+ 
+If we could get an extra 2000 women seriously interested in computer science
+prior to entering college, especially through a program that is tied to
+professional organizations and academics, it would be much easier to increase
+the number who go on to graduate school.  I think that many of your proposals
+for what to do once women are in college are very good.  There is indeed
+a lack of mentoring, and encouragement for women to seek advanced degrees.
+But, we can't hope to right the inequities at that level until the number
+of female undergraduates approaches that of males.  Whatever program is
+eventually developed, it has to address the problems at all levels of
+education, and not just in the classroom.
+ 
+For example, intro textbooks are frequently sexist.  Sometimes blatantly
+(referring to programmers with male pronouns), but often more subtly
+(using male-oriented examples, male names in data sets, etc.).  Just the
+fact that most are written by males sends a negative message to women.
+My experience with my textbook has really opened my eyes to the pervasiveness
+of sexism in our discipline.  I hope that your committee's work will help
+to open the eyes of others to these problems.
+.eq
+.LP
+A female from industry was also concerned about the sexism in textbooks:
+.bq
+Work on publishers of math/science books to eliminate sexism.  There 
+are still books called things like ``A Boy's First Book of Electricity
+Experiments.''
+
+Rid textbooks and other work materials of things that boys are more
+familiar with than girls.  In school it annoyed me that descriptions
+of distance were given in terms of ``football fields'' and weight in
+terms of ``golf balls.''
+.eq
+.LP
+And another woman working in industry commented:
+.bq
+Most of the action items seem to me to be symptomatic cures for problems
+that are often quite deep-seated.  As a parent of a four-year old girl who
+abhors any book on science or math (the same books that my seven-year old son
+read when he was four), I am very distressed by this culture that
+indoctrinates its women starting at the pre-school level.
+ 
+I would like to see in your list of action items not only some steps to
+re-train pre-school and primary school teachers, but also efforts to rewrite
+text books (the kind that show girls dressed in pink and boys dressed in blue)
+in a non-sexist manner, as well as a non-sexist curriculum for primary
+and middle schools.  Because by the time women students reach the
+graduate level (and that's where almost all your action items are directed)
+the indoctrination has long been cast in concrete....
+.eq
+.LP
+A female graduate student commented:
+.bq
+I would love to see a program involving teachers.  Since studies
+have shown that teachers are (consciously or otherwise) much
+more likely to encourage boys, I have wished that a program
+could be developed to demonstrate these problems to teachers,
+so they have a chance to develop greater awareness of this
+issue.  For example, some studies actually video-taped classes,
+and apparently this behavior was quite visible on the tape.
+This same tape could potentially be used as a tool to demonstrate
+the problem.
+ 
+I also have thought about developing films, or videos, addressing
+specific problems that could be shown in classrooms \(em not
+necessarily to girls only.  For example, I recently read that
+a woman astronaut had, even has? math anxiety.  Obviously, this
+didn't stop her!  I thought how wonderful it would have been
+for me to hear about such things when I was going through
+my problems with math anxiety.  Then I dreamt of having a
+national library of tapes like this that could be shown
+to children.
+.eq
+.LP
+A male faculty member also expressed concern about teachers:
+.bq
+I believe that the really critical population to be attended to
+right now are our high school teachers \(em even more so than the
+high school students.  I am not even sure that we need to go
+back much further than high school (9th grade) to begin to make a
+dent in the problem you discussed in your paper.
+
+But with all of the special programs that we may establish, it
+would seem to me that it is the math and science teachers that our
+students have in the classroom, especially the women (if we are
+going to attract more women) that have the greatest potential to
+address the issues you presented. [...] I think the primary point of 
+attack should be the high schools \(em with at LEAST as much attention 
+given to the teachers as the students.
+.eq
+
+Although there was agreement that pipeline programs are important, there was
+not agreement on which parts of the pipeline were most important.
+One woman in industry wrote:
+.bq
+I noticed though that you only target women who are already in
+science and engineering graduate programs.  In my opinion those have
+already crossed the main barrier.  If we want to see the number of
+women increase in those areas I believe we should start at an
+earlier stage, namely high school and early college years.  This is
+when young girls are drifted away from hard sciences due to social
+pressures.  If we can give them enough support then to counteract
+the pressure from their peers and families (sometimes), I believe
+this is the most important role and they will be able to take care
+of themselves from there on (with maybe less support later).
+From my experience as an undergrad/grad student in engineering/
+computer science the hard decisions are made in the undergrad years,
+the support from my family was the main thing that made all other
+social pressures completely frivolous (all women in my family have
+university degrees).  I like the idea of women speaker series, I
+believe they would be more effective if given to high schoolers and
+undergrads.
+.eq
+.LP
+The importance of the earlier years was stressed by a female researcher:
+.bq
+I believe that most attitudes (intellectual inquisitiveness,
+self-worth, etc.) are pretty well developed by the age of 5 or so,
+and the unfortunate discouragement that girls receive in schools
+only exacerbates beliefs and attitudes developed in the home, in
+child care, and in pre-schools or kindergartens.
+All those programs addressed at female grad students assume that
+you have the female students in the first place.
+If we REALLY want to make a difference we have to get them early.
+We have to change the attitudes of the children and those who influence
+them at such a tender age.  This means that we have to get into the
+home.  We have to reach the parents & teachers of these children,  and
+the children themselves.  It seems to me that this means that efforts
+must go into reaching NON-technical, NON-scientific people.
+[...]
+Perhaps putting some emphasis on programs to reach the future elementary-
+and pre-school teachers would be more helpful.
+Support for girls in sciences in the lower grades (whenever they start
+to teach sciences) might help.  Even paper dolls that have females
+dressed as doctors, civil engineers and airline pilots would help.
+Saturday morning cartoons, kids' learning-to-read  books,  anything
+that gets the message across early- is it possible for the feds to
+support such things?
+.eq
+
+
+.ce
+\fB\s+1Single University or Department Programs\fR\s-1
+
+Besides these extramural programs, there are many possible activities on
+a smaller scale that can be undertaken by single universities and departments
+and by a few individuals.  One example of such a university program has been
+started recently at Douglass College, one of the Rutger's University
+colleges and the largest women's college in the United States.  This 
+program is attempting to encourage women students to enter fields of 
+mathematics and science that have been traditionally male-dominated.
+There are several special programs in the Douglass Project for Rutger's
+Women in Mathematics and Science including:
+.IP
+\(bu A residence hall for women mathematics and science students at both
+the undergraduate and graduate level.
+.IP
+\(bu A residential summer institute for girls in their junior year of
+high school.
+.IP
+\(bu Career workshops.
+.IP
+\(bu Information on research and internship opportunities.
+.IP
+\(bu Study groups.
+.LP
+
+It is interesting that the majority of women mathematicians and
+scientists in the past have come from women's colleges.  As noted earlier,
+Mills College has been very active in providing such programs.  But smaller
+scale efforts can be established at any university.
+
+
+\fBWomen Speakers Series\fR.
+.LP
+This has been very successful in other fields such as physics and biology and
+relatively low-cost.  It not only provides role models for women students,
+but it focuses both male and female attention on successful women.
+Female graduate students have especially enjoyed the opportunity to interact
+with the speaker informally after the talk (e.g., at dinner).  Female 
+professors who have organized such activities in fields other than CS have 
+personally reported to me tremendous enthusiasm for these activities by the 
+female graduate students. 
+
+Several people commented on this proposal.  From a male faculty member:
+.bq
+YES!!  This would be a great idea.  We have an active speaker program,
+but we probably have only had 4 women speak in as many years.  NSF
+funding of women speakers would be an excellent idea.  Where can we sign up?
+.eq
+
+And from a female graduate student:
+.bq
+I am especially enthusiastic about [...] women speakers.
+.eq
+
+Another male faculty member noted:
+.bq
+I saw your article about ways to encourage more women in computing.  I
+liked the ideas \(em particularly about having a Women's Speaker Series.
+I doubt that anyone here has the energy to organize another series of
+talks, but we are always looking for more speakers for the research
+colloquium and for the IEEE student chapter.  If you ever do get a
+list of women speakers (particularly speakers from the [...] area),
+we would be delighted to invite some to come here.
+.eq
+
+Finally, a female professor commented:
+.bq
+I personally had planned to organize a role models' speaker series here at
+the University of [...], coupled with a panel at the end of the series
+that covered very pragmatic topics, such as how to interview well,
+how to apply for grants, how to get tenure, how to pick a mentor,
+what qualities are important in a mentor and so forth.  Money to fly in
+the role models would obviously be crucial to such a program.
+.eq
+
+\fBMentoring Activities\fR  
+.LP
+With the current small number 
+of women in faculty positions, mentoring and providing role models assumes 
+great importance.  Lack of role models is an important aspect of the
+reason why women do not enter certain fields.  There is, of course, a lot 
+of informal mentoring that is always going on.  A female professor reports:
+.bq
+Within our department, there are more roadblocks for female graduate
+students than there should be.  (i.e. there are several key male
+faculty members who are not very enlightened, even though some of
+them would like to believe they are.)  Again, I haven't had time
+to really work on the problem.  I've provided some informal
+mentoring to a few of the grad students; since it doesn't solve
+the problems, it isn't generally very effective.
+.eq
+Another female university researcher noted:
+.bq
+Unfortunately, I don't feel that a great deal is done for women
+explicitly (or for that matter for anyone else either), in terms of
+being supportive through difficult times.  There is no real mentoring.
+There is no effort to recognize that different groups of people
+(women or other  minorities) might approach CS research
+differently from white males.  [...]
+
+I would like there to have been more mentoring or advising by women of 
+women, but that was not available.  I believe that a regular meeting of 
+women, led by a faculty member who had an interest in cultivating and 
+currying the women students would have made a huge difference to me.
+.eq
+
+The importance of mentoring and role models cannot be stressed too much.
+One female student, a senior at MIT who is planning to go on for a Ph.D.,
+wrote about her experience in a summer job working for a female manager who 
+she described as:
+.bq
+one of the most respected people in the company.  I had never expected
+that having a female role model would change the way I felt about myself,
+but it did.
+.eq
+
+Mentoring can involve providing help for students or for beginning
+faculty members.  With respect to providing mentoring for faculty, some
+universities formally or informally provide mentors for junior faculty
+women.  One female faculty member suggested having meetings for junior
+faculty women on arrival (and perhaps throughout) that explicitly address
+how to ``play the game'' (e.g., get papers published, research funded,
+colleagues to listen).  Some universities have formal assignments of
+mentors to junior faculty.
+.
+Programs can also be established to provide mentoring for undergraduate
+and graduate students.  A female professor suggested that ways be
+provided
+.bq
+for women science students to interact closely with the people who
+have gone before; e.g., provide a `database' of students who have taken
+certain courses (especially the ones that tend to be discouraging) who are
+willing to talk about how they managed.
+.eq
+This might be broadened to providing mentors to new students from the pool 
+of experienced and successful students and faculty members.  Both student
+and faculty mentors for new women students are useful;  they can provide 
+different types of information and support.  One female graduate student 
+suggested:
+.bq
+In the military, when you are reassigned to a new base, you
+are ``assigned'' to another military member who is your sponsor
+for the first several months until you get acclimated to the
+new base, surrounding area, etc.  I think the graduate
+students should have a similar program.  Not so much to handle
+the housing transition, but to provide the ``who to ask what questions''
+information.  It would be nice to be in close contact with someone
+who has already successfully completed some of the tasks you are
+facing with great apprehension.  I think this might also provide an
+opportunity for males who are willing to participate to
+develop an appreciation for different but acceptable needs that
+women graduate students (and future colleagues) are facing.
+.eq
+.LP
+A woman from industry commented:
+.bq
+I think all the proposals are good ideas.  Although I do think we
+need to increase the pool or pipeline of women coming from high schools,
+I think we could do a lot to increase the numbers of women and minorities
+who decide to stay in technical fields after say the freshman year and
+who decide to stay for MS's and PhD's.  I think the mentoring and
+networking proposals are particularly important.  It is so common
+for us ``affected group'' members to feel like maybe we AREN'T really
+good enough.  I think we forget our own roles as mentors and don't get
+enough positive reinforcement by potential mentors.
+.eq
+.LP
+Given that the latest Taulbee survey shows a very small number of women in
+CS faculty positions at research universities and one third of the universities
+without a single female CS faculty member, the problem of how to provide enough
+mentors becomes important.  A female faculty member comments:
+.bq
+One problem I've found [...] is that the most precious resource
+in addressing this problem is the few women in the field.  Hence
+I think it is essential that our male colleagues join in helping
+to solve this problem. How to enlist their aid is not so clear
+(aside from the few who already are willing).
+.eq
+.LP
+I believe that there are many men who would be interested in helping
+provide support and opportunities for women and minorities if we, in turn,
+provide them with ideas and information about how to do this.  Some evidence 
+of this assertion is the support expressed by male faculty members who 
+responded to my request for comments and ideas.  One man wrote:
+.bq
+Our current faculty ratio seems about typical (1 computer science and
+2 computer engineering women out of a total of about 24).  Our student
+ratios also seem to agree with what you report (about 30% female
+undergrad, falling off rapidly in the MS and PhD programs, with more
+women in CIS than CE).
+
+If you think of anything we can do to improve the situation here, let
+us know.  (We're almost all assistant professors, which means that we
+don't have the time for really labor-intensive activities, but we'd
+all like the ratios to improve.)
+.eq
+.LP
+A female graduate student responded:
+.bq
+About the mentor and tutor programs:  I would like to
+see significant participation on the part of men as mentors
+and tutors.  My experience in [... area of computer science], which is
+tremendously male-dominated, is that the men have not
+explicitly thought about sexism in science and what to
+do about it, but when it is brought to their attention,
+they do not have any inherent objection to being involved
+in the fixing.  They do have a hard time imagining a way
+to fit themselves in; and they take no initiative in finding
+a way.  So I think the NSF should outline to them in a simple
+way the nature of the problem and exactly what they can do
+to help.
+.eq
+One female industrial researcher noted some of the problems female students
+and male faculty members sometimes have in finding appropriate ways of 
+interacting:
+.bq
+Sexist attitudes, where
+they are pervasive, are as elusive as the air we breath and very hard
+to change.  Perhaps the NSF could fund studies on group dynamics that
+could be applied to teaching faculty non-sexist methods of mentoring,
+and ways of intervening in group behavior where sexism is expressed by
+others.  Sometimes just intellectual bullying can turn women off, even
+when practiced uniformly toward men and women.  Changing the social
+atmosphere is very important and can have very large effects.
+Sometimes it only takes one person to speak up or to challenge someone
+else's bullyism (sexism) in order to change things in a big way.
+Also, NSF could fund ethical workshops and/or seminars on what
+constitutes sexual harassment.  The distinction between harassment and
+desire for personal involvements are sometimes difficult to track.
+It's not surprising that men are sometimes confused.  Sometimes WE are too.
+.eq
+.LP
+Another important way to provide more mentors is to take advantage of 
+female researchers who are not at universities.  One woman from industry
+reports:
+.bq
+As head of recruiting for the SUNY-Binghamton alumni association in the
+DC area, I have set up a tutoring/mentoring program with local high schools.
+Alums from SUNY-B are working with students to help them in whatever the
+school perceives as the greatest need:  tutoring, helping them decide whether
+to go to college or what college to choose, helping prepare for the SATs,
+for example.  The high schools we have targeted are those with large
+percentages of minorities.
+.eq
+.LP
+Another female industrial researcher reported:
+.bq
+Recently a group of women post-PhDs have held a meeting for all the women
+PhD students at [...] in CS. [...]
+
+Anyway, the idea was to give ``advice'' \(em how to get through
+the PhD program, words of wisdom, etc. The goal: to encourage
+women to stick it through and finish the PhD.  The motivation
+came from reading that report about women in the sciences and
+how a major attrition point was between the MS and PhD levels.
+
+I think we plan on holding this as a yearly event. It was very
+successful too. We had about 10 students and 6 post-PhDs. It
+was informal but organized.  Lots of heart to heart....
+.eq
+
+One male faculty member noted the importance of providing mentors to
+faculty in high schools and in universities with less well-developed research
+programs.
+.bq
+We need to find a way not just to accomodate
+students, but to give faculty (principally high school faculty) a
+chance at having a mentor perhaps every five years or so.
+.eq
+I am aware of several informal and formal mentoring relationships between
+faculty at small, primarily women's colleges and nearby research universities
+that appear to be very successful.
+
+Another way to solve the problem of a shortage of mentors is to plan
+group activities where one or several women and men can provide support to
+many students.  Regional activities and meetings were discussed above.
+Similar types of activities could be held at a single university.  We hold
+monthly luncheons at UCI for female CS graduate students where visitors and the
+local female faculty members discuss topics such as how to be successful in
+graduate school, recruiting, how to get tenure, tips on writing research
+papers, tips on giving conference presentations, grantsmanship, etc.  There
+are some strictly women's issues discussed, but more emphasis is placed on
+the general information needed to be successful in a research career.
+
+A female professor described some activities at her university:
+.bq
+  - A couple of times
+a semester the technical women in the School of Computer Science
+at [...] get together in the evening.  Sometimes we order in, sometimes
+it's pot luck.  Usually there's no formal agenda but some
+professional topic becomes the center of conversation.  Even more
+informally, some of the women at [...]
+get together for lunch every couple of months.  This sounds like
+a pretty small deal \(em but it seems to generate a lot of good
+feeling.
+ 
+  - Reading groups.  [...] also has a reading group on gender issues.  It
+meets roughly monthly and the participation cuts across science
+and engineering.
+ 
+  - [...] has an associate provost who holds meetings of students with the
+ability to go to graduate school; in many cases it hasn't occurred
+to them that this is an option.  This clearly benefits women.  She
+also held a get-acquainted meeting this fall in conjunction with
+the Society of Women Engineers.
+.eq
+
+.LP
+Another female faculty member described an interesting way to provide 
+a graphic point about the possibility of combining career and family:
+.bq
+We have a group called Society for Women Engineers at [... University].  
+These are
+mostly undergraduates.  Each year they hold an orientation meeting for
+accepted incoming students to encourage them to attend [...].  I usually
+speak at this meeting.   I find that this meeting introduces them to women
+in the school (and faculty)  before they arrive and thus, when they arrive
+they already have some link to other women for help.  For example, I always
+take this opportunity to let them know they can come talk to me once they are
+here and I find that many students do remember this meeting and do come talk
+to me.  I sometimes bring my children to this meeting so that students can
+see that they can be engineers and humans too.  They always remember this
+when they talk to me later.  This meeting primarily discusses what it is
+like to be a woman in the engineering field.
+.eq
+.LP
+Prof. Lori Clarke, at the University of Massachusetts, Amherst, recently set
+up a panel during their ``Civility Week.''  These are her observations about
+that forum:
+.bq
+Immediately after I announced that I would be holding a forum on ``Why
+Mostly White Males Go Into Computer Science'' my e-mail was humming.
+MANY students sent me mail with their thoughts on the subject and one of
+our minority students agreed to speak on minority concerns. I was told by
+several graduate students that the announcement alone increased awareness
+and started people talking about the problems.
+
+The actual forum was packed and discussion went for over two hours.
+Faculty and students came from Smith and Amherst College as well.
+I started by presenting statistics, describing the national situation and 
+comparing it to what is happening in mathematics and business. This provoked
+a lot of discussion about why the statistics were the way they are. I also 
+gave the statistics about our department, which although better than the 
+national statistics, are still not great. I then discussed some of my 
+observations and some of the problems that had been reported to me.
+
+The minority student spoke about his observations. He pointed out that
+computer science is not a hospitable field for someone who is poor and must
+work, and perhaps maintain a minimum number of credits to be eligible for
+financial support. Our courses are very demanding time-wise and there is no
+lab credit given for the long hours that must be spent at a machine. This
+is in contrast to engineering or the sciences, which give lab credit, or
+business, which does not require laboratory time. He also noted that poor
+students can not buy pc's and thus must often wait to get
+terminal/workstation access, which can be difficult to arrange around a work
+schedule.
+
+Another problem that he pointed out was that black organizations
+on campuses did not encourage students to pursue a career in science.
+Many felt that business was the best route for providing a strong economic
+base for the black community in the future. Another problem is that
+minority students more frequently come from urban areas with poor high
+schools and thus are not prepared to pursue a career in mathematics
+or science.
+
+Our discussion about possible improvements included the following:
+
+.IP
+-\fIfaculty should be aware of the strong cultural bias against women
+and minorities pursuing a career in science. To counteract this bias they
+should:
+.RS
+.IP
+\fIBe sure to take the time to encourage women and minorities who are doing
+well in their classes,
+ 
+.IP
+\fIAvoid using male pronouns for all figures of authority or
+intelligence,
+ 
+.IP
+\fIRealize that aggressively challenging a student may have a negative
+effect if they lack self confidence,
+
+.IP 
+\fIChoose scenarios that will be relevant to minorities and women.
+Although much of computer science funding comes from the DOD, many find
+military oriented scenarios (e.g., mobile robots) offensive or
+uninspiring and would prefer scenarios that indicate more humanitarian
+applications( e.g., assistance to the handicapped),
+.RE
+.LP
+ 
+.IP
+-\fITo encourage women and minorities to enter or remain in the field:
+.RS
+ 
+.IP
+\fIour female graduate students have formed a support group to meet with
+and mentor undergraduate women in computer science,
+ 
+.IP
+\fIthe female faculty have set up a few informal meetings with the female
+undergraduates and graduate students to discuss issues and provide
+support and guidance. Our first meeting with undergraduate women is
+next week to discuss career options in computer science,
+ 
+.IP
+\fIa group, of mostly graduate students, is looking into a summer mentor
+program to help attract minority students to the department.
+.RE
+ 
+\fIThere have also been some other suggestions, such as requesting industrial
+support for fellowships for minorities and women and meeting with
+the minority organizations on campus, that are still being
+pursued. We also need to look at restructuring our laboratory courses so
+our courses can be more accessible to the poor.
+.eq
+
+The enthusiasm and participation in this forum demonstrates that there is a
+wellspring of concern and interest in these problems that can and should be 
+tapped.
+
+Another activity I heard about recently was an informal class on 
+writing papers for publication given by a female professor for women graduate
+students.  At the end of the class, several of the papers were good enough
+to be published.  Other women have held seminars and classes on Women
+in Science that usually span all the sciences.  One female faculty member
+started a ``Women in Science and Technology Program'' in which female faculty
+in the sciences went to visit dormitories after dinner and discussed things 
+like how to get into summer research and how to orchestrate a graduate career.
+One person reported about a science mentoring group at a university that meets 
+weekly and includes local industrial researchers.  
+
+There are obviously a large number of activities that one could come up with 
+of this type.  Funding support in the form of release time from other 
+activities will most likely be required.  Most women (and men) are already so 
+overloaded with administrative, teaching, and research activities that taking 
+on an additional load is impossible.  By allowing mentoring activities to 
+replace other types of administrative and teaching activities, more men and 
+women would be able to participate.
+
+
+\fBResearch Opportunities for Students\fR
+.LP
+One of the most important ways to get women interested in pursuing research
+careers is to provide opportunities for them to work on real research
+projects.  A female professor recalled:
+.bq
+Working on a research project is one of the things that convinced
+me, as an undergraduate, that I wanted to be involved in computing research.
+.eq
+
+Another female faculty member remarked:
+.bq
+From my observations of women students I'd say getting them actively
+involved in all aspects of research (participating in research
+seminars, giving talks locally and then at conferences, working on
+projects) and teaching (being TFs) earlier (as undergraduates, no
+later than their junior years) is very important. 
+.eq
+.LP
+One way to provide such opportunities is by funding summer research jobs
+for students \(em starting with high school students.
+A female graduate student suggests:
+.bq
+I would like to see a massive summer research program
+set up for women at all levels.  Stipends should be
+provided to the participants.
+.eq
+.LP
+One university provides special incentives for female students to write
+research papers.  A student reported on this:
+.bq 
+I would like to see the NSF provide funds to be used
+as prize money for competitions.  We had a competition
+here recently in which women from engineering, math
+and physical and natural sciences gave 20 minute
+talks about their original research.  It was great.  
+.eq
+A female professor described the same program:
+.bq
+There is a group on campus that sponsors a ``colloquium'' for
+female graduate students in the sciences, approximately once per year,
+at which the students present their research, and 1-2 awards are
+given for the best talks.  
+.eq
+
+Just as the current NSF Research Opportunities for Undergraduates Program 
+encourages the participation of undergrads in research by adding extra money 
+onto grants for them, extra money might be added to grants for hiring female 
+RAs.  A male faculty member commented on the current program:
+.bq 
+I am pushing this program with several undergraduates right now.  It
+seems to be an excellent idea, and a great motivator.  One wrinkle
+that I am trying is to try to get the undergraduates to write most of
+the justification (with LOTS of support), so that when the add-on
+comes in, they feel like they did it.  This sense of accomplishment is
+a tremendous encouragement.
+.eq
+.LP
+Some universities have mentoring programs where female and minority
+graduate students write a research proposal with a faculty member (male
+or female).  If selected for funding, the student receives RA support
+for a year and the faculty member may get a small amount for expenses.
+A female graduate student who participated in one of these programs had
+some illuminating comments about it:
+.bq
+I have some ideas about this, having participated in it first hand.
+It is far from perfect.  While money (support) is important to female
+graduate students (indeed to all graduate students), the goals
+of the mentor program can't be met by merely providing monetary support.
+Once the award has been made, what IS the incentive to the mentor to do
+anything beyond what he/she was going to do anyway?  A survey was
+conducted near the end of the award period to check on progress; its
+contents might have encouraged some action, but March was much to late to give
+suggestions that could have made a difference.  I think sometimes mentors
+don't realize special needs/weaknesses that female graduate students may have.
+Or they focus on allowances for family needs and aren't aware of the
+need to break the social barrier put up by the good ol' boy club.
+(Male graduate students, by the way, are the worst offenders in the
+good ol' boy club.  Do they get this from role models, or are they
+selected by some process that also selects this trait?)
+
+What might help?
+.RS
+.IP \(bu
+\fII would have liked to have had a series of small group sessions
+with women who had successfully completed PhD programs in
+science.  In groups of 5-7 they could have helped me know
+what to do to ``demand'' the mentoring I needed.  This would
+have also provided the success stories and role models I needed
+at that point.  As an award recipient, I would have been willing
+to commit to participate after successful program completion.
+This could have been part of the terms of the award.
+.IP \(bu
+\fIThe graduate school made the awards, and they were very good about
+seeing that I got my money and fee waivers on time.  Beyond
+that, however, I felt ignored for the year.  I had some
+expectation of interest in my progress at the beginning, but
+soon found out that there was no one really following that
+or caring how things were going.
+.IP \(bu
+\fISimilar small group sessions for the mentors who have agreed to
+participate in the program would have helped.  As most of the
+mentors involved were men and certainly were not accustomed to
+female graduate students, I think they would have welcomed some
+guidance beyond the original ``write a three page proposal''
+handout they were given.
+.LP
+.RE
+.eq
+
+One final way to get women involved in research activities is to hire
+them to work on research projects as programmers or other non-research
+personnel.  At UCI, the software engineering faculty have hired several 
+graduating senior women who had excellent grades but who did not want to 
+go to graduate school \(em instead they wanted to go out and get jobs.  
+Each of these women went on to Ph.D. programs at top universities after 
+2-3 years of programming for our research projects.  This leads naturally
+to the next topic \(em reentry programs for women.
+ 
+
+\fBReentry Programs\fR
+.LP
+Several women noted the importance of encouraging women to return to school.
+As one female faculty member wrote:
+.bq
+One thing I would like to see is more encouragement for girls
+who have ``dropped out'' of math and/or science at some point during
+junior high or high school to return.  There is all this discussion of
+girls dropping out early that unfortunately implies that they can
+never return, and are lost to math, science and engineering forever.
+This is extremely counterproductive.
+.eq
+A few college programs have targeted re-entering women.  For example,
+one female industrial researcher describes such a program at Mills College:
+.bq
+There also used to be a Master's degree program at Mills College
+which was a cross-disciplinary program in computer science and
+another topic of the student's choosing.  There were a lot of
+reentry women in that program, as well as some men.
+(The undergraduate program at Mills is all female, and there
+are quite a number of older women students).
+I don't know what the current status of the Master's degree program is.
+.eq
+
+The best known program of this type is at the University of California,
+Berkeley where the Computer Science Division runs a program to prepare women 
+and underrepresented minorities for graduate study in computer science.  
+The program was established in 1983, and its first students were enrolled
+in Spring 1984.
+The program mission is to increase the pool of competitive women and
+minority candidates for university professorial and research positions
+by enabling them to take undergraduate technical and math courses required
+for graduate work in computer science.  Additionally, the program provides
+faculty advising, access to other Berkeley faculty and graduate students,
+and support services such as tutoring, study groups, discussion groups,
+technical and career-oriented seminars, strategies for applying for graduate
+programs and scholarships, and facilitation of discussion and exploration of 
+topics related to the reentry experience.  Financial support of the program 
+comes from the university and from the industrial community.
+
+The program has been small but quite successful, with graduates at many 
+major universities including MIT, Stanford, CMU, Illinois, Berkeley, Texas,
+Wisconsin, UCLA, Michigan, NYU, Brown, Dartmouth, Rutgers, and the University 
+of Washington.  Of the 36 students who have completed the Reentry Program and
+applied to graduate school, 30 have been admitted with a total of 91
+admission offers received.  Of the 27 who entered graduate programs, ten
+have completed masters degrees: three at Berkeley, one at MIT, one from
+the University of Massachusetts, three from Stanford, one from Santa Barbara,
+and one from the Oregon Graduate Center.  Several students have advanced to
+candidacy in Ph.D. programs.
+
+Several women wrote to me to tell me of this program.  An 
+industrial researcher described it as follows:
+.bq
+The students in the program take the regular Berkeley c.s. courses,
+and compete with the standard students there.  One of the advantages of
+the program is that it allows students with non-standard backgrounds
+or with a degree in another subject an opportunity to do coursework
+at a major university.  There is also a supportive environment to which
+the students themselves, female grad students, and some interested faculty
+especially contribute.  And, finally, there has been in the past
+(and I assume the same is true today) some financial support.
+.eq
+Another female professor, who was a student at Berkeley, also described her 
+impression of the program:
+.bq
+The women were bright, had often worked in industry
+for several years, and had academic training in a field  other then CS.
+And often a less employable field, like a BS in Math.  They took 5 quarters
+of basic computer science, electrical engineering or math, whatever was
+needed.  I.e., each person's curriculum was based on where her academic
+holes were.  Most students worked half time on the outside (no support
+was available), which made the program quite rigorous.  I believe that
+most of the money was raised from industry, with the university contributing
+some \(em but you should check that.
+
+[...] I also have first hand knowledge of the success of the reentry program at
+Berkeley.  (I am a recent graduate of Berkeley, not the reentry program,
+but the graduate program).  It has provided several topnotch graduate
+students here at [...] University.  And it addresses a segment of the 
+population that would otherwise be locked out of a scientific 
+career \(em women in a related but deadend or unemployable field who are 
+years beyond college.  I would strongly suggest starting similar programs 
+at other universities, particularly ones in the vicinity of large scientific 
+or engineering employeers.  The program at Berkeley could use more RA-type 
+funding.  Typically the reentry students must work halftime outside of school
+to support themselves; that time could be put to better use taking classes.
+.eq
+.LP
+When non-traditional programs of this sort are tried, it is important that
+the system be flexible enough to accomodate the unusual educational
+patterns.  For example, some students who have gone through the Berkeley
+reentry program have had subsequent problems in getting NSF fellowships.
+A female professor writes:
+.bq
+NSF will allow
+up to n (n=?20 semester hours, 30? quarter hours) of courses past the
+baccalaureate degree for students applying for the fellowship.  Although
+the reentry program students are taking undergraduate courses (data
+structures, intro programming, etc.), they are not registered for a degree;
+thus if they take too many courses they are overqualified for the NSF 
+fellowships.  This can happen at the same time that they have not yet taken 
+quite enough to be strong candidates for graduate school.  It is a catch-22 
+situation.  Berkeley will not allow them to be registered for an undergraduate
+degree (which would get them off the hook, since NSF does not count courses
+taken towards an undergraduate degree, even if the degree is not attained).
+This is because then they would have to compete against the normal Berkeley
+applicant pool, and they are not strong enough.  NSF is unwilling (unable?)
+to grant special dispensation for the reentry program.  Although the
+particular catch-22 I am describing catches very few people, if there are
+to be more reentry programs like this (what is Berkeley's success rate?), it
+should be fixed.
+.eq
+
+
+.ce
+\fB\s+1Funding for Female Students and Faculty\fR\s-1
+
+.LP
+Although funding may be extramural or within the university, I
+am separating this topic because of its importance and scope.  All reports
+have shown that women are less likely to get support as graduate students.
+Funding is also important at the undergraduate level.  
+
+Designing funding programs can be tricky.  Sheila Widnall, in her AAAS 
+presidential lecture, warns that providing scholarships to female 
+graduate students may actually be harmful because it is likely to keep 
+women out of RA-ships that get them involved in research with a faculty 
+member.  On the other hand, two female graduate students
+and a female industrial researcher sent a joint response to this assertion:
+.bq
+At this point in time, funding for graduate students is very tight.  A
+number of graduate students go through graduate school on fellowships
+all the way through because of the lack of funding.  The fellowship students
+must still do research in order to write a dissertation; having a fellowship
+does not change this.  In addition, having a fellowship allows the student
+the luxury of picking the professor with whom she most wants to work,
+regardless of the professor's funding situation.  Thus, we recommend that a
+fellowship program for women should be established.
+
+To add to this, I would suspect that a woman who is at all insecure would
+find it very difficult to approach a professor and ask for funding.
+Having a fellowship would allow her to at least avoid this obstacle.
+.eq
+A female industrial researcher notes:
+.bq
+I think funding is important, but should be tied to research.  I know that
+[... University] makes some grants that require the recipient to find a 
+research advisor to get the money.  So the faculty gets a ``free'' RA and 
+the student is not so isolated as with Fellowships.
+.eq
+.LP
+A second problem in designing funding programs is to avoid setting up programs
+that are easily stigmatized (``she got it only because she is a woman''), 
+although we should not let this concern paralyze us either.  One female
+graduate student responded to these concerns: 
+.bq
+I think we do need to be careful not to encourage the separate but
+equal route followed unsuccessfully by the civil rights movement.
+.eq
+.LP
+One way to avoid the impression of second-class awards is to stress the 
+competitiveness and importance of the award
+as NSF has successfully done for the Visiting Professorships for Women program.
+This program includes special letters to the Chancellor of the recipient's 
+university from Erich Bloch along with press releases.  An NSF employee wrote:
+.bq
+The strength of the VPW program (as you note) has been in its not being
+viewed as a ``second-class'' program.  You're absolutely correct in the
+concerns regarding stigmatization; there have always been concerns
+within NSF (and in the larger community as well) regarding ``losers''
+programs.  On the other hand, I find your targetted suggestions for
+undergrads, RAs and others eminently sensible.
+.eq
+
+Funding programs can be divided into those for students, post docs, beginning
+faculty, and more senior faculty.  One female professor had a 
+suggestion for funding that could apply at all levels:
+.bq
+I thought of one thing to suggest to NSF in terms of special programs
+for women \(em equipment.  In particular in many places it is
+a real problem to do work at night for security reasons, but it is a
+necessity for professional reasons.  How about suggesting relatively
+small grants so women can buy a terminal, workstation, printer so it
+is possible to work at home when it is not possible to go into school?
+Also, many women have family obligations that prohibit working at
+school at night, even if security is not a real factor.
+.eq
+
+\fBStudent Funding\fR
+
+Student funding programs can be implemented by individual universities or by
+government agencies such as NSF.  Some of these types of programs were 
+described in the section on research opportunities for students and include
+summer research programs, research mentoring programs for undergraduates and
+graduates, and various types of special funding programs.
+A female professor wrote:
+.bq
+Another thing I'd like to see is more financial support for
+undergraduate women majoring in math, science and engineering.  Many
+schools have very high work-study and summer-job savings requirements
+as part of their financial aid packages, but I think it is much harder
+for women than for men to find suitable jobs to make the required
+income.  And minorities are often unlikely to enjoy the assumed
+financial contribution from home, since even poverty-level parents are
+expected to pay a large percentage of their income.
+.eq
+For graduate students, regular fellowship programs can be implemented.  A
+female professor reported:
+.bq
+Apparently a couple of years ago an NSF advisory panel
+recommended that both CS and engineering institute a special NSF
+graduate fellowships for women (because of the strikingly low
+numbers of women in those fields compared with other sciences).
+The NSF director agreed to the one in engineering, perhaps in
+part because the directorate in engineering came up with 50% of
+the funds.  (The rest of the funds come from the education part of
+NSF, which is supposed to double the number of NSF graduate fellowships 
+over the next five years.  Diverting some of the money to
+special programs for women etc. diverts it from the others, obviously.)
+I just spoke with [...] at NSF. [...]  He said that
+the idea of special graduate fellowships for women in CS is not dead,
+but neither is it anticipated that it will be funded soon.  
+.eq
+Other types of funding programs mentioned earlier for students are 
+(1) programs that add to existing research grants to include female RAs as 
+is now done for undergraduates and (2) programs to provide funding for 
+special research mentoring.  Another potentially worthwhile program is 
+to provide travel funds for female graduate students to attend conferences and
+workshops.  An NSF employee commented:
+.bq
+There have been
+arguments for providing small travel-only supplements for PhD
+researchers who couldn't quite make it in the research grant
+competitions, but it seems that there is a crystal-clear need for such
+awards to women graduate students in areas of science and engineering
+in which women are historically underrepresented.
+.eq
+.LP
+Several female faculty members stressed the importance of this
+type of travel in providing incentive to continue their studies and in
+establishing networking activities that helped them throughout their careers.
+I have found this type of experience especially stimulating for my students:
+they get a chance to meet other researchers and students, they see that
+everyone is pretty human and that the papers are not any better than they
+could write, they establish contacts for the future, and they usually come back
+eager to write a paper for the next such meeting.  Two female graduate
+students wrote:
+.bq
+Just about our favorite proposal you had was having travel funds for
+women graduate students to go to conferences.  Do this if at all possible!!!
+It is extremely important
+to meet the field for both getting jobs and for getting research funds
+if one decides to enter academia.
+
+From my own experience, my advisor has
+been wonderful about sending me to lots of conferences and meetings.  As a
+result, I have a number of people to contact when I start looking for an
+academic position this fall and when I start looking for funding.  Finally,
+I usually return from each conference with either a new idea for research
+or a way to improve my existing talk or research.
+.eq
+
+\fBPost Docs\fR
+.LP
+Post docs have not been very common or needed in CS.  For the most part,
+faculty jobs have been so plentiful that new Ph.D.s did not want or need 
+to take such positions.  But the situation may now be changing.  One 
+university researcher wrote:
+.bq
+It is clear that the academic market for CS graduates will continue to
+get tighter and it seems likely that CS will move towards the model
+used by most scientific fields where new Ph.D.'s do a postdoc before
+accepting a tenure track job.  This transition won't be smooth and if
+we aren't going to lose all the new women Ph.D.'s in CS to industry
+(where they won't be quite as useful as role models) we need to establish
+more postdoctoral programs and professorships for women.
+.eq
+.LP
+A few programs exist such as the University of California President's 
+Fellowship Program, which provides postdoctoral fellowships to minorities
+and women for use at any of the University of California campuses, and
+the American Association of University Women which provides eight postdoctoral
+fellowships for women in all areas.  Although some of the latter fellowships
+are earmarked for minorities or women in particular areas (i.e., not CS),
+four are open to women in any area.  
+
+If the current trends in employment continue, new postdoctoral programs for
+women in CS will be needed.  One female professor commented:
+.bq
+Post-docs for women at top
+Universities would be an excellent way to help new Ph.D.'s get into the
+mainstream.  These post-docs could be given as an add-on to an existing
+grant \(em PI's who are interested could submit descriptions of their research,
+which could be distributed and then women could contact the PI.  Then the
+PI and the candidate could submit a joint proposal.
+This would motivate PI's by giving them an extra person for their group,
+and effectively a bigger grant.  And the woman would get exposure to
+a first class research department.
+.eq
+.LP
+Another female professor described an unusual use of a postdoctoral 
+opportunity:
+.bq
+A year ago I received an NSF Postdoc in Math.  (I do theory.)  It was
+an odd time to do it (five years out), but good for me, because I have young
+children.  It's two years of full-time support, or four years of half-time,
+generally supplemented by half-time teaching, or any combination thereof.
+As one of my senior colleagues commented, the teaching will always be there.
+The theorems might not be.  I'm not sure exactly what I am suggesting here,
+but juggling kids, beginning a research program, tenure is crazy.  Despite
+whatever sharing goes on, women are still the ones that get pregnant.
+Some early career fellowships might be nice.  How to construct them so
+that they don't backfire is not so clear.
+.eq
+
+
+
+\fBJunior Faculty\fR
+.LP
+The current NSF Research Opportunities for Women program funds women who have
+not previously had NSF research support.  There are rumors that this program
+may be phased out.  One female graduate student commented on this:
+.bq
+Do not phase out the Research Opportunities for Women program.  Getting
+NSF and NIH grants is very difficult.  This could make a difference in
+keeping women in academia.  Getting one of these grants certainly does not
+preclude getting grants from other sources, but instead ensures that you have
+some money to work with.
+.eq
+Two female graduate students also commented:
+.bq
+A final suggestion we would like to add would be to start a grant program
+specifically for new women professors.  Not everyone can get a PYI.
+Getting research funds is one of the keys to being a successful professor.
+Knowing that there are some funds set aside to get started with might make
+the difference for a young woman deciding to go into academia or not.
+If we are trying to increase the number of women professors,
+attention should be paid to new Ph.D.'s.
+
+From my point of view, if I knew that there were some funds
+set aside for new women professors, that would make ALL the
+difference in my job decision.   I would definitely accept an academic
+position if one were offered.  With the current situation, though, industry
+is appearing a lot more attractive than it used to.
+.eq
+
+A female professor had an idea for augmenting the effectiveness 
+of startup research funds:
+.bq
+[It is] best if these could be augmented by
+mentors who would help with finding appropriate funding sources,
+including contacts, and initial proposals.
+.eq
+
+Another way to help junior faculty is to provide them with release time from
+obligations other than research.  UCI has a program called Career Development
+Awards.  These awards are based on a submitted proposal.  If selected, the
+recipient is given time ranging from a quarter to a year to devote solely
+to research activities.  The program is open to all junior faculty members,
+but females and minorities are given high priority in the selection process.  
+This type of program can be implemented at a relatively low cost by a
+university.
+
+A female professor wrote:
+.bq
+The most valuable time for career building to new Ph.D.s is the years which
+immediately follow the receipt of the degree.  That is the time for building
+upon one's dissertation research, expanding research interests, networking
+to establish valuable contacts with colleagues, etc.  Yet for most women,
+those are also the years when one has the best opportunity \(em and sometimes
+the only opportunity \(em to have children.... I suggest the type of awards
+that are often targeted toward new Ph.D.s, such as those that are only
+available within a certain time frame (e.g., five years) after receipt of 
+degree, are often of little use to women, whose careers do not always follow
+the same track as those of their male counterparts.
+.eq
+
+Often women find themselves in non-tenure track research positions and face
+an additional stumbling block.  A female university researcher reported:
+.bq
+As in other fields, many female computer scientists (including myself)
+find themselves in non-faculty positions within the university and, therefore,
+ineligible for many NSF programs. In some cases, NSF could fix this problem
+simply by changing its eligibility criteria. In others, it is a restriction
+made by the university \(em for example, [...] does not allow research
+associates to act as Principal Investigator on proposals to NSF or other
+agencies.
+.eq
+
+But before women can apply for most grants, they need to get into faculty
+and research positions.  A female professor commented on the importance of
+getting women into faculty positions:
+.bq
+I think the best thing that can be done to increase the number of women
+who are making significant contributions to science is to encourage the
+best universities in the country to hire new female PhDs  as tenure-track
+faculty. In these universities it is EXPECTED that faculty will produce
+papers, write grant proposals, attend and give presentations at top
+conferences, supervise PhD thesis students and so forth. When I graduated
+with a PhD in mathematics in 1971, it was not possible for any woman in
+science to obtain a position in such a university. I have been fortunate
+to be in a university which has changed and improved, so that although the
+math department of [...] in 1971 could not be so characterized,
+the computer science college in 1989 can be so characterized.  It is very
+important to get in an atmosphere where research is PUSHED.  If it is just
+``allowed'' it will be too difficult to do well.
+.eq
+
+A more recent graduate wrote:
+.bq
+I graduated [in CS] with a Ph.D. last year and this is the first
+time in my career that I've felt that I needed help from a ``women's
+program.'' Right now I wish that there were more programs to help women
+get started on an academic career.  I've been having trouble finding an
+academic job, at least in finding the perfect job.  Much of my problem
+is a reflection of the increasing tightness in the CS academic market.
+Another part of it is the peculiarity of my area.
+.eq
+
+This is not an easy problem to fix, but one thing that might help would be
+to establish chairs for female professors.  I know of such a chair for
+women at MIT and also a new one, funded by the Clare Boothe Luce Foundation,
+at Georgetown University.  There are probably others.  Alumni associations, 
+private companies and charitable foundations might be willing to provide 
+the funding for such positions.  Rotating chairs might be used to get
+junior women into faculty positions and also to advance women to the upper
+ranks.
+
+
+\fBAdvancing to the Upper Ranks\fR
+.LP
+A previous section of this report presented the argument that emphasis should
+be put on the early years to encourage entry into scientific careers.  There 
+was also a great deal of support in my informal survey for placing the 
+primary emphasis on the other end of the pipeline.  These respondents all 
+tended to be women in academic or university
+research positions or those who were planning to go into such positions.
+Despite the obvious self-interest involved, the statistics do seem to support
+the need.  The fact that there are only 33 female full 
+professors in CS and CE out of 158 departments and 74 associate 
+professors indicates an extremely serious problem in getting women into
+senior positions.  This is not a function of women not being in the
+pipeline long enough \(em 10-12% of the Ph.D.s have been
+awarded to women each year for the past 15 years, but only 8% of the 
+associate professors and 2.7% of the full professors are women.
+
+The following comment came from a female university researcher:
+.bq
+I have seen many studies showing that as women advance professionally
+they fall increasingly behind their male peers. Although I support the efforts
+of NSF, AAAI, and others to encourage entry into CS, I do feel that more
+attention should be given to capitalizing on the achievements of those
+women who have struggled partway up the ladder.
+.eq
+ 
+And from a female university researcher:
+.bq
+Where in the pipeline should we strive to help women?  We'd like to
+help everybody, but we have finite resources.  I'm most concerned about
+programs that cost money, not projects like graduate student lunches or
+mentoring which require only time.
+
+I'd argue that we should help women further along in the pipeline than
+most of the programs that now exist.  If we can dramatically increase
+the number of senior women in CS (and science and engineering in
+general) I believe the shortage of women in the earlier stages of the
+pipeline will disappear.  Everyone needs to see someone they admire
+doing the things that they want to do.  Women in CS see only men in
+those roles \(em it's no wonder they decide that CS isn't the area for
+them.  By helping just one junior woman become a senior woman we ought
+to be able to create a role model for hundreds of women in the early
+stages of the pipeline.
+.eq
+ 
+Another female professor wrote:
+.bq
+[...] the highest priority should be to
+help more women move from junior to senior positions.
+.eq
+ 
+And finally, a female professor commented:
+.bq
+I think that promoting women into senior positions 
+(and making sure they get grant money) is one of the most effective
+ways to combat the problem.  One of the reasons we all have had
+more help from men than women during our careers is that the men
+are able to provide more help from their more powerful positions!
+.eq
+
+.LP
+As mentioned earlier, the NSF Visiting Professorships for Women program has
+been very successful.  Unfortunately, it is limited in size.  Very few CS
+women have received these awards.  The program might be expanded, perhaps with
+this type of program within each directorate.  One female faculty member
+also suggested that universities might support such programs:
+.bq
+These could be modelled on the NSF
+Visiting Professorship for Women program (which cannot fund all of the
+proposals it finds worthy). Several constraints to consider: area
+should be close to that of some faculty member(s) so visitor is not
+isolated; teaching responsibilities limited to seminar in area of
+expertise; possibly schedule explicit activities with women. Note that
+women from industrial research labs as well as professors at other
+universities could be attracted. These should be clearly marked as
+distinguished positions, and not viewed or used as low-status
+temporary positions.
+.eq
+
+An NSF task force on programs for women has produced a draft recommendation 
+with the stated purpose of increasing the number of senior women faculty in 
+the sciences.  Under this program,  NSF would initiate 5-year Career 
+Recognition Awards of 
+approximately $50,000 per year.  Candidates would be nominated by their 
+institutions.  It is hoped that a 5-year program of this type will produce 
+500 full professors (these programs are for all the sciences).  Support among
+the respondents to my initial draft report for this type of program 
+was very positive.
+
+
+.ce 1
+\s+1\fBMiscellaneous Comments\fR\s-1
+
+Some comments were received that suggested problems for which there do not 
+seem to be easy and obvious fixes or programs.  One female industrial 
+researcher thought that parental leave is an important issue:
+.bq
+I think that current parental leave policies, and the lack
+thereof, are seriously hampering young female faculty.  (And indeed, I
+think, are also hampering an important group of young male faculty).
+.eq
+
+The two-body problem was the focus of a comment from
+a female faculty member:
+.bq
+Many women faculty are married to faculty, often a few years older.
+I probably don't need to tell you what the consequences are.  Michigan had
+one imaginative solution: the University has ``affirmative action'' money,
+in which half of the two-body problem is funded for n years (n<=5, I believe),
+then the department takes over.  One can see problems in this type of
+solution; it seems better than no solution ...
+.eq
+
+Several people noted the lack of representation of women in the ``power
+positions'' of the field.  It is interesting that several of these commenters
+were men.  A male professor wrote:
+.bq
+I finally got around to your article in the CRBs Summer Issue of
+Computing Research News. Aside from three NSF program directors
+(and several staff associates here and there), the only names of
+women that I found from a quick scan of the entire paper were
+yours, and those of Mary Shaw and Grace Ostenso.  Perhaps we have
+not given sufficient recognition even to those women who have
+established themselves in Computing Science.
+.eq
+A female professor also commented on the CRB newsletter:
+.bq
+I'm delighted to see the headway you are making ... concerning the CRB
+report, I found it most disturbing that they have no women on the 
+editorial board, which is my impression from reading the first page of
+the bulletin. They do have a woman on their committee, I believe Mary Shaw,
+which is great, but another few would help the image problem of what happens
+after women enter the field. [...]  Perhaps you can use this as an example of 
+lack of on-going perspective about women that the CRB should have.
+.eq
+
+In all fairness to the CRB, they invited my original article that prompted
+these comments, and several of their leaders are very concerned about the 
+problems of women in CS research.  
+
+If one examines the two major professional societies
+in our field, the ACM and the IEEE Computer Society, two different patterns
+emerge.  The ACM appears to have a large amount of participation by women
+in important positions.  For example, at least 6 out of the 25 current ACM 
+Council members are women.  Women are also well represented among the elected
+executive committees of the ACM special interest groups (SIGS).  Of the 31
+SIGS, there are three women chairs (one position is vacant).  In addition,
+of the nine ACM journals, two of the editors-in-chief are women (22%) as are 
+approximately 12% of the editorial board members.
+
+In contrast to the democratic structure of the ACM which stresses elections,
+the IEEE Computer Society officers are, for the most part, selected by the
+previous officers, i.e., an ``old boy's'' setup.  In general, the 
+representation of women as chairs and members of the Technical Committees is
+much lower than the equivalent ACM SIGS.  Out of the 10 IEEE CS journals,
+none have a female editor-in-chief and approximately 7.5% of the editorial
+board members are women.  IFIP, and especially the IFIP Working Groups, appears 
+to be even worse than the IEEE Computer Society.
+
+The problem of getting greater representation of women in situations where
+there is not a democratic process working is a difficult one to solve.  One
+senior female professor suggested:
+.bq
+I get more requests to serve on 
+study panels, program committees, visiting committees, etc. than I 
+can handle.  When you turn down such an invitation you usually have 
+the opportunity to nominate an alternate.  A couple of years ago I 
+realized that it's awfully easy to name the first two or three 
+people who come to mind \(em who are likely to be men.  Now I make a 
+conscious attempt to propose women, both in this situation and when 
+the initial lists for various activities are drawn up.
+.eq
+
+One final comment came from a female industrial researcher:
+.bq
+It's clearly a tough problem and it starts early.  I don't have any
+magic bullets.  But I've thought about one thing that NSF could
+do directly.  Assuming that a woman makes it as far as an entry academic
+job, the next step is to get research funding, do research, and get
+tenure.  There seems to be a lot of evidence that women's writing styles
+differ from men's, in particular women hedge more; they are less self
+confident.  One question I've wondered about but don't know the answer
+to is whether such style differences have any affect on women's chances
+for successfully getting research proposals funded.  ... If they do 
+(and maybe even if they don't \(em there are clearly lots of
+factors at work here) then one thing NSF could do is to help to assure
+that their reviewers react as little as possible to the tone of a
+proposal and instead react to its contents.  I don't know if they can do
+that with some instructions to reviewers.  They can do it when they have
+review panel meetings.  Of course this same issue may affect women at
+other stages in their careers (for example, essays that are written to
+get into graduate school or to apply for fellowships, e.g., NSF).  Some
+of this is hard for NSF to have any direct effect on, but they could
+watch for this bias in fellowship applications as well.
+.eq
+
+.CE 1
+\fBRECOMMENDATIONS FOR NSF\fR
+
+The original purpose of this report was to generate ideas for NSF programs
+to increase the number of women in computer science research.  For various
+reasons, this report seems to have taken on a life of its own and grown 
+beyond the original intention.  In this section, I return to the original
+purpose.  It should be remembered, however, that NSF is not the only source
+of funding for these types of programs.  Other possibilities include state
+and local governments, charitable foundations, industry, universities, and
+alumni associations.
+
+Because girls are dropping out of science and math at an early age, it is
+important that programs for pre-college women be established and supported.
+Although the CISE directorate may not be directly involved in such programs,
+it can provide support to those parts of NSF that are involved in early
+education.  Programs are needed both to encourage girls' interest in science
+and math and to improve computer science education.  Special summer and
+after-school programs have proven particularly effective in the past.
+
+One of the most effective ways to get more women into graduate programs
+is to provide
+them with opportunities to participate on research projects.  This can
+start with high school summer projects and continue through 
+undergraduate study.  Funding summer research jobs and female undergraduate
+participation on research projects would be a highly effective use of 
+resources.  These programs should allow and encourage women attending primarily 
+teaching colleges to participate at research universities.
+
+The most effective funding for graduate students is that which is tied to 
+research.  Fellowship programs combining research support with mentoring 
+activities are needed.  A graduate fellowship program for females in
+computer science and computer engineering could help women devote more
+time to their studies and keep them in school.  Also, reentry programs allow 
+women to return to school 
+and to prepare for Ph.D. programs; the success of this program at Berkeley
+suggests that other programs of this type would be effective.
+Finally, there should be some type of program to provide travel funds for 
+female graduate students (and junior faculty) to attend conferences and 
+workshops.
+
+In general, women in faculty positions are not doing poorly in the regular 
+grant process.  However, a program that provides flexibility would be useful.
+For example, NSF grants do not usually provide money for release time from
+teaching and administrative duties.  Such support for a woman with small
+children might allow her to maintain a research career and momentum while
+starting a family.  Also, a small equipment grant program to finance home
+computing needs should be considered.  The small number 
+of senior women in academic positions implies a need to help women advance 
+to the upper ranks of their profession.  The new Career Recognition Awards 
+are one way to accomplish this.  More opportunity for computer science and
+computer engineering women to participate in the Visiting Professorships
+for Women program might also be useful.
+
+Mentoring and other activities undertaken by departments and individuals
+such as inviting women speakers and holding regional or local workshops can
+have a profound effect on the careers of undergraduate and graduate students 
+and could benefit from small amounts of funding from NSF.  Because
+individual needs and interests will differ, a program to fund such
+activities should allow general proposals without strict guidelines.
+After more experience with these types of programs is gained, it may be
+possible for NSF to provide more directed types of programs.  A follow-up
+report to this one that provided information and feedback on such efforts
+would be very helpful in guiding and planning future activities.  Funding for
+release time to plan and participate in such networking and mentoring 
+activities would make it possible for already overburdened faculty to
+initiate and provide such activities.
+
+A female graduate student stated very eloquently the reason why these of
+programs should be undertaken:
+.bq
+Science's ability to build on itself and positively influence society is
+hindered by the exclusion of important sectors of the society.
+A woman has the right to educate herself, to know first-hand the beauty 
+of science, and to attempt to make a contribution to the body of knowledge
+of her choice.
+.eq
+By not providing the opportunity for women to contribute to scientific
+activity, everyone loses.
+
+.bp
+.ce 2
+APPENDIX 1
+
+List of Contributors
+
+.nf
+Hala Abdalla, Sun 
+W. Richards Adrion, professor, University of Massachusetts, Amherst
+Carrie Brownhill, graduate student, University of California, Irvine
+Charles Brownstein, NSF
+Vasudev Bhandarkar, Software Engineer, DEC
+Lori Clarke, professor, University of Massachusetts, Amherst
+Carolyn Crouch, professor, University of Minnesota
+Ted Dunning, researcher, New Mexico State University
+Susan Eggers, professor, University of Washington
+Thelma Estrin, professor, UCLA
+Peter Freeman, professor, University of California, Irvine 
+Frank Friedman, professor, Temple University
+Susan Gerhart, researcher, MCC
+David Gries, professor, Cornell University 
+Mary Grigolia, Computer Science Reentry Program Coordinator, University of California, Berkeley
+Barbara Grosz, professor, Harvard University
+Carole Hafner, professor, Northeastern University
+Nancy Hall, researcher, University of Wisconsin-Madison
+Barbara Hayes-Roth, researcher, Stanford University
+Jessica Hodgins, researcher, MIT
+Gail Kaiser, professor, Columbia University
+Kevin Karplus, professor, University of California, Santa Cruz
+Beth Katz, professor, Furman University 
+Susan Landau, professor, Wesleyan University (on leave at University of Massachusetts, Amherst)
+Amy Lansky, researcher, NASA/Ames
+Nancy Lynch, professor, MIT
+Kathy McKeown, professor, Columbia University
+Bonnie Melhart, graduate student, University of California, Irvine
+Fanya Montalvo, researcher, DEC Cambridge Research Lab and MIT
+Evan Morton, Apollo
+Kathleen Nichols, Apple
+Shari Lawrence Pfleeger, Contel Technology Center
+Martha Pollack, researcher, SRI 
+Elaine Rich, researcher, MCC
+Eve Riskin, graduate student, Stanford University
+Betty Salzberg, professor, Northeastern University
+Wendy Sarrett, student, University of California, Irvine
+Mary Shaw, professor, Carnegie-Mellon University
+Esther Shilcrat, graduate student, State University of New York, Stonybrook
+Barbara Simons, researcher, IBM
+Karen Sollins, researcher, MIT
+Ellen Spertus, student, MIT
+Melanie Stein, graduate student, University of Wisconsin-Madison
+Al Thaler, NSF
+Becky Thomas, graduate student, Stanford University
+Mary Vernon, professor, University of Wisconsin-Madison
+Jan Walker, researcher, DEC Cambridge Research Lab
+Elaine Weyuker, professor, New York University
+Meg Wilson, MCC 
+Chip Weems, researcher, University of Massachusetts, Amherst
+.fi
+
+.bp
+.ce 2
+APPENDIX 2
+
+Boston Globe Articles
+
+The following two articles appeared on the front page of the Boston Globe, 
+Monday March 13, 1989.  
+
+.ce 2
+   \fBEngineering losing its luster among students\fR
+        by Ronald Rosenberg
+
+Massachusetts' seven leading engineering colleges are experiencing serious
+declines in enrollment as more Bay State high school students turn to majors
+with less stringent mathematics and science requirements.
+
+The drop in students studying such disciplines as electrical, civil, 
+mechanical,
+and aeronautical engineering at the undergraduate level mirrors the national
+trend and is prompting renewed concern of an impending shortage of critical
+talent in the mid-1990s.
+
+The National Science Foundation estimates that by 1996 there will be a 
+shortfall
+of 45,000 baccalaureate degrees in science and engineering and that by the year
+2010, there will be 700,000 fewer baccalaureate degrees than necessary to fill
+existing jobs.
+
+These predictions come after the boom years of 1976 to 1985 when engineering,
+particularly electrical and computer engineering and computer science, were the
+hot fields.  Schools were flooded with applicants and classrooms overflowed.
+College computer centers had waiting lines, women began entering the field,
+laboratory equipment was in short supply and engineering departments scrambled
+for facilities.
+
+Today some engineering schools, such as the Massachusetts Institute of 
+Technology, are thankful that the rush for engineering students is behind.
+But all institutions worry that the boom is turning into a bust.
+
+At the same time, record numbers of foreign-born students are entering at
+the graduate level and aggressively pursuing teaching positions that were
+once the province of American-born students.  At Northeastern University,
+nine out of 10 applicants for 5 teaching jobs in the engineering department
+are foreign-born. 
+
+And with the expected decline in college-age population, the National Research
+Council forecasts that such nontraditional sources of engineers as technicians
+or other non-registered engineers, will be tapped.  This will result ``in a
+dimunition of quality that could threaten the long-term international
+competitiveness of the United States,'' according to the council.
+
+Moreover, students who do decide to pursue an engineering degree are often
+weak in mathematics and science, according to several deans of engineering.
+
+``We are concerned that the preparation engineering students get in math and
+science in the high school is just not as strong as it used to be,'' said
+John Proakis, chairman of Northeastern University's electrical engineering
+department.
+
+``What we also see is that students are not as interested in working hard as
+students of 10 years ago.  When I tell them they have to spend 10 hours of
+outside preparation for three hours of class per week, I hear students say,
+`Gee, that is too much time.'  At the same time, I see students coming from 
+the Far East who are willing to work to achieve their goals, and that concerns
+me.''
+
+Northeastern is a bellweather for local engineering schools since many of its
+students are from metropolitan Boston and the surrounding New England states.
+Disenchantment with engineering shows up in all disciplines, most notably
+electrical engineering, where 907 students are enrolled compared to 1,408 in
+1985 \(em a 35.6 percent drop.
+
+Still, Northeastern is not alone.  Other major schools experiencing shortages
+are the Massachusetts Institute of Technology, the University of Lowell,
+Worcester Polytechnic, Boston University, Tufts University, and the University
+of Massachusetts at Amherst.
+
+Several national studies bear out this regional trend.  National surveys
+show that students prefer the less taxing curricula in business, teaching,
+and the humanities -- areas that do not require extensive high school
+mathematics and science courses.
+
+``Teachers of mathematics and science need to instill in young people the
+thrill and adventure associated with engineering, not smother them in a
+blanket of complexity,'' said Edward Cohen, [...]
+
+Cohen believes engineers should become more involved in improving math and
+science education in elementary and secondary schools as well as encourage
+students \(em particularly women and minorities, to pursue engineering careers.
+
+[...]
+
+What worries engineering school deans are the reasons that high school
+students give for shunning engineering despite a relatively strong economy,
+lots of jobs, and relatively good pay.
+
+``Characteristically we have seen a sloshing back and forth between students
+in engineering and science but this year for the first time I didn't see this
+balance,'' said Richard B. Adler, associate head of the electrical engineering
+and computer science department at MIT.
+
+Most disconcerting to the major engineering schools are the student preferences
+listed as part of the PSAT last October.  Nationally, 9.4 percent of students 
+taking the test indicated an interest in engineering compared to 10.5 percent
+in 1985.  In Massachusetts, 7.7 percent of the high school juniors (2,931
+of the 38,071 students who took the test) said they were planning to pursue
+an engineering career compared to 10 percent (4,284 of the 42,846 students)
+in 1985.
+
+In computer science, the picture is even bleaker.  Only 1.8 percent or 685
+students expressed an interest in a software career, compared to 3.3 percent
+or 1,413 students four years ago.  Nationally, fewer women are expected to
+pursue degrees in mathematics and computer science, according to the National
+Science Foundation, which estimates that only 9,600 will graduate compared to
+22,400 women in 1986.
+
+[...]
+
+[Some numbers from an accompanying table showing total numbers of sophomores,
+juniors and seniors in engineering and computer science:]
+
+.nf
+ MIT                                 \fB85-86  86-87  87-88  88-89\fR
+    electrical/computer science  1121   1040      940    850
+    mechanical                        457     450      452    475
+    aeronautics/astronautics       301    334      330    332
+    chemical                            166    158      132    128
+    materials                           137    144      131    129
+
+ NORTHEASTERN
+    electrical/computer eng.     1408   1312     1178    907
+    computer science                530     532      437    366
+    mechanical                        567     518      365    356
+    civil                                 346     308      247    233
+    chemical                           176     143      108    131
+
+ UNIVERSITY OF LOWELL
+    electrical                           794    683      589    549
+    mechanical                        520    421      302    297
+    civil                                 252    243      189    231
+    plastics                             175    177      141    153
+    chemical                           125      97       66     59
+    computer science                406    335      209    193
+
+ BOSTON UNIVERSITY
+    electrical                          378    392       363    329
+    mechanical                       126      99      116    110
+    aerospace                         262    257       239    236
+    biomedical                        219    247      251    239
+    manufacturing                    50      68        64    105
+    computer engineering          245    207      173    136
+    computer science                204    175      145    159
+
+ UMASS-AMHERST   
+    electrical & computer           517    566      481    387
+    computer science                 156    125      112    115
+    mechanical                         390    406      402    367
+    civil                                  168    172      170    168
+    chemical                              92     70       78      69
+.fi
+
+.bp
+\  
+
+.ce 2
+     \fBMore Women Shun Engineering as Other Careers Beckon\fR
+      by Ronald Rosenberg, Boston Globe, Monday Mar. 13
+
+After nearly a decade of significant increases, fewer women are pursuing
+engineering and computer science careers, prompting concern in academia
+and industry that there will be a shortage of high-tech talent in the 1990s.
+
+``The rate of women entering engineering schools nationwide is dropping
+slightly faster than men,'' said Betty M. Vetter, executive director of the
+Commission on Professionals in Science and Technology in Washington.
+
+Vetter notes there are several reasons besides the overall decline in
+college-age population.  Like men, women see alternatives to engineering,
+which is perceived today as less vibrant than five years ago.
+
+``Women at this point have seen older sisters going into engineering who are
+often achieving at a far higher level academically than their brothers,'' she
+said.
+
+``But out in the real world they wind up getting paid less, hit glass ceilings
+in advancement, and quickly realize that engineering is still a macho field,
+highly dominated by men, many of whom don't want women there in the first 
+place.''
+
+Another factor inhibiting American women are the attitudes of foreign male
+students and faculty who dominate the graduate and teaching levels of most
+engineering schools.  Often foreign males, particularly those from Asian
+countries, don't see female students as colleagues because of their own
+cultural upbringing.
+
+``There are certain groups of students from certain countries who have never
+seen a professional woman and when they see one as a teacher it is a big
+shock and sometimes creates difficulties,'' said Richard Reis, associate dean
+of engineering at Stanford University.
+
+``Occasionally we have foreign-born teaching assistants who simply discount
+women in a classroom.  They don't call on women and often see them as just 
+less important.  Also, a woman professor may be challenged inappropriately
+by foreign students who will question her credentials.''
+
+Stanford is not alone in this problem, in part because the engineering
+profession continues to be male dominated.  Negative attitudes remain,
+even when women match or exceed men in math and science.
+
+Overcoming these prejudices and social barriers on top of a difficult study
+load has prompted women to question whether it is worth pursuing an engineering
+degree.  Three years ago 17 percent of the nation's engineering students were
+women.  Today they are about 15 percent, noted Vetter.
+
+And yet women are viewed by academia and industry as a key to the 
+future \(em to teach in colleges and universities and ultimately to provide 
+role models to other women.
+
+With fewer college-age students \(em particularly white males \(em there is a
+push to attract women and minorities to engineering.  That means an emphasis
+on boosting mathematics and science in primary and secondary schools.
+
+``There has to be an enormous shift in the participation of women in 
+engineering \(em a new phenomenon \(em to meet the future talent needs of the
+area's high-technology industries,''  said Ray Stata, president of Analog
+Devices Inc. of Norwood and chairman of the educational committee of the
+Massachusetts High Technology Council.
+.bp
+.ce 1
+APPENDIX 3
+
+.ce 2
+\fBFactors Affecting the Decision of Women
+to Enter Doctoral Programs in Computer Science\fR
+.sp 1
+.ce 3
+Carrie Brownhill
+University of California, Irvine
+Revised: August 22, 1989
+.SH
+Introduction
+.PP
+As  the  baby  boom  continues  to  decline,   the  pool  of
+college-age  white males is expected to drop significantly in the
+future.   The resulting vacancies in  the  scientific  community,
+including   those  in  computer  science,   could  be  filled  by
+increasing  numbers  of  women  and  other   minorities.   [Widn]
+However,  the  number  of  women  earning  doctorates in computer
+science is still smaller than it could be.   This is due in  part
+to  the fact that women are less likely than men of equal ability
+to apply to graduate school. [HS83]
+.PP
+In 1983,  17.1% of first year college men and 19.4% of first
+year  college  women  majoring  in  science and engineering,  had
+aspirations of obtaining a doctoral degree. [Table 1] Contrary to
+these early expectations,  only  4.8%  of  the  women  completing
+bachelor's   degrees  in  1979  went  on  to  earn  a  doctorate.
+Approximately 56% more of the men went on  to  complete  a  Ph.D.
+[Table 2]  Furthermore,  in 1985,  36.9 percent of the bachelor's
+degrees in computer sciences were awarded to women.   In the same
+year, only 28.7 percent of the master's degrees, and 10.6 percent
+of the doctorates were earned by women.  [Table 3]  These figures
+show  that   a lower percentage of women than men decide to enter
+graduate school.  The difference in participation rates increases
+significantly after the master's degree is achieved.
+.PP
+Research has been done on the reasons women  don't  complete
+doctoral programs, but most of the attention has been directed at
+the  factors causing women to drop out.   That subject is outside
+of  the  scope  of  this  paper.    Also  not  included  are  the
+considerable  gender-related factors that influence the choice of
+computer science as a field of study.   In  this  paper,  I  will
+specifically  identify some of the gender-related issues that may
+discourage women from applying to and entering a Ph.D. program in
+computer science.  The topics addressed will  include:  lack  of
+confidence, lack of role models and mentors, family
+considerations, unfriendly environments, self-image,
+expectations, and value systems.
+.KF
+.nf
+  [Table 1]  Degree  Aspirations  of  First Year College Students in 1983 [NS86] 
+                                Bachelor's      Master's        Doctorate
+ 
+                     Men        27.1%           37.8%           17.1%
+
+                     Women    23.0%           35.2%           19.4%   
+
+                                                                    
+
+  [Table 2]  Higher Degree Attainment  Rates  of  1979  Science  and
+             Engineering Bachelor's Degree Recipients [NS88]
+
+                                Master's        Doctorate    
+
+                     Men        21.4%           7.5%      
+
+                     Women    14.7%           4.8%   
+
+                                                   
+ 
+  [Table 3]  Degrees in Computer Sciences in 1985 [NS88]
+
+                          Bachelor's      Master's        Doctorate
+
+           Total            39,121          7,101          310      
+
+           Women         14,431          2,037            33   
+
+           Percentage       36.9            28.7          10.6
+.fi
+.sp 2
+.KE
+
+.SH
+Graduate Study as an Option
+.LP
+
+\fIContinuing Students\fR
+.PP
+Entry  into  a Ph.D.  program is generally considered at two
+different times in life.  The primary one is when a bachelor's or
+master's degree program is near completion.    The  student  must
+decide  whether  to  continue in the educational pipeline,  or to
+whether to enter into the `real-world'.   For both men and  women
+the  appeal  of  getting  out  of school and becoming financially
+independent after years of study is strong.   A clear idea of the
+resultant rewards may cause a student to consider a Ph.D. program
+as  an  option.    The  student  also  needs  to  feel reasonably
+confident  of  success,   if  the  idea  is  to  receive  serious
+consideration.
+.PP
+Unfortunately,  female students actually suffer a decline in
+self-esteem and academic  ambitions  during  the  college  years.
+[Asti] [Widn] In addition,  women tend to attribute their success
+to luck or  hard  work,  rather  than  talent.    They  may  also
+recognize  the fact that a woman often needs to achieve more than
+a man would in order to receive  equivalent  recognition.  [HS82]
+[SaHa] In short,  by the end of her undergraduate career, a woman
+may feel she lacks the ability to succeed in graduate school.
+.PP
+The destructive  effect  of  the  college  experience  on  a
+woman's confidence can be overcome with steady encouragement from
+a mentor.  [Widn] [Boli]  The mentor relationship is described in
+the following passage.
+.RS
+.IP
+In academe, the primary model for mentoring has been the
+sometimes lifelong relationship that can develop between
+an undergraduate or graduate student and  a  ``special''
+professor.    Ideally,  the  professor  takes the novice
+under his or her wing;  helps the person set  goals  and
+standards  and develop skills;  protects the novice from
+others in a way that allows room for risk  and  failure;
+facilitates  the novice's successful entry into academic
+and professional circles;  and ultimately passes on  his
+or her work to the protege.  [HS83] p. 3.
+.LP
+.RE
+
+.PP
+Unfortunately, the scarcity of female professors in computer
+science  means  that  there is a serious lack of same-sex mentors
+for female students.  In 1983, only 8% of tenure-track professors
+in computer science were women.   It  is  quite  possible  for  a
+student  to  complete  an  undergraduate degree without meeting a
+single female computer science  professor.    Females  in  senior
+positions are scarce indeed. [Table 4]  This situation can lead a
+female  student  to  the  conclusion  that if the brightest women
+can't make it to the top, then she certainly has no chance.
+
+
+.KF
+.nf
+   [Table 4]  Doctoral Computer Specialists in Four-Year Colleges and Universities: 1985 [NS88]
+ 
+                                                    Tenure Track/
+                                 Total*  Tenured    Not Yet Tenured  Non-Tenure Track
+                     Total       5,100   2,200            1,400              1,100
+                     Women       500     100              200                100
+                     Percentage   9.8      4.5             14.3                 9.1
+
+                                 *  Includes tenure status unknown and no report
+.fi
+.KE
+
+
+\fIReturning Students\fR
+.PP
+The second time graduate study is considered  is  when  some
+change  in  lifestyle  is  desired.    This  may be due to job or
+personal dissatisfaction.   It may be because  of  a  desire  for
+emotional  and  intellectual  growth.  [Boli]  For a woman,  this
+desire for change often  occurs  when  her  children  become  old
+enough  to leave with a baby-sitter or go to school.   A woman in
+this  position  may  have  the  advantage  of  spousal  financial
+support.  However,  if she has been a housewife for any length of
+time,  she may lack the self-confidence and courage necessary  to
+apply  to  a  Ph.D.  program.    Some  women  decide to ease into
+graduate school slowly,  on a part time basis.   In this way they
+test their qualifications,  talent,  and ability to cope with the
+increased demands.  [Boli]  However,  many  Universities  require
+Ph.D.  students  to carry a full load,  thus depriving women this
+chance to test their wings.
+.PP
+A woman with a family must also face the considerable burden
+of trying to balance family and school  in  an  environment  that
+demands  single-minded  attention.   [Scot]    This  attitude  is
+described in the following passage written by  a  female  student
+trying to combine marriage, a family, and graduate school.
+.RS
+.IP
+Most  graduate  programs assume that their students come
+relatively unfettered.   The student's time  belongs  to
+the  graduate  institution,   and,   like  male  faculty
+members,  graduate students come either single  or  with
+wives  who  will  take  care of ``real  life''  for  the
+duration.     When  a  married   woman   with   children
+(especially young children) appears in this milieu there
+is  consternation.    A faculty member might suggest the
+woman wait until the children  are  older.    One  woman
+faculty  member  has  refused  to  accept  advisees with
+preschool children.    Another  invariably  recites  the
+divorce  statistics.    The most unnerving aspect of all
+this is the underlying assumptions about woman's  career
+options and, ultimately, their seriousness in pursuing a
+Ph.D.  [Levs] pp. 100-101
+.LP
+.RE
+
+.PP
+A  person  returning  to  school after working often faces a
+great, often impossible,  loss of income.   While this is true of
+both men and women,  women more often are self-supporting. [NS88]
+If the woman has children,  her child-care expenses may not  even
+be  covered  by  the  usually  meager support offered to graduate
+students. [Levs]
+
+.SH
+Motivations for Graduate Study
+
+\fIThe Academic Environment\fR
+.PP
+For some students,  the desire to enter into graduate  study
+stems from a love of the academic environment.   For others,  the
+acquisition of knowledge is a joy unto itself.  Still others find
+the thought of regular  work  distasteful.    These  reasons  for
+pursuing  graduate  study  should apply equally to men and women.
+However some women,  especially those in non-traditional  fields,
+are implicitly or explicitly made unwelcome.  [HS82]  The college
+experience may even include sexual harassment. [SaHa]  Instead of
+being socialized into academe,  a female  student  may  learn  to
+think of school as an uncomfortable place.
+
+\fICareer Requirements\fR
+.PP
+Another  important motivation for earning a doctorate is the
+desire for career enhancement.  Some careers even require a Ph.D.
+The most well-recognized of these  is  teaching  at  the  college
+level,  but  there  are others.   For example,  an executive in a
+technical field may view a Ph.D.  as assisting his climb  up  the
+corporate ladder.   Unfortunately,  there are few female managers
+in a position to take advantage of such an investment.
+.PP
+However,  women who want to do advanced research in industry
+nearly  always  need a doctoral degree.   Although many women are
+choosing careers in science and engineering,  there seems to be a
+lack of women wanting to do advanced research.  Why is this?  One
+reason  may  be the that the stereotype of the research scientist
+conflicts with many women's self-perceptions.    A  scientist  is
+seen as devoting most of his time and energy working alone on his
+research.  He is seen as having little time for outside interests
+or family.   Women,  consciously or not,  realize that this model
+conflicts with their self-image as people  and  family  oriented.
+[Eccl]    There  are  few  visible  women  scientists  around  to
+counteract this stereotype.
+.PP
+Some  of  the  same  stereotypical  qualities  of   research
+scientists  also  pertain  to college professors.   These careers
+often overlap.   Although  teaching  is  a  traditionally  female
+career,  women  soon  find that the emphasis on research at Ph.D.
+granting institutions  overshadows  the  teaching  and  nurturing
+aspects of the job.
+Most   people   have   little   knowledge  of  the  academic
+environment  before   going   to   college.      Therefore,   the
+undergraduate  experience  is a significant factor in identifying
+the possibility of an academic career.   A student's exposure  to
+faculty may give her the idea that professors spend most of their
+time  struggling  to  publish  papers,  get  grants,  and achieve
+tenure.   The  impression  is  that  academe  is  a  competitive,
+aggressive,  stressful and time-consuming environment, especially
+for junior staff members trying to get tenure.   This is  a  very
+unappealing picture for many women. [KiSE]
+.PP
+The  presence  of  a departmental role model may provide the
+``existence theorem'' that a woman can be a  successful  professor.
+[Dres]   Ideally,  such a role model would be a senior department
+member and exemplify the ideal way to balance career and  family.
+Unfortunately, such role models are few and far between.
+
+\fIExpectations\fR
+.PP
+Many   people   decide  on  graduate  study  simply  because
+significant people in  their  lives  think  they  should.  [King]
+These  expectations  are usually internalized so that the student
+expects to earn a Ph.D.   Parents can have an  especially  strong
+impact on the aspirations of a child.   For men,  expectations of
+job and academic accomplishments are usually  high.    Sometimes,
+they are unreasonably high.   Women,  however,  still receive the
+message that they should set moderate career goals.   Emphasis is
+often  placed  on  raising  children and maintaining a happy home
+life.   Thus,  a woman  may  choose  lower  career  and  academic
+aspirations, reflecting society's expectations as a whole.
+.PP
+A   spouse   can  have  a  significant  effect  on  a  woman
+considering graduate school.   A  supportive  spouse  will  often
+assume  some  of the financial and familial responsibilities,  in
+addition to offering moral support.  However,  jealousy can arise
+if  a  wife's  achievements  threaten  to  overtake her husband's
+credits.   A husband may also resent the time and energy spent at
+school.  A woman who is unsure of her (possibly future) husband's
+support may hesitate about taking a step which will be disastrous
+on her home life.
+
+.SH
+The Value of Achievement
+.PP
+Jacquelynne S. Eccles has recently suggested a new model for
+studying  the academic and occupational choices of women.  [Eccl]
+She feels that women have been socialized to have different goals
+from men.  Therefore, the value a woman places on the achievement
+of a task is different than the value a man might  place  on  the
+same  task.    She  feels  that  ignoring this fact has lead to a
+negative bias when evaluating feminine choices.
+
+.RS
+.IP
+Too often scientists adopt  a  male  standard  of  ideal
+achievement   when   judging   the   value   of   female
+accomplishments;  they seek to understand why  women  do
+not  ``achieve''  like  men  without  considering that not
+engaging in some activity may reflect the choice  of  an
+alternate activity rather than avoidance....
+
+As a consequence, very little systematic information has
+been   gathered   regarding   the  more  typical  female
+achievement    domains,    such    as    the    academic
+accomplishments  of one's offspring and/or one's pupils,
+the   satisfaction   of   one's   clients,    or   one's
+contributions  to local organizations.   And until quite
+recently,   even  less  information  has  been  gathered
+regarding  the  meaning  women and men attach to various
+achievement-related activities.   As a result,  we  know
+very   little  about  why  women  think  they  make  the
+achievement-related choices they do.  [Eccl] pp. 135-137.
+.LP
+.RE
+
+.PP
+It is easy to  see  how  a  woman  facing  the  decision  of
+entering  a doctoral program may feel ambivalent.   Not only does
+she have to weigh the benefits vs.  opportunity costs of graduate
+study.   She must also compromise between her academic and career
+goals and her more traditional female roles of mother  and  wife.
+For most women, all of these goals are important. [Boli]
+.PP
+Furthermore,  to  be  successful  in  the traditionally male
+areas of academic and  professional  achievement,  a  woman  must
+often  appear  to  embrace  the  dictum that professional success
+requires the sacrifice of all else.  [Eccl]  To admit that she is
+not single-minded in her pursuit of ``success'' would mean inviting
+criticism from many men.   If women's achievements are ever going
+to be fully recognized,  then the definition of success is  going
+to have to be changed.
+
+.SH
+Summary
+.PP
+For  women,  the  decision  to  enter  a doctoral program in
+computer science is affected by many gender-related issues.  Lack
+of self-esteem and realistic role models can  cause  a  woman  to
+overlook  graduate  study  as  an option.   She may feel that the
+burden on her family, both in terms of finances and time,  is not
+justified  by  the  rewards.    Also,  some  of  the  motivations
+typically attributed to graduate students may be  diminished  for
+women.  The academic experience may have been uncomfortable, even
+to the point of harassment.  The types of careers which require a
+Ph.D.,  such as advanced research and college-level teaching, may
+be perceived  as  having  qualities  which  conflict  with  basic
+psychological  needs  and self-concepts.   Although some of these
+issues are relevant to graduate study in general,  some are  only
+evident when the field of study is a traditionally male-dominated
+one.
+.PP
+In  order  to judge the decisions and achievements of women,
+it is necessary to recognize  that  they  may  have  a  different
+definition of success than men.  A woman may place a higher value
+on   marriage,   family,   and  outside  achievements,   than  on
+professional or academic success.   Whether a  woman  chooses  to
+concentrate  all  her  energies  on her career,  or to give other
+areas  of  her  life  equal  time,  her  achievements  should  be
+recognized as equally valid.
+
+.SH
+References
+.IP [Asti]          
+Astin, Alexander W.   Four Critical Years:  Effects
+of  College  on  Beliefs,  Attitudes  and  Knowledge .   San
+Francisco:  Jossey-Bass Publishers; 1977.
+.IP [Boli]          
+Bolig,  Rosemary A.   ``The  Ambivalent  Decision.''
+The Ph.D.  Experience,  A Woman's Point of View .   Vartuli,
+Sue. ed.  New York:  Praeger Publishers; 1982.
+.IP [Dres]          
+Dresselhaus,  Mildred  S.    ``Responsibilities  of
+Women Faculty in Engineering Schools.''   Women in Scientific
+and  Engineering Professions .   Haas,  Violet B.;  Perucci,
+Carolyn C.  eds.   Ann Arbor:  The University  of  Michigan
+Press; 1984.
+.IP [Eccl]          
+Eccles,  Jacquelynne S.  ``Gender Roles and Women's
+Achievement-Related  Decisions.''      Psychology  of   Women
+Quarterly .  11(2):  135-171; 1987.
+.IP [HS82]          
+Hall,   Roberta  M.;  Sandler,  Bernice  R.     The
+Classroom Climate: A Chilly One for  Women? .    Washington,
+D.C.:    Project  on  the  Status  and  Education of Women,
+Association of American Colleges; 1982.
+.IP [HS83]          
+Hall, Roberta M.;  Sandler,  Bernice R.    Academic
+Mentoring for Women Students and Faculty:  A New Look at an
+Old  Way to Get Ahead .   Washington,  D.C.:  Project on the
+Status and Education  of  Women,  Association  of  American
+Colleges; 1983.
+.IP [Levs]          
+Levstik,  Linda  S.    ``The Impossible Dream:  The
+Ph.D.,  Marriage,  and Family.''    The Ph.D.  Experience,  A
+Woman's  Point  of  View .   Vartuli,  Sue.  ed.   New York:
+Praeger Publishers; 1982.
+.IP [KiSE]          
+Kiesler, Sara; Sproull, Lee;  Eccles,  Jacquelynne S.    
+``Pool  Halls,  Chips,  and  War  Games:  Women in the
+Culture of Computing.''     Psychology  of  Women  Quarterly .
+9(4):  451-462; 1985.
+.IP [King]          
+King,  John.  Lecture, ``Getting a Ph.D. in ICS: An
+Informal  Seminar.''    University  of  California,  Irvine.
+March 1, 1989.
+.IP [NS86]          
+National Science Foundation.   Women and Minorities
+in  Science and Engineering .   Washington,  D.C.:  National
+Science Foundation;  January, 1986.
+.IP [NS88]          
+National Science Foundation.   Women and Minorities
+in Science and Engineering .   Washington,  D.C.:   National
+Science Foundation;  January, 1988.
+.IP [SaHa]          
+Sandler,  Bernice R.; Hall, Roberta M.   The Campus
+Climate    Revisited:    Chilly    for    Women    Faculty,
+Administrators,  and Graduate Students .   Washington, D.C.:
+Project on the Status and Education of  Women,  Association
+of American Colleges; 1986.
+.IP [Scot]          
+Scott,  Nancy  A.     Returning  Women Students,  A
+Review of Research and  Descriptive  Studies .    Washington
+D.C.:        National    Association   for   Women   Deans,
+Administrators, and Counselors; 1980.
+.IP [Widn]          
+Widnall,  Sheila E.   ``AAAS Presidential  Lecture:
+Voices  from  the  Pipeline.''    Science .   241:  1740-1745;
+September 30, 1988.
