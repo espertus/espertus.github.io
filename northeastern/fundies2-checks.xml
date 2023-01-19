@@ -92,10 +92,6 @@
 
     <!-- Checks for Javadoc comments.                     -->
     <!-- See https://checkstyle.org/config_javadoc.html -->
-    <module name="InvalidJavadocPosition"/>
-    <module name="JavadocMethod"/>
-    <module name="JavadocType"/>
-    <module name="JavadocStyle"/>
 
     <!-- Checks for Naming Conventions.                  -->
     <!-- See https://checkstyle.org/config_naming.html -->
@@ -111,7 +107,6 @@
 
     <!-- Checks for imports                              -->
     <!-- See https://checkstyle.org/config_imports.html -->
-    <module name="AvoidStarImport"/>
     <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
     <module name="RedundantImport"/>
     <module name="UnusedImports">
