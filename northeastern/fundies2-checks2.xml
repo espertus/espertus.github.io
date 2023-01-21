@@ -89,14 +89,6 @@
   <!-- </module> -->
 
   <module name="TreeWalker">
-
-    <!-- Checks for Javadoc comments.                     -->
-    <!-- See https://checkstyle.org/config_javadoc.html -->
-    <module name="InvalidJavadocPosition"/>
-    <module name="JavadocMethod"/>
-    <module name="JavadocType"/>
-    <module name="JavadocStyle"/>
-
     <!-- Checks for Naming Conventions.                  -->
     <!-- See https://checkstyle.org/config_naming.html -->
     <module name="ConstantName"/>
@@ -111,6 +103,7 @@
 
     <!-- Checks for imports                              -->
     <!-- See https://checkstyle.org/config_imports.html -->
+    <!--<module name="AvoidStarImport"/>-->
     <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
     <module name="RedundantImport"/>
     <module name="UnusedImports">
@@ -150,7 +143,7 @@
     <!-- Checks for common coding problems               -->
     <!-- See https://checkstyle.org/config_coding.html -->
     <module name="EmptyStatement"/>
-    <module name="EqualsHashCode"/>
+<!--    <module name="EqualsHashCode"/> -->
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
     <module name="MagicNumber"/>
@@ -178,26 +171,21 @@
       <property name="optional" value="true"/>
     </module>
 
-    <!-- https://stackoverflow.com/q/74978200/631051 -->
-    <!-- Suppress checks for class. -->
+    <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
+    <module name="SuppressionXpathFilter">
+      <property name="file" value="${org.checkstyle.sun.suppressionxpathfilter.config}"
+                default="checkstyle-xpath-suppressions.xml" />
+      <property name="optional" value="true"/>
+    </module>
+
+    <!-- Disable some checks for test files. -->
     <module name="SuppressionXpathSingleFilter">
       <property name="files" value=".*Test.java"/>
       <property name="checks" value="VisibilityModifier|MagicNumber"/>
       <property name="query" value="//*"/>
     </module>
 
-    <!-- Suppress checks for method. -->
-    <!--
-    <module name="SuppressionXpathSingleFilter">
-      <property name="files" value="MyTest.java"/>
-      <property name="checks" value="MagicNumber"/>
-      <property name="checks" value="VisibilityModifier"/>      
-      <property name="query"
-                value="//METHOD_DEF[./IDENT[@text='MyTest']]//*"/>
-    </module>    
--->
-          
+
   </module>
 
 </module>
-
