@@ -1,0 +1,7 @@
+islands
+islands.controller
+islands.model
+islands.model.player
+islands.model.player.student
+islands.model.player.studentname
+islands.view
