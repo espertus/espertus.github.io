@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Behavior Specification Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label, input, textarea, button {
+            margin-bottom: 10px;
+        }
+        button {
+            align-self: flex-start;
+        }
+    </style>
+</head>
+<body>
+    <h1>Specify Program Behavior</h1>
+    <form id="behaviorForm">
+        <label for="studentName">Your Name:</label>
+        <input type="text" id="studentName" name="studentName" required>
+
+        <label for="programDescription">Describe the desired program behavior:</label>
+        <textarea id="programDescription" name="programDescription" rows="5" required></textarea>
+
+        <label for="expectedInput">Expected Input:</label>
+        <input type="text" id="expectedInput" name="expectedInput" required>
+
+        <label for="expectedOutput">Expected Output:</label>
+        <input type="text" id="expectedOutput" name="expectedOutput" required>
+
+        <button type="submit">Generate Tests</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('behaviorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            document.getElementById('result').textContent = JSON.stringify(result, null, 2);
+        });
+    </script>
+</body>
+</html>
