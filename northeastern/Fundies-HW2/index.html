@@ -10,6 +10,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            line-height: 1.6;
         }
         form {
             display: flex;
@@ -20,6 +21,27 @@
         }
         button {
             align-self: flex-start;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .test {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -55,8 +77,23 @@
                 }
             });
             const result = await response.json();
-            document.getElementById('result').textContent = JSON.stringify(result, null, 2);
+            displayResult(result);
         });
+
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            if (result.error) {
+                resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
+            } else {
+                let html = `<h2>${result.message}</h2>`;
+                html += '<h3>Generated Tests:</h3>';
+                const tests = result.tests.split('\n').filter(test => test.trim() !== '');
+                tests.forEach(test => {
+                    html += `<div class="test">${test.trim()}</div>`;
+                });
+                resultDiv.innerHTML = html;
+            }
+        }
     </script>
 </body>
 </html>
