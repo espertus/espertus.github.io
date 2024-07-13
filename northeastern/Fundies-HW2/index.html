@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
@@ -26,6 +26,7 @@
             color: white;
             border: none;
             cursor: pointer;
+            margin-right: 10px;
         }
         button:hover {
             background-color: #45a049;
@@ -43,6 +44,18 @@
             background-color: #e9e9e9;
             border-radius: 3px;
         }
+        .targeting-set {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .remove-set {
+            background-color: #f44336;
+        }
+        .remove-set:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -51,30 +64,36 @@
         <label for="studentName">Your Name:</label>
         <input type="text" id="studentName" name="studentName" required>
 
-        <label for="adType">Ad Type:</label>
-        <select id="adType" name="adType" required>
-            <option value="">Select an ad type</option>
-            <option value="Diet">Diet</option>
-            <option value="Car">Car</option>
-            <option value="Beauty">Beauty</option>
-            <option value="Dating">Dating</option>
-            <option value="Pet">Pet</option>
-            <option value="PetToy">Pet Toy</option>
-            <option value="Lego">Lego</option>
-            <option value="Pokemon">Pokemon</option>
-            <option value="Retirement">Retirement</option>
-            <option value="Work">Work</option>
-        </select>
+        <div id="targetingSets">
+            <div class="targeting-set">
+                <h3>Targeting Set 1</h3>
+                <label for="adType0">Ad Type:</label>
+                <select id="adType0" name="adType0" required>
+                    <option value="">Select an ad type</option>
+                    <option value="Diet">Diet</option>
+                    <option value="Car">Car</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="Dating">Dating</option>
+                    <option value="Pet">Pet</option>
+                    <option value="PetToy">Pet Toy</option>
+                    <option value="Lego">Lego</option>
+                    <option value="Pokemon">Pokemon</option>
+                    <option value="Retirement">Retirement</option>
+                    <option value="Work">Work</option>
+                </select>
 
-        <label for="gender">Gender</label>
-        <input type="text" id="gender" name="gender" required>
+                <label for="gender0">Gender (free-form):</label>
+                <input type="text" id="gender0" name="gender0" required>
 
-	<label for="minAge">Minimum Age:</label>
-	<input type="number" id="minAge" name="minAge" min="0" max="150" required>
+                <label for="minAge0">Minimum Age:</label>
+                <input type="number" id="minAge0" name="minAge0" min="0" max="150" required>
 
-	<label for="maxAge">Maximum Age:</label>
-	<input type="number" id="maxAge" name="maxAge" min="0" max="150" required>
+                <label for="maxAge0">Maximum Age:</label>
+                <input type="number" id="maxAge0" name="maxAge0" min="0" max="150" required>
+            </div>
+        </div>
 
+        <button type="button" id="addSet">Add Another Targeting Set</button>
 
         <label for="programDescription">Describe the desired program behavior:</label>
         <textarea id="programDescription" name="programDescription" rows="5" required></textarea>
@@ -85,12 +104,78 @@
     <div id="result"></div>
 
     <script>
+        let setCount = 1;
+
+        document.getElementById('addSet').addEventListener('click', () => {
+            setCount++;
+            const newSet = document.createElement('div');
+            newSet.className = 'targeting-set';
+            newSet.innerHTML = `
+                <h3>Targeting Set ${setCount}</h3>
+                <label for="adType${setCount-1}">Ad Type:</label>
+                <select id="adType${setCount-1}" name="adType${setCount-1}" required>
+                    <option value="">Select an ad type</option>
+                    <option value="Diet">Diet</option>
+                    <option value="Car">Car</option>
+                    <option value="Beauty">Beauty</option>
+                    <option value="Dating">Dating</option>
+                    <option value="Pet">Pet</option>
+                    <option value="PetToy">Pet Toy</option>
+                    <option value="Lego">Lego</option>
+                    <option value="Pokemon">Pokemon</option>
+                    <option value="Retirement">Retirement</option>
+                    <option value="Work">Work</option>
+                </select>
+
+                <label for="gender${setCount-1}">Gender (free-form):</label>
+                <input type="text" id="gender${setCount-1}" name="gender${setCount-1}" required>
+
+                <label for="minAge${setCount-1}">Minimum Age:</label>
+                <input type="number" id="minAge${setCount-1}" name="minAge${setCount-1}" min="0" max="150" required>
+
+                <label for="maxAge${setCount-1}">Maximum Age:</label>
+                <input type="number" id="maxAge${setCount-1}" name="maxAge${setCount-1}" min="0" max="150" required>
+
+                <button type="button" class="remove-set">Remove This Set</button>
+            `;
+            document.getElementById('targetingSets').appendChild(newSet);
+        });
+
+        document.getElementById('targetingSets').addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-set')) {
+                e.target.closest('.targeting-set').remove();
+                updateSetNumbers();
+            }
+        });
+
+        function updateSetNumbers() {
+            const sets = document.querySelectorAll('.targeting-set');
+            sets.forEach((set, index) => {
+                set.querySelector('h3').textContent = `Targeting Set ${index + 1}`;
+            });
+            setCount = sets.length;
+        }
+
         document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
+            const jsonData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
+                    const setIndex = key.slice(-1);
+                    if (!jsonData[`set${setIndex}`]) {
+                        jsonData[`set${setIndex}`] = {};
+                    }
+                    jsonData[`set${setIndex}`][key.replace(setIndex, '')] = value;
+                } else {
+                    jsonData[key] = value;
+                }
+            }
+
             const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
                 method: 'POST',
-                body: JSON.stringify(Object.fromEntries(formData)),
+                body: JSON.stringify(jsonData),
                 headers: {
                     'Content-Type': 'application/json'
                 }
