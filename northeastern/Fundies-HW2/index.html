@@ -179,9 +179,8 @@
             const fields = newSet.querySelectorAll('select, input');
             fields.forEach(field => {
                 field.addEventListener('change', () => validateSet(setIndex));
+                field.addEventListener('blur', () => validateSet(setIndex));
             });
-
-            validateSet(setIndex);
         }
 
         document.getElementById('addSet').addEventListener('click', () => {
@@ -220,52 +219,36 @@
             // Remove existing error messages
             set.querySelectorAll('.error').forEach(el => el.remove());
 
-            // Validate Ad Type
-            if (!adType.value) {
-                isValid = false;
-                adType.classList.add('invalid');
-                adType.classList.remove('valid');
-                adType.insertAdjacentHTML('afterend', '<div class="error">Please select an ad type</div>');
-            } else {
-                adType.classList.add('valid');
-                adType.classList.remove('invalid');
+            // Helper function to validate a field
+            function validateField(field, errorMessage, condition) {
+                if (field.value && !condition) {
+                    isValid = false;
+                    field.classList.add('invalid');
+                    field.classList.remove('valid');
+                    field.insertAdjacentHTML('afterend', `<div class="error">${errorMessage}</div>`);
+                } else if (field.value) {
+                    field.classList.add('valid');
+                    field.classList.remove('invalid');
+                } else {
+                    field.classList.remove('valid');
+                    field.classList.remove('invalid');
+                }
             }
+
+            // Validate Ad Type
+            validateField(adType, "Please select an ad type", adType.value !== "");
 
             // Validate Gender
-            if (!gender.value) {
-                isValid = false;
-                gender.classList.add('invalid');
-                gender.classList.remove('valid');
-                gender.insertAdjacentHTML('afterend', '<div class="error">Please select a gender</div>');
-            } else {
-                gender.classList.add('valid');
-                gender.classList.remove('invalid');
-            }
+            validateField(gender, "Please select a gender", gender.value !== "");
 
             // Validate Min Age
-            if (!minAge.value || isNaN(minAge.value) || minAge.value < 0 || minAge.value > 150) {
-                isValid = false;
-                minAge.classList.add('invalid');
-                minAge.classList.remove('valid');
-                minAge.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid minimum age (0-150)</div>');
-            } else {
-                minAge.classList.add('valid');
-                minAge.classList.remove('invalid');
-            }
+            validateField(minAge, "Please enter a valid minimum age (0-150)", !isNaN(minAge.value) && minAge.value >= 0 && minAge.value <= 150);
 
             // Validate Max Age
-            if (!maxAge.value || isNaN(maxAge.value) || maxAge.value < 0 || maxAge.value > 150) {
-                isValid = false;
-                maxAge.classList.add('invalid');
-                maxAge.classList.remove('valid');
-                maxAge.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid maximum age (0-150)</div>');
-            } else {
-                maxAge.classList.add('valid');
-                maxAge.classList.remove('invalid');
-            }
+            validateField(maxAge, "Please enter a valid maximum age (0-150)", !isNaN(maxAge.value) && maxAge.value >= 0 && maxAge.value <= 150);
 
             // Validate Min Age <= Max Age
-            if (parseInt(minAge.value) > parseInt(maxAge.value)) {
+            if (minAge.value && maxAge.value && parseInt(minAge.value) > parseInt(maxAge.value)) {
                 isValid = false;
                 maxAge.classList.add('invalid');
                 maxAge.classList.remove('valid');
