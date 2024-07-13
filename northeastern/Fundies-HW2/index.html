@@ -12,7 +12,7 @@
             padding: 20px;
             line-height: 1.6;
         }
-        form {
+        form, .gender-inputs {
             display: flex;
             flex-direction: column;
         }
@@ -56,6 +56,9 @@
         .remove-set:hover {
             background-color: #d32f2f;
         }
+        #genderInputs {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +66,14 @@
     <form id="adTargetingForm">
         <label for="studentName">Your Name:</label>
         <input type="text" id="studentName" name="studentName" required>
+
+        <div id="genderInputs" class="gender-inputs">
+            <h3>Specify Legal Gender Values</h3>
+            <div id="genderFields">
+                <input type="text" name="genderValue" placeholder="Enter a gender value">
+            </div>
+            <button type="button" id="addGender">Add Another Gender</button>
+        </div>
 
         <div id="targetingSets">
             <div class="targeting-set">
@@ -82,8 +93,10 @@
                     <option value="Work">Work</option>
                 </select>
 
-                <label for="gender0">Gender (free-form):</label>
-                <input type="text" id="gender0" name="gender0" required>
+                <label for="gender0">Gender:</label>
+                <select id="gender0" name="gender0" required>
+                    <option value="">Select a gender</option>
+                </select>
 
                 <label for="minAge0">Minimum Age:</label>
                 <input type="number" id="minAge0" name="minAge0" min="0" max="150" required>
@@ -105,6 +118,33 @@
 
     <script>
         let setCount = 1;
+        let genderValues = [];
+
+        document.getElementById('addGender').addEventListener('click', () => {
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'genderValue';
+            newInput.placeholder = 'Enter a gender value';
+            document.getElementById('genderFields').appendChild(newInput);
+        });
+
+        function updateGenderDropdowns() {
+            genderValues = Array.from(document.getElementsByName('genderValue')).map(input => input.value).filter(value => value.trim() !== '');
+            const genderSelects = document.querySelectorAll('select[name^="gender"]');
+            genderSelects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Select a gender</option>';
+                genderValues.forEach(gender => {
+                    const option = document.createElement('option');
+                    option.value = gender;
+                    option.textContent = gender;
+                    select.appendChild(option);
+                });
+                select.value = currentValue;
+            });
+        }
+
+        document.getElementById('genderInputs').addEventListener('input', updateGenderDropdowns);
 
         document.getElementById('addSet').addEventListener('click', () => {
             setCount++;
@@ -127,8 +167,10 @@
                     <option value="Work">Work</option>
                 </select>
 
-                <label for="gender${setCount-1}">Gender (free-form):</label>
-                <input type="text" id="gender${setCount-1}" name="gender${setCount-1}" required>
+                <label for="gender${setCount-1}">Gender:</label>
+                <select id="gender${setCount-1}" name="gender${setCount-1}" required>
+                    <option value="">Select a gender</option>
+                </select>
 
                 <label for="minAge${setCount-1}">Minimum Age:</label>
                 <input type="number" id="minAge${setCount-1}" name="minAge${setCount-1}" min="0" max="150" required>
@@ -139,6 +181,7 @@
                 <button type="button" class="remove-set">Remove This Set</button>
             `;
             document.getElementById('targetingSets').appendChild(newSet);
+            updateGenderDropdowns();
         });
 
         document.getElementById('targetingSets').addEventListener('click', (e) => {
@@ -159,17 +202,20 @@
         document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            const jsonData = {};
+            const jsonData = {
+                genderValues: genderValues,
+                targetingSets: []
+            };
             
             for (let [key, value] of formData.entries()) {
-                if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
-                    const setIndex = key.slice(-1);
-                    if (!jsonData[`set${setIndex}`]) {
-                        jsonData[`set${setIndex}`] = {};
-                    }
-                    jsonData[`set${setIndex}`][key.replace(setIndex, '')] = value;
-                } else {
+                if (key === 'studentName' || key === 'programDescription') {
                     jsonData[key] = value;
+                } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
+                    const setIndex = parseInt(key.slice(-1));
+                    if (!jsonData.targetingSets[setIndex]) {
+                        jsonData.targetingSets[setIndex] = {};
+                    }
+                    jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
                 }
             }
 
