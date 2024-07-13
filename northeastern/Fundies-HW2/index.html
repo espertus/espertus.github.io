@@ -63,6 +63,12 @@
             margin-right: 10px;
             font-weight: bold;
         }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -129,7 +135,7 @@
         let setCount = 1;
         const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
 
-        function updateGenderDropdowns() {
+	function updateGenderDropdowns() {
             const additionalGenders = Array.from(document.getElementsByName('additionalGender'))
                 .map(input => input.value.trim())
                 .filter(Boolean);
@@ -148,9 +154,7 @@
                 select.value = currentValue;
             });
         }
-
-        document.getElementById('genderInputs').addEventListener('input', updateGenderDropdowns);
-
+	
         document.getElementById('addGender').addEventListener('click', () => {
             const newInput = document.createElement('input');
             newInput.type = 'text';
@@ -212,8 +216,55 @@
             setCount = sets.length;
         }
 
+        function validateForm() {
+            let isValid = true;
+            const errorMessages = document.querySelectorAll('.error');
+            errorMessages.forEach(msg => msg.remove());
+
+            // Validate targeting sets
+            const sets = document.querySelectorAll('.targeting-set');
+            sets.forEach((set, index) => {
+                const adType = set.querySelector(`select[name="adType${index}"]`);
+                const gender = set.querySelector(`select[name="gender${index}"]`);
+                const minAge = set.querySelector(`input[name="minAge${index}"]`);
+                const maxAge = set.querySelector(`input[name="maxAge${index}"]`);
+
+                if (!adType.value) {
+                    isValid = false;
+                    adType.insertAdjacentHTML('afterend', '<div class="error">Please select an ad type</div>');
+                }
+
+                if (!gender.value) {
+                    isValid = false;
+                    gender.insertAdjacentHTML('afterend', '<div class="error">Please select a gender</div>');
+                }
+
+                if (!minAge.value || isNaN(minAge.value) || minAge.value < 0 || minAge.value > 150) {
+                    isValid = false;
+                    minAge.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid minimum age (0-150)</div>');
+                }
+
+                if (!maxAge.value || isNaN(maxAge.value) || maxAge.value < 0 || maxAge.value > 150) {
+                    isValid = false;
+                    maxAge.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid maximum age (0-150)</div>');
+                }
+
+                if (parseInt(minAge.value) > parseInt(maxAge.value)) {
+                    isValid = false;
+                    maxAge.insertAdjacentHTML('afterend', '<div class="error">Maximum age must be greater than or equal to minimum age</div>');
+                }
+            });
+
+            return isValid;
+        }
+
         document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
             const formData = new FormData(e.target);
             const jsonData = {
                 genderValues: [...predefinedGenders],
@@ -221,7 +272,7 @@
             };
             
             for (let [key, value] of formData.entries()) {
-                if (key === 'studentName' || key === 'programDescription') {
+                if (key === 'studentName') {
                     jsonData[key] = value;
                 } else if (key === 'additionalGender') {
                     if (value.trim() !== '') {
@@ -232,7 +283,7 @@
                     if (!jsonData.targetingSets[setIndex]) {
                         jsonData.targetingSets[setIndex] = {};
                     }
-                    jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
+                    jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = ovalue;
                 }
             }
 
@@ -247,7 +298,7 @@
             displayResult(result);
         });
 
-        function displayResult(result) {
+         function displayResult(result) {
             const resultDiv = document.getElementById('result');
             if (result.error) {
                 resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
