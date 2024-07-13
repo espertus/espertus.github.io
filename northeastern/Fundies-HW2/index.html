@@ -174,7 +174,7 @@
 	  document.getElementById('targetingSets').appendChild(newSet);
 	  updateGenderDropdowns();
 	  
-	  newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex));
+	  newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex, true));
       }
       
       function validateSet(setIndex, noisy) {
@@ -243,7 +243,7 @@
 	  
 	  let isValid = true;
           for (let i = 0; i < NUM_TARGETS; i++) {
-              if (!validateSet(i)) {
+              if (!validateSet(i, false)) {
                   isValid = false;
               }
           }
