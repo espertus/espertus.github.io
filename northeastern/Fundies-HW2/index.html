@@ -293,10 +293,9 @@
           } else {
               let html = `<h2>${result.message}</h2>`;
               html += '<h3>Generated Tests:</h3>';
-              const tests = result.tests.split('\n').filter(test => test.trim() !== '');
-              tests.forEach(test => {
-                  html += `<div class="test">${test.trim()}</div>`;
-              });
+	      const formattedTests = result.tests.replace(/\\n/g, '\n');
+	      html += `<pre>${formattedTests}</pre>`;
+
               resultDiv.innerHTML = html;
           }
       }
