@@ -66,14 +66,15 @@
             <option value="Work">Work</option>
         </select>
 
-        <label for="gender">Gender (free-form):</label>
+        <label for="gender">Gender</label>
         <input type="text" id="gender" name="gender" required>
 
-        <label for="minAge">Minimum Age:</label>
-        <input type="number" id="minAge" name="minAge" min="0" required>
+	<label for="minAge">Minimum Age:</label>
+	<input type="number" id="minAge" name="minAge" min="0" max="150" required>
 
-        <label for="maxAge">Maximum Age:</label>
-        <input type="number" id="maxAge" name="maxAge" min="0" required>
+	<label for="maxAge">Maximum Age:</label>
+	<input type="number" id="maxAge" name="maxAge" min="0" max="150" required>
+
 
         <label for="programDescription">Describe the desired program behavior:</label>
         <textarea id="programDescription" name="programDescription" rows="5" required></textarea>
