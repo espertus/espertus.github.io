@@ -185,6 +185,7 @@
       
       document.getElementById('addSet').addEventListener('click', () => {
           createTargetingSet(setCount);
+	  validateSet(setCount);
           setCount++;
       });
       
@@ -221,7 +222,7 @@
 	  
 	  // Helper function to validate a field
 	  function validateField(field, errorMessage, condition) {
-              if (field.value && !condition) {
+              if (field.value === "" || (field.value && !condition)) {
 		  isValid = false;
 		  field.classList.add('invalid');
 		  field.classList.remove('valid');
