@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad Targeting Specification Form</title>
@@ -70,8 +70,8 @@
             border-color: red;
         }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Ad Targeting Specification Form</h1>
     <form id="adTargetingForm">
         <label for="studentName">Your Name:</label>
@@ -205,8 +205,16 @@
               }
 	  }
 	  
-	  // ... (previous validations for adType, gender, minAge, and maxAge remain the same)
-	  
+          // Valid ad types
+          const validAdTypes = ['Diet', 'Car', 'Beauty', 'Dating', 'Pet', 'PetToy', 'Lego', 'Pokemon', 'Retirement', 'Work'];
+
+          // Validate Ad Type
+          validateField(adType, "Please select a valid ad type", validAdTypes.includes(adType.value));
+
+          // Validate Gender
+          const validGenders = [...predefinedGenders, ...Array.from(document.getElementsByName('additionalGender')).map(input => input.value.trim()).filter(Boolean)];
+          validateField(gender, "Please select a valid gender", validGenders.includes(gender.value));
+
 	  // Validate Min Income
 	  validateField(minIncome, "Please enter a valid minimum income (0 or greater)", !isNaN(minIncome.value) && minIncome.value >= 0);
 	  
@@ -225,7 +233,10 @@
               alert("This target is valid!");
 	  }
 	  
-    return      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
+	  return isValid;
+      }
+
+      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
           e.preventDefault();
           
           let isValid = true;
@@ -285,21 +296,22 @@
 	  
           if (!isValid) {
               alert("Please fill out all targeting sets correctly before submitting.");
-              return;
           }
+	  return isValid;
+      });
 
-	  document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
-	      e.preventDefault();
+      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
+	  e.preventDefault();
 
-	      let isValid = true;
-              for (let i = 0; i < 16; i++) {
-                  if (!validateSet(i)) {
-                      isValid = false;
-                  }
+	  let isValid = true;
+          for (let i = 0; i < 16; i++) {
+              if (!validateSet(i)) {
+                  isValid = false;
               }
-
-              if (!isValid) {
-                  alert("Please fill out all targeting sets correctly before submitting.");
+          }
+	  
+          if (!isValid) {
+              alert("Please fill out all targeting sets correctly before submitting.");
                   return;
               }
 
@@ -326,18 +338,18 @@
 		  }
 	      }
 	      
-          const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
-              method: 'POST',
+              const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
+		  method: 'POST',
               body: JSON.stringify(jsonData),
               headers: {
                   'Content-Type': 'application/json'
               }
-          });
-          const result = await response.json();
-          displayResult(result);
-      });
+              });
+              const result = await response.json();
+              displayResult(result);
+	  });
       
-      function displayResult(result) {
+	  function displayResult(result) {
           const resultDiv = document.getElementById('result');
           if (result.error) {
               resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
@@ -352,13 +364,13 @@
           }
       }
       
-      // Create 16 targeting sets at the start
-      for (let i = 0; i < 16; i++) {
-          createTargetingSet(i);
-      }
+	  // Create 16 targeting sets at the start
+	  for (let i = 0; i < 16; i++) {
+              createTargetingSet(i);
+	  }
       
-      // Initial update of gender dropdowns
-      updateGenderDropdowns();
+	  // Initial update of gender dropdowns
+	  updateGenderDropdowns();
       </script>
-</body>
+  </body>
 </html>
