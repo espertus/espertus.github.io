@@ -98,37 +98,39 @@
     <div id="result"></div>
 
     <script>
-        const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
+      const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
 
-        function updateGenderDropdowns() {
-            const additionalGenders = Array.from(document.getElementsByName('additionalGender'))
+      const NUM_TARGETS = 3;
+
+      function updateGenderDropdowns() {
+          const additionalGenders = Array.from(document.getElementsByName('additionalGender'))
                 .map(input => input.value.trim())
                 .filter(Boolean);
-            const allGenders = [...predefinedGenders, ...additionalGenders];
+          const allGenders = [...predefinedGenders, ...additionalGenders];
+	  
+          const genderSelects = document.querySelectorAll('select[name^="gender"]');
+          genderSelects.forEach(select => {
+              const currentValue = select.value;
+              select.innerHTML = '<option value="">Select a gender</option>';
+              allGenders.forEach(gender => {
+                  const option = document.createElement('option');
+                  option.value = gender;
+                  option.textContent = gender;
+                  select.appendChild(option);
+              });
+              select.value = currentValue;
+          });
+      }
+      
+      document.getElementById('genderInputs').addEventListener('input', updateGenderDropdowns);
 
-            const genderSelects = document.querySelectorAll('select[name^="gender"]');
-            genderSelects.forEach(select => {
-                const currentValue = select.value;
-                select.innerHTML = '<option value="">Select a gender</option>';
-                allGenders.forEach(gender => {
-                    const option = document.createElement('option');
-                    option.value = gender;
-                    option.textContent = gender;
-                    select.appendChild(option);
-                });
-                select.value = currentValue;
-            });
-        }
-
-        document.getElementById('genderInputs').addEventListener('input', updateGenderDropdowns);
-
-        document.getElementById('addGender').addEventListener('click', () => {
-            const newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.name = 'additionalGender';
-            newInput.placeholder = 'Enter additional gender';
-            document.getElementById('additionalGenderFields').appendChild(newInput);
-        });
+      document.getElementById('addGender').addEventListener('click', () => {
+          const newInput = document.createElement('input');
+          newInput.type = 'text';
+          newInput.name = 'additionalGender';
+          newInput.placeholder = 'Enter additional gender';
+          document.getElementById('additionalGenderFields').appendChild(newInput);
+      });
 
       function createTargetingSet(setIndex) {
 	  const newSet = document.createElement('div');
@@ -175,7 +177,7 @@
 	  newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex));
       }
       
-      function validateSet(setIndex) {
+      function validateSet(setIndex, noisy) {
 	  const set = document.querySelector(`.targeting-set:nth-child(${setIndex + 1})`);
 	  const adType = set.querySelector(`select[name="adType${setIndex}"]`);
 	  const gender = set.querySelector(`select[name="gender${setIndex}"]`);
@@ -229,7 +231,7 @@
               maxIncome.insertAdjacentHTML('afterend', '<div class="error">Maximum income must be greater than or equal to minimum income</div>');
 	  }
 	  
-	  if (isValid) {
+	  if (isValid && noisy) {
               alert("This target is valid!");
 	  }
 	  
@@ -237,10 +239,10 @@
       }
 
       document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
-          e.preventDefault();
-          
-          let isValid = true;
-          for (let i = 0; i < 16; i++) {
+	  e.preventDefault();
+	  
+	  let isValid = true;
+          for (let i = 0; i < NUM_TARGETS; i++) {
               if (!validateSet(i)) {
                   isValid = false;
               }
@@ -251,30 +253,30 @@
               return;
           }
 	  
-          const formData = new FormData(e.target);
-          const jsonData = {
-              genderValues: [...predefinedGenders],
-              targetingSets: []
-          };
-          
-          for (let [key, value] of formData.entries()) {
-              if (key === 'studentName') {
-                  jsonData[key] = value;
-              } else if (key === 'additionalGender') {
-                  if (value.trim() !== '') {
-                      jsonData.genderValues.push(value.trim());
-                  }
-              } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
-                  const setIndex = parseInt(key.slice(-1));
-                  if (!jsonData.targetingSets[setIndex]) {
-                      jsonData.targetingSets[setIndex] = {};
-                  }
-                  jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
-              }
-          }
+	  const formData = new FormData(e.target);
+	  const jsonData = {
+	      genderValues: [...predefinedGenders],
+	      targetingSets: []
+	  };
+	  
+	  for (let [key, value] of formData.entries()) {
+	      if (key === 'studentName') {
+		  jsonData[key] = value;
+	      } else if (key === 'additionalGender') {
+		  if (value.trim() !== '') {
+		      jsonData.genderValues.push(value.trim());
+		  }
+	      } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge') || key.startsWith('minIncome') || key.startsWith('maxIncome')) {
+		  const setIndex = parseInt(key.slice(-1));
+		  if (!jsonData.targetingSets[setIndex]) {
+		      jsonData.targetingSets[setIndex] = {};
+		  }
+		  jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
+	      }
+	  }
 	  
           const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
-              method: 'POST',
+	      method: 'POST',
               body: JSON.stringify(jsonData),
               headers: {
                   'Content-Type': 'application/json'
@@ -284,72 +286,7 @@
           displayResult(result);
       });
       
-      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
-          e.preventDefault();
-          
-          let isValid = true;
-          for (let i = 0; i < 16; i++) {
-              if (!validateSet(i)) {
-                  isValid = false;
-              }
-          }
-	  
-          if (!isValid) {
-              alert("Please fill out all targeting sets correctly before submitting.");
-          }
-	  return isValid;
-      });
-
-      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
-	  e.preventDefault();
-
-	  let isValid = true;
-          for (let i = 0; i < 16; i++) {
-              if (!validateSet(i)) {
-                  isValid = false;
-              }
-          }
-	  
-          if (!isValid) {
-              alert("Please fill out all targeting sets correctly before submitting.");
-                  return;
-              }
-
-    
-	      const formData = new FormData(e.target);
-	      const jsonData = {
-		  genderValues: [...predefinedGenders],
-		  targetingSets: []
-	      };
-    
-	      for (let [key, value] of formData.entries()) {
-		  if (key === 'studentName') {
-		      jsonData[key] = value;
-		  } else if (key === 'additionalGender') {
-		      if (value.trim() !== '') {
-			  jsonData.genderValues.push(value.trim());
-		      }
-		  } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge') || key.startsWith('minIncome') || key.startsWith('maxIncome')) {
-		      const setIndex = parseInt(key.slice(-1));
-		      if (!jsonData.targetingSets[setIndex]) {
-			  jsonData.targetingSets[setIndex] = {};
-		      }
-		      jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
-		  }
-	      }
-	      
-              const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
-		  method: 'POST',
-              body: JSON.stringify(jsonData),
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-              });
-              const result = await response.json();
-              displayResult(result);
-	  });
-      
-	  function displayResult(result) {
+      function displayResult(result) {
           const resultDiv = document.getElementById('result');
           if (result.error) {
               resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
@@ -365,7 +302,7 @@
       }
       
       // Create 16 targeting sets at the start
-      for (let i = 0; i < 4; i++) { // temporary reduction
+      for (let i = 0; i < NUM_TARGETS; i++) {
           createTargetingSet(i);
       }
       
