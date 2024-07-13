@@ -140,53 +140,51 @@
       });
       
       function createTargetingSet(setIndex) {
-          const newSet = document.createElement('div');
-          newSet.className = 'targeting-set';
-          newSet.innerHTML = `
-                <h3>Targeting Set ${setIndex + 1}</h3>
-                <label for="adType${setIndex}">Ad Type:</label>
-                <select id="adType${setIndex}" name="adType${setIndex}" required>
-                    <option value="">Select an ad type</option>
-                    <option value="Diet">Diet</option>
-                    <option value="Car">Car</option>
-                    <option value="Beauty">Beauty</option>
-                    <option value="Dating">Dating</option>
-                    <option value="Pet">Pet</option>
-                    <option value="PetToy">Pet Toy</option>
-                    <option value="Lego">Lego</option>
-                    <option value="Pokemon">Pokemon</option>
-                    <option value="Retirement">Retirement</option>
-                    <option value="Work">Work</option>
-                </select>
+	  const newSet = document.createElement('div');
+	  newSet.className = 'targeting-set';
+	  newSet.innerHTML = `
+        <h3>Targeting Set ${setIndex + 1}</h3>
+        <label for="adType${setIndex}">Ad Type:</label>
+        <select id="adType${setIndex}" name="adType${setIndex}" required>
+            <option value="">Select an ad type</option>
+            <option value="Diet">Diet</option>
+            <option value="Car">Car</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Dating">Dating</option>
+            <option value="Pet">Pet</option>
+            <option value="PetToy">Pet Toy</option>
+            <option value="Lego">Lego</option>
+            <option value="Pokemon">Pokemon</option>
+            <option value="Retirement">Retirement</option>
+            <option value="Work">Work</option>
+        </select>
 
-                <label for="gender${setIndex}">Gender:</label>
-                <select id="gender${setIndex}" name="gender${setIndex}" required>
-                    <option value="">Select a gender</option>
-                </select>
+        <label for="gender${setIndex}">Gender:</label>
+        <select id="gender${setIndex}" name="gender${setIndex}" required>
+            <option value="">Select a gender</option>
+        </select>
 
-                <label for="minAge${setIndex}">Minimum Age:</label>
-                <input type="number" id="minAge${setIndex}" name="minAge${setIndex}" min="0" max="150" required>
+        <label for="minAge${setIndex}">Minimum Age:</label>
+        <input type="number" id="minAge${setIndex}" name="minAge${setIndex}" min="0" max="150" required>
 
-                <label for="maxAge${setIndex}">Maximum Age:</label>
-                <input type="number" id="maxAge${setIndex}" name="maxAge${setIndex}" min="0" max="150" required>
+        <label for="maxAge${setIndex}">Maximum Age:</label>
+        <input type="number" id="maxAge${setIndex}" name="maxAge${setIndex}" min="0" max="150" required>
 
-                <button type="button" class="remove-set">Remove This Set</button>
-            `;
-          document.getElementById('targetingSets').appendChild(newSet);
-          updateGenderDropdowns();
-	  
-          // Add event listeners for real-time validation
-          const fields = newSet.querySelectorAll('select, input');
-          fields.forEach(field => {
-              field.addEventListener('change', () => validateSet(setIndex));
-              field.addEventListener('blur', () => validateSet(setIndex));
-          });
+        <button type="button" class="remove-set">Remove This Set</button>
+    `;
+	  document.getElementById('targetingSets').appendChild(newSet);
+	  updateGenderDropdowns();
       }
-      
+
       document.getElementById('addSet').addEventListener('click', () => {
-          createTargetingSet(setCount);
-	  validateSet(setCount);
-          setCount++;
+	  if (setCount > 0) {
+              if (!validateSet(setCount - 1)) {
+		  alert("Please complete the current targeting set before adding a new one.");
+		  return;
+              }
+	  }
+	  createTargetingSet(setCount);
+	  setCount++;
       });
       
       document.getElementById('targetingSets').addEventListener('click', (e) => {
@@ -276,9 +274,17 @@
       document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
           e.preventDefault();
           
-          if (!validateAllSets()) {
+	  let isValid = true;
+	  for (let i = 0; i < setCount; i++) {
+              if (!validateSet(i)) {
+		  isValid = false;
+              }
+	  }
+
+	  if (!isValid) {
+              alert("Please fill out all targeting sets correctly before submitting.");
               return;
-          }
+	  }
 	  
           const formData = new FormData(e.target);
           const jsonData = {
