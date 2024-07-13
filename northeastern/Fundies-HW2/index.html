@@ -130,174 +130,235 @@
             document.getElementById('additionalGenderFields').appendChild(newInput);
         });
 
-        function createTargetingSet(setIndex) {
-            const newSet = document.createElement('div');
-            newSet.className = 'targeting-set';
-            newSet.innerHTML = `
-                <h3>Add Target ${setIndex + 1}</h3>
-                <label for="adType${setIndex}">Ad Type:</label>
-                <select id="adType${setIndex}" name="adType${setIndex}" required>
-                    <option value="">Select an ad type</option>
-                    <option value="Diet">Diet</option>
-                    <option value="Car">Car</option>
-                    <option value="Beauty">Beauty</option>
-                    <option value="Dating">Dating</option>
-                    <option value="Pet">Pet</option>
-                    <option value="PetToy">Pet Toy</option>
-                    <option value="Lego">Lego</option>
-                    <option value="Pokemon">Pokemon</option>
-                    <option value="Retirement">Retirement</option>
-                    <option value="Work">Work</option>
-                </select>
+      function createTargetingSet(setIndex) {
+	  const newSet = document.createElement('div');
+	  newSet.className = 'targeting-set';
+	  newSet.innerHTML = `
+        <h3>Ad Target ${setIndex + 1}</h3>
+        <label for="adType${setIndex}">Ad Type:</label>
+        <select id="adType${setIndex}" name="adType${setIndex}" required>
+            <option value="">Select an ad type</option>
+            <option value="Diet">Diet</option>
+            <option value="Car">Car</option>
+            <option value="Beauty">Beauty</option>
+            <option value="Dating">Dating</option>
+            <option value="Pet">Pet</option>
+            <option value="PetToy">Pet Toy</option>
+            <option value="Lego">Lego</option>
+            <option value="Pokemon">Pokemon</option>
+            <option value="Retirement">Retirement</option>
+            <option value="Work">Work</option>
+        </select>
 
-                <label for="gender${setIndex}">Gender:</label>
-                <select id="gender${setIndex}" name="gender${setIndex}" required>
-                    <option value="">Select a gender</option>
-                </select>
+        <label for="gender${setIndex}">Gender:</label>
+        <select id="gender${setIndex}" name="gender${setIndex}" required>
+            <option value="">Select a gender</option>
+        </select>
 
-                <label for="minAge${setIndex}">Minimum Age:</label>
-                <input type="number" id="minAge${setIndex}" name="minAge${setIndex}" min="0" max="150" required>
+        <label for="minAge${setIndex}">Minimum Age:</label>
+        <input type="number" id="minAge${setIndex}" name="minAge${setIndex}" min="0" max="150" required>
 
-                <label for="maxAge${setIndex}">Maximum Age:</label>
-                <input type="number" id="maxAge${setIndex}" name="maxAge${setIndex}" min="0" max="150" required>
+        <label for="maxAge${setIndex}">Maximum Age:</label>
+        <input type="number" id="maxAge${setIndex}" name="maxAge${setIndex}" min="0" max="150" required>
 
-                <button type="button" class="validate-set">Validate</button>
-            `;
-            document.getElementById('targetingSets').appendChild(newSet);
-            updateGenderDropdowns();
+        <label for="minIncome${setIndex}">Minimum Income:</label>
+        <input type="number" id="minIncome${setIndex}" name="minIncome${setIndex}" min="0" required>
 
-            newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex));
-        }
+        <label for="maxIncome${setIndex}">Maximum Income:</label>
+        <input type="number" id="maxIncome${setIndex}" name="maxIncome${setIndex}" min="0" required>
 
-        function validateSet(setIndex) {
-            const set = document.querySelector(`.targeting-set:nth-child(${setIndex + 1})`);
-            const adType = set.querySelector(`select[name="adType${setIndex}"]`);
-            const gender = set.querySelector(`select[name="gender${setIndex}"]`);
-            const minAge = set.querySelector(`input[name="minAge${setIndex}"]`);
-            const maxAge = set.querySelector(`input[name="maxAge${setIndex}"]`);
+        <button type="button" class="validate-set">Validate</button>
+    `;
+	  document.getElementById('targetingSets').appendChild(newSet);
+	  updateGenderDropdowns();
+	  
+	  newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex));
+      }
+      
+      function validateSet(setIndex) {
+	  const set = document.querySelector(`.targeting-set:nth-child(${setIndex + 1})`);
+	  const adType = set.querySelector(`select[name="adType${setIndex}"]`);
+	  const gender = set.querySelector(`select[name="gender${setIndex}"]`);
+	  const minAge = set.querySelector(`input[name="minAge${setIndex}"]`);
+	  const maxAge = set.querySelector(`input[name="maxAge${setIndex}"]`);
+	  const minIncome = set.querySelector(`input[name="minIncome${setIndex}"]`);
+	  const maxIncome = set.querySelector(`input[name="maxIncome${setIndex}"]`);
+	  
+	  let isValid = true;
+	  
+	  // Remove existing error messages
+	  set.querySelectorAll('.error').forEach(el => el.remove());
+	  
+	  // Helper function to validate a field
+	  function validateField(field, errorMessage, condition) {
+              if (field.value === "" || (field.value && !condition)) {
+		  isValid = false;
+		  field.classList.add('invalid');
+		  field.classList.remove('valid');
+		  field.insertAdjacentHTML('afterend', `<div class="error">${errorMessage}</div>`);
+              } else if (field.value) {
+		  field.classList.add('valid');
+		  field.classList.remove('invalid');
+              } else {
+		  field.classList.remove('valid');
+		  field.classList.remove('invalid');
+              }
+	  }
+	  
+	  // ... (previous validations for adType, gender, minAge, and maxAge remain the same)
+	  
+	  // Validate Min Income
+	  validateField(minIncome, "Please enter a valid minimum income (0 or greater)", !isNaN(minIncome.value) && minIncome.value >= 0);
+	  
+	  // Validate Max Income
+	  validateField(maxIncome, "Please enter a valid maximum income (0 or greater)", !isNaN(maxIncome.value) && maxIncome.value >= 0);
+	  
+	  // Validate Min Income <= Max Income
+	  if (minIncome.value && maxIncome.value && parseInt(minIncome.value) > parseInt(maxIncome.value)) {
+              isValid = false;
+              maxIncome.classList.add('invalid');
+              maxIncome.classList.remove('valid');
+              maxIncome.insertAdjacentHTML('afterend', '<div class="error">Maximum income must be greater than or equal to minimum income</div>');
+	  }
+	  
+	  if (isValid) {
+              alert("This target is valid!");
+	  }
+	  
+    return      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          let isValid = true;
+          for (let i = 0; i < 16; i++) {
+              if (!validateSet(i)) {
+                  isValid = false;
+              }
+          }
+	  
+          if (!isValid) {
+              alert("Please fill out all targeting sets correctly before submitting.");
+              return;
+          }
+	  
+          const formData = new FormData(e.target);
+          const jsonData = {
+              genderValues: [...predefinedGenders],
+              targetingSets: []
+          };
+          
+          for (let [key, value] of formData.entries()) {
+              if (key === 'studentName') {
+                  jsonData[key] = value;
+              } else if (key === 'additionalGender') {
+                  if (value.trim() !== '') {
+                      jsonData.genderValues.push(value.trim());
+                  }
+              } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
+                  const setIndex = parseInt(key.slice(-1));
+                  if (!jsonData.targetingSets[setIndex]) {
+                      jsonData.targetingSets[setIndex] = {};
+                  }
+                  jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
+              }
+          }
+	  
+          const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
+              method: 'POST',
+              body: JSON.stringify(jsonData),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          const result = await response.json();
+          displayResult(result);
+      });
+      
+      document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          let isValid = true;
+          for (let i = 0; i < 16; i++) {
+              if (!validateSet(i)) {
+                  isValid = false;
+              }
+          }
+	  
+          if (!isValid) {
+              alert("Please fill out all targeting sets correctly before submitting.");
+              return;
+          }
 
-            let isValid = true;
+	  document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
+	      e.preventDefault();
 
-            // Remove existing error messages
-            set.querySelectorAll('.error').forEach(el => el.remove());
+	      let isValid = true;
+              for (let i = 0; i < 16; i++) {
+                  if (!validateSet(i)) {
+                      isValid = false;
+                  }
+              }
 
-            // Helper function to validate a field
-            function validateField(field, errorMessage, condition) {
-                if (field.value === "" || (field.value && !condition)) {
-                    isValid = false;
-                    field.classList.add('invalid');
-                    field.classList.remove('valid');
-                    field.insertAdjacentHTML('afterend', `<div class="error">${errorMessage}</div>`);
-                } else if (field.value) {
-                    field.classList.add('valid');
-                    field.classList.remove('invalid');
-                } else {
-                    field.classList.remove('valid');
-                    field.classList.remove('invalid');
-                }
-            }
+              if (!isValid) {
+                  alert("Please fill out all targeting sets correctly before submitting.");
+                  return;
+              }
 
-            // Valid ad types
-            const validAdTypes = ['Diet', 'Car', 'Beauty', 'Dating', 'Pet', 'PetToy', 'Lego', 'Pokemon', 'Retirement', 'Work'];
-
-            // Validate Ad Type
-            validateField(adType, "Please select a valid ad type", validAdTypes.includes(adType.value));
-
-            // Validate Gender
-            const validGenders = [...predefinedGenders, ...Array.from(document.getElementsByName('additionalGender')).map(input => input.value.trim()).filter(Boolean)];
-            validateField(gender, "Please select a valid gender", validGenders.includes(gender.value));
-
-            // Validate Min Age
-            validateField(minAge, "Please enter a valid minimum age (0-150)", !isNaN(minAge.value) && minAge.value >= 0 && minAge.value <= 150);
-
-            // Validate Max Age
-            validateField(maxAge, "Please enter a valid maximum age (0-150)", !isNaN(maxAge.value) && maxAge.value >= 0 && maxAge.value <= 150);
-
-            // Validate Min Age <= Max Age
-            if (minAge.value && maxAge.value && parseInt(minAge.value) > parseInt(maxAge.value)) {
-                isValid = false;
-                maxAge.classList.add('invalid');
-                maxAge.classList.remove('valid');
-                maxAge.insertAdjacentHTML('afterend', '<div class="error">Maximum age must be greater than or equal to minimum age</div>');
-            }
-
-            if (isValid) {
-                alert("This target is valid!");
-            }
-
-            return isValid;
-        }
-
-        document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            let isValid = true;
-            for (let i = 0; i < 16; i++) {
-                if (!validateSet(i)) {
-                    isValid = false;
-                }
-            }
-
-            if (!isValid) {
-                alert("Please fill out all targeting sets correctly before submitting.");
-                return;
-            }
-
-            const formData = new FormData(e.target);
-            const jsonData = {
-                genderValues: [...predefinedGenders],
-                targetingSets: []
-            };
-            
-            for (let [key, value] of formData.entries()) {
-                if (key === 'studentName') {
-                    jsonData[key] = value;
-                } else if (key === 'additionalGender') {
-                    if (value.trim() !== '') {
-                        jsonData.genderValues.push(value.trim());
-                    }
-                } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
-                    const setIndex = parseInt(key.slice(-1));
-                    if (!jsonData.targetingSets[setIndex]) {
-                        jsonData.targetingSets[setIndex] = {};
-                    }
-                    jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
-                }
-            }
-
-            const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
-                method: 'POST',
-                body: JSON.stringify(jsonData),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const result = await response.json();
-            displayResult(result);
-        });
-
-        function displayResult(result) {
-            const resultDiv = document.getElementById('result');
-            if (result.error) {
-                resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
-            } else {
-                let html = `<h2>${result.message}</h2>`;
-                html += '<h3>Generated Tests:</h3>';
-                const tests = result.tests.split('\n').filter(test => test.trim() !== '');
-                tests.forEach(test => {
-                    html += `<div class="test">${test.trim()}</div>`;
-                });
-                resultDiv.innerHTML = html;
-            }
-        }
-
-        // Create 16 targeting sets at the start
-        for (let i = 0; i < 16; i++) {
-            createTargetingSet(i);
-        }
-
-        // Initial update of gender dropdowns
-        updateGenderDropdowns();
-    </script>
+    
+	      const formData = new FormData(e.target);
+	      const jsonData = {
+		  genderValues: [...predefinedGenders],
+		  targetingSets: []
+	      };
+    
+	      for (let [key, value] of formData.entries()) {
+		  if (key === 'studentName') {
+		      jsonData[key] = value;
+		  } else if (key === 'additionalGender') {
+		      if (value.trim() !== '') {
+			  jsonData.genderValues.push(value.trim());
+		      }
+		  } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge') || key.startsWith('minIncome') || key.startsWith('maxIncome')) {
+		      const setIndex = parseInt(key.slice(-1));
+		      if (!jsonData.targetingSets[setIndex]) {
+			  jsonData.targetingSets[setIndex] = {};
+		      }
+		      jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
+		  }
+	      }
+	      
+          const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
+              method: 'POST',
+              body: JSON.stringify(jsonData),
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          const result = await response.json();
+          displayResult(result);
+      });
+      
+      function displayResult(result) {
+          const resultDiv = document.getElementById('result');
+          if (result.error) {
+              resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
+          } else {
+              let html = `<h2>${result.message}</h2>`;
+              html += '<h3>Generated Tests:</h3>';
+              const tests = result.tests.split('\n').filter(test => test.trim() !== '');
+              tests.forEach(test => {
+                  html += `<div class="test">${test.trim()}</div>`;
+              });
+              resultDiv.innerHTML = html;
+          }
+      }
+      
+      // Create 16 targeting sets at the start
+      for (let i = 0; i < 16; i++) {
+          createTargetingSet(i);
+      }
+      
+      // Initial update of gender dropdowns
+      updateGenderDropdowns();
+      </script>
 </body>
 </html>
