@@ -59,6 +59,10 @@
         #genderInputs {
             margin-bottom: 20px;
         }
+        .predefined-gender {
+            margin-right: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -68,9 +72,14 @@
         <input type="text" id="studentName" name="studentName" required>
 
         <div id="genderInputs" class="gender-inputs">
-            <h3>Specify Legal Gender Values</h3>
-            <div id="genderFields">
-                <input type="text" name="genderValue" placeholder="Enter a gender value">
+            <h3>Gender Options</h3>
+            <div>
+                <span class="predefined-gender">Female</span>
+                <span class="predefined-gender">Male</span>
+                <span class="predefined-gender">Nonbinary</span>
+            </div>
+            <div id="additionalGenderFields">
+                <input type="text" name="additionalGender" placeholder="Enter additional gender">
             </div>
             <button type="button" id="addGender">Add Another Gender</button>
         </div>
@@ -118,23 +127,19 @@
 
     <script>
         let setCount = 1;
-        let genderValues = [];
-
-        document.getElementById('addGender').addEventListener('click', () => {
-            const newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.name = 'genderValue';
-            newInput.placeholder = 'Enter a gender value';
-            document.getElementById('genderFields').appendChild(newInput);
-        });
+        const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
 
         function updateGenderDropdowns() {
-            genderValues = Array.from(document.getElementsByName('genderValue')).map(input => input.value).filter(value => value.trim() !== '');
+            const additionalGenders = Array.from(document.getElementsByName('additionalGender'))
+                .map(input => input.value.trim())
+                .filter(Boolean);
+            const allGenders = [...predefinedGenders, ...additionalGenders];
+
             const genderSelects = document.querySelectorAll('select[name^="gender"]');
             genderSelects.forEach(select => {
                 const currentValue = select.value;
                 select.innerHTML = '<option value="">Select a gender</option>';
-                genderValues.forEach(gender => {
+                allGenders.forEach(gender => {
                     const option = document.createElement('option');
                     option.value = gender;
                     option.textContent = gender;
@@ -145,6 +150,14 @@
         }
 
         document.getElementById('genderInputs').addEventListener('input', updateGenderDropdowns);
+
+        document.getElementById('addGender').addEventListener('click', () => {
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'additionalGender';
+            newInput.placeholder = 'Enter additional gender';
+            document.getElementById('additionalGenderFields').appendChild(newInput);
+        });
 
         document.getElementById('addSet').addEventListener('click', () => {
             setCount++;
@@ -203,13 +216,17 @@
             e.preventDefault();
             const formData = new FormData(e.target);
             const jsonData = {
-                genderValues: genderValues,
+                genderValues: [...predefinedGenders],
                 targetingSets: []
             };
             
             for (let [key, value] of formData.entries()) {
                 if (key === 'studentName' || key === 'programDescription') {
                     jsonData[key] = value;
+                } else if (key === 'additionalGender') {
+                    if (value.trim() !== '') {
+                        jsonData.genderValues.push(value.trim());
+                    }
                 } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge')) {
                     const setIndex = parseInt(key.slice(-1));
                     if (!jsonData.targetingSets[setIndex]) {
@@ -244,6 +261,9 @@
                 resultDiv.innerHTML = html;
             }
         }
+
+        // Initial update of gender dropdowns
+        updateGenderDropdowns();
     </script>
 </body>
 </html>
