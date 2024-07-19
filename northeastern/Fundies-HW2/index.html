@@ -321,12 +321,13 @@
 	  
 	  const formData = new FormData(e.target);
 	  const jsonData = {
+	      studentName: formData.get('studentName'),
               genderValues: [...predefinedGenders],
               targetingSets: [],
               sampleAdAges: {}
 	  };
 	  
-	  for (let i = 0; i < 16; i++) {
+	  for (let i = 0; i < NUM_TARGETS; i++) {
               const setData = {
 		  adType: formData.get(`adType${i}`),
 		  gender: formData.get(`gender${i}`),
