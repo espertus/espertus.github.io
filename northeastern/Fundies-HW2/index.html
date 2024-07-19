@@ -242,6 +242,16 @@
 	  });
 	  return isValid;
       }
+
+      function validateAllSets() {
+          let isValid = true;
+          for (let i = 0; i < NUM_TARGETS; i++) {
+              if (!validateSet(i)) {
+                  isValid = false;
+              }
+          }
+          return isValid;
+      }
       
       function validateSet(setIndex, noisy) {
 	  const set = document.querySelector(`.targeting-set:nth-child(${setIndex + 1})`);
