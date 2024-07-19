@@ -73,6 +73,7 @@
   </head>
   <body>
     <h1>Ad Targeting Specification Form</h1>
+    <h2>Before completing this form, make sure you know how to print from the browser to PDF.</h2>
     <form id="adTargetingForm">
         <label for="studentName">Your NU Username (the first part of your email address, e.g., "lastname.f"):</label>
         <input type="text" id="studentName" name="studentName" required>
@@ -82,10 +83,10 @@
 	  <p>For each ad, specify the minimum and maximum age for targeting:</p>
 	  <div id="adList"></div>
 	</div>
-	
+
         <div id="genderInputs" class="gender-inputs">
           <h2>Gender Options</h2>
-	  <p>You may optionally add additional genders.</p>
+	  <p>You may optionally specify additional genders.</p>
             <div>
                 <span class="predefined-gender">Female</span>
                 <span class="predefined-gender">Male</span>
@@ -108,18 +109,13 @@
 
     <script>
       const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
-      const NUM_TARGETS = 3;
+      const NUM_TARGETS = 15;
 
       const sampleAds = [
 	  { name: "Diet", text: "Lose weight now!", cpc: 5 },
-	  { name: "Car", text: "Buy a new car!", cpc: 5 },
-/*	  { name: "Beauty", text: "Improve your looks!", cpc: 5 },
 	  { name: "Dating", text: "Meet other singles!", cpc: 4 },
-	  { name: "Pet", text: "Get a pet!", cpc: 3 },
-	  { name: "PetToy", text: "Buy your pet a toy!", cpc: 2 },
-	  { name: "Lego", text: "Get more bricks!", cpc: 2 },
 	  { name: "Pokemon", text: "Gotta catch 'em all!", cpc: 2 },
-	  { name: "Retirement", text: "Join AARP", cpc: 2 },*/
+	  { name: "Retirement", text: "Join AARP", cpc: 2 },
 	  { name: "Work", text: "Apply for a job at Oodle!", cpc: 2 }
       ];
       
@@ -198,7 +194,7 @@
         <select id="gender${setIndex}" name="gender${setIndex}" required>
             <option value="">Select a gender</option>
         </select>
-
+<br/>
         <label for="minIncome${setIndex}">Minimum Income:</label>
         <input type="number" id="minIncome${setIndex}" name="minIncome${setIndex}" min="0" style="width: 7em" required>
 
@@ -370,12 +366,12 @@
           if (result.error) {
               resultDiv.innerHTML = `<h2>Error</h2><p>${result.error}</p><p>Details: ${result.details}</p>`;
           } else {
-              let html = `<h2>${result.message}</h2>`;
-              html += '<h3>Generated Tests:</h3>';
+	      let html = `<h2>${result.message}</h2>`;
+	      html += '<h3>Generated Tests:</h3>';
 	      const formattedTests = result.tests.replace(/\\n/g, '\n');
 	      html += `<pre>${formattedTests}</pre>`;
-
-              resultDiv.innerHTML = html;
+	      html += '<h2>Print this page to a PDF file. You will need to refer to it and submit it with Homework 2.</h2>'
+	      resultDiv.innerHTML = html;
           }
       }
       
