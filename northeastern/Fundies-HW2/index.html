@@ -74,11 +74,18 @@
   <body>
     <h1>Ad Targeting Specification Form</h1>
     <form id="adTargetingForm">
-        <label for="studentName">Your NU Username (e.g., "e.spertus"):</label>
+        <label for="studentName">Your NU Username (the first part of your email address, e.g., "lastname.f"):</label>
         <input type="text" id="studentName" name="studentName" required>
 
+	<div id="sampleAds">
+	  <h2>Sample Ads</h2>
+	  <p>For each ad, specify the minimum and maximum age for targeting:</p>
+	  <div id="adList"></div>
+	</div>
+	
         <div id="genderInputs" class="gender-inputs">
-            <h3>Gender Options</h3>
+          <h2>Gender Options</h2>
+	  <p>You may optionally add additional genders.</p>
             <div>
                 <span class="predefined-gender">Female</span>
                 <span class="predefined-gender">Male</span>
@@ -90,6 +97,8 @@
             <button type="button" id="addGender">Add Another Gender</button>
         </div>
 
+	<h2>Ad Targeting</h2>
+	<p>You must specify all the following ad targets.</p>
         <div id="targetingSets"></div>
 
         <button type="submit">Generate Tests</button>
@@ -99,8 +108,41 @@
 
     <script>
       const predefinedGenders = ['Female', 'Male', 'Nonbinary'];
-
       const NUM_TARGETS = 3;
+
+      const sampleAds = [
+	  { name: "Diet", text: "Lose weight now!", cpc: 5 },
+	  { name: "Car", text: "Buy a new car!", cpc: 5 },
+/*	  { name: "Beauty", text: "Improve your looks!", cpc: 5 },
+	  { name: "Dating", text: "Meet other singles!", cpc: 4 },
+	  { name: "Pet", text: "Get a pet!", cpc: 3 },
+	  { name: "PetToy", text: "Buy your pet a toy!", cpc: 2 },
+	  { name: "Lego", text: "Get more bricks!", cpc: 2 },
+	  { name: "Pokemon", text: "Gotta catch 'em all!", cpc: 2 },
+	  { name: "Retirement", text: "Join AARP", cpc: 2 },*/
+	  { name: "Work", text: "Apply for a job at Oodle!", cpc: 2 }
+      ];
+      
+      function createSampleAdInputs() {
+	  const adList = document.getElementById('adList');
+	  sampleAds.forEach((ad, index) => {
+              const adDiv = document.createElement('div');
+              adDiv.className = 'sample-ad';
+              adDiv.innerHTML = `
+            <h3>${ad.name}</h3>
+            <p>Text: ${ad.text}</p>
+            <p>Cost per click: $0.0${ad.cpc}</p>
+            <label for="minAge_${ad.name}">Minimum Age:</label>
+            <input type="number" id="minAge_${ad.name}" name="minAge_${ad.name}" min="0" max="150" required>
+            <label for="maxAge_${ad.name}">Maximum Age:</label>
+            <input type="number" id="maxAge_${ad.name}" name="maxAge_${ad.name}" min="0" max="150" required>
+        `;
+              adList.appendChild(adDiv);
+	  });
+      }
+
+      // Call this function when the page loads
+      createSampleAdInputs();
 
       function updateGenderDropdowns() {
           const additionalGenders = Array.from(document.getElementsByName('additionalGender'))
@@ -157,17 +199,11 @@
             <option value="">Select a gender</option>
         </select>
 
-        <label for="minAge${setIndex}">Minimum Age:</label>
-        <input type="number" id="minAge${setIndex}" name="minAge${setIndex}" min="0" max="150" required>
-
-        <label for="maxAge${setIndex}">Maximum Age:</label>
-        <input type="number" id="maxAge${setIndex}" name="maxAge${setIndex}" min="0" max="150" required>
-
         <label for="minIncome${setIndex}">Minimum Income:</label>
-        <input type="number" id="minIncome${setIndex}" name="minIncome${setIndex}" min="0" required>
+        <input type="number" id="minIncome${setIndex}" name="minIncome${setIndex}" min="0" style="width: 7em" required>
 
         <label for="maxIncome${setIndex}">Maximum Income:</label>
-        <input type="number" id="maxIncome${setIndex}" name="maxIncome${setIndex}" min="0" required>
+        <input type="number" id="maxIncome${setIndex}" name="maxIncome${setIndex}" min="0" style="width: 7em" required>
 
         <button type="button" class="validate-set">Validate</button>
     `;
@@ -176,13 +212,41 @@
 	  
 	  newSet.querySelector('.validate-set').addEventListener('click', () => validateSet(setIndex, true));
       }
+
+      function validateSampleAdAges() {
+	  let isValid = true;
+	  sampleAds.forEach(ad => {
+              const minAgeInput = document.getElementById(`minAge_${ad.name}`);
+              const maxAgeInput = document.getElementById(`maxAge_${ad.name}`);
+              const minAge = parseInt(minAgeInput.value);
+              const maxAge = parseInt(maxAgeInput.value);
+	      
+              // Remove existing error messages
+              minAgeInput.nextElementSibling?.classList.contains('error') && minAgeInput.nextElementSibling.remove();
+              maxAgeInput.nextElementSibling?.classList.contains('error') && maxAgeInput.nextElementSibling.remove();
+
+              if (isNaN(minAge) || minAge < 0 || minAge > 150) {
+		  isValid = false;
+		  minAgeInput.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid minimum age (0-150)</div>');
+              }
+
+              if (isNaN(maxAge) || maxAge < 0 || maxAge > 150) {
+		  isValid = false;
+		  maxAgeInput.insertAdjacentHTML('afterend', '<div class="error">Please enter a valid maximum age (0-150)</div>');
+              }
+
+              if (minAge > maxAge) {
+		  isValid = false;
+		  maxAgeInput.insertAdjacentHTML('afterend', '<div class="error">Maximum age must be greater than or equal to minimum age</div>');
+              }
+	  });
+	  return isValid;
+      }
       
       function validateSet(setIndex, noisy) {
 	  const set = document.querySelector(`.targeting-set:nth-child(${setIndex + 1})`);
 	  const adType = set.querySelector(`select[name="adType${setIndex}"]`);
 	  const gender = set.querySelector(`select[name="gender${setIndex}"]`);
-	  const minAge = set.querySelector(`input[name="minAge${setIndex}"]`);
-	  const maxAge = set.querySelector(`input[name="maxAge${setIndex}"]`);
 	  const minIncome = set.querySelector(`input[name="minIncome${setIndex}"]`);
 	  const maxIncome = set.querySelector(`input[name="maxIncome${setIndex}"]`);
 	  
@@ -241,49 +305,53 @@
       document.getElementById('adTargetingForm').addEventListener('submit', async (e) => {
 	  e.preventDefault();
 	  
-	  let isValid = true;
-          for (let i = 0; i < NUM_TARGETS; i++) {
-              if (!validateSet(i, false)) {
-                  isValid = false;
-              }
-          }
-	  
-          if (!isValid) {
-              alert("Please fill out all targeting sets correctly before submitting.");
+	  if (!validateAllSets() || !validateSampleAdAges()) {
               return;
-          }
+	  }
 	  
 	  const formData = new FormData(e.target);
 	  const jsonData = {
-	      genderValues: [...predefinedGenders],
-	      targetingSets: []
+              genderValues: [...predefinedGenders],
+              targetingSets: [],
+              sampleAdAges: {}
 	  };
 	  
-	  for (let [key, value] of formData.entries()) {
-	      if (key === 'studentName') {
-		  jsonData[key] = value;
-	      } else if (key === 'additionalGender') {
-		  if (value.trim() !== '') {
-		      jsonData.genderValues.push(value.trim());
-		  }
-	      } else if (key.startsWith('adType') || key.startsWith('gender') || key.startsWith('minAge') || key.startsWith('maxAge') || key.startsWith('minIncome') || key.startsWith('maxIncome')) {
-		  const setIndex = parseInt(key.slice(-1));
-		  if (!jsonData.targetingSets[setIndex]) {
-		      jsonData.targetingSets[setIndex] = {};
-		  }
-		  jsonData.targetingSets[setIndex][key.replace(/\d+$/, '')] = value;
-	      }
+	  for (let i = 0; i < 16; i++) {
+              const setData = {
+		  adType: formData.get(`adType${i}`),
+		  gender: formData.get(`gender${i}`),
+		  minIncome: formData.get(`minIncome${i}`),
+		  maxIncome: formData.get(`maxIncome${i}`)
+              };
+              if (setData.adType && setData.gender && setData.minIncome && setData.maxIncome) {
+		  jsonData.targetingSets.push(setData);
+              }
 	  }
-	  
-          const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
-	      method: 'POST',
+
+	  // Add any additional genders to genderValues
+	  formData.getAll('additionalGender').forEach(gender => {
+              if (gender.trim() && !jsonData.genderValues.includes(gender.trim())) {
+		  jsonData.genderValues.push(gender.trim());
+              }
+	  });
+
+	  // Add sample ad age ranges
+	  sampleAds.forEach(ad => {
+              jsonData.sampleAdAges[ad.name] = {
+		  minAge: formData.get(`minAge_${ad.name}`),
+		  maxAge: formData.get(`maxAge_${ad.name}`)
+              };
+	  });
+
+	  const response = await fetch('https://eow60mhgscy58sk.m.pipedream.net', {
+              method: 'POST',
               body: JSON.stringify(jsonData),
               headers: {
-                  'Content-Type': 'application/json'
+		  'Content-Type': 'application/json'
               }
-          });
-          const result = await response.json();
-          displayResult(result);
+	  });
+	  const result = await response.json();
+	  displayResult(result);
       });
       
       function displayResult(result) {
